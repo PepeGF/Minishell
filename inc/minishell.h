@@ -6,7 +6,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <readline/readline.h>
-# include <readline/history.h>	
+# include <readline/history.h>
 # include <signal.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -32,22 +32,14 @@ typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
 	// char 	*comando_con_flags;//este se transforma en comando_bonito con un split
-	char	**comando_bonito;//este si se usa
+	// char	**comando_bonito;//este si se usa
 	char	*comando_a_pelo;//este si se usa
-	char	*vars_resolv;
-	char	**pre_comand_bon;
-	char	**pre_args;
 	int		fd[2];
 	char	*arg;
 	char	**infiles;
 	char	**heredocs;
 	char	**outfiles;
 	char	**appends;
-	int		menos;
-	int		menos_dob;
-	int		mas;
-	int		mas_dob;
-	char 	*sub_arg;
 	struct s_command	*next;
 	struct s_command	*prev;
 }t_command;
@@ -74,21 +66,11 @@ typedef struct s_vars
 	int					last_code;
 	// char				**envp_copy;
 	char				**export;
-	
+
 	size_t 	num_pipes;
 	size_t	line_len;
 }	t_vars;
 
-// typedef struct s_command
-// {
-// 	char		*comando_a_pelo;
-// 	char		*comando_con_flags;
-// 	char		**comando_bonito;
-// 	char		**infiles;
-// 	char		**outfiles;
-
-// 	struct s_command	*next;
-// 	struct s_command	*prev;
 
 // }	t_command;
 
