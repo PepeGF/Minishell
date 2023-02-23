@@ -72,9 +72,7 @@ typedef struct s_vars
 }	t_vars;
 
 
-// }	t_command;
 
-// extern t_data	g_data;
 
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
