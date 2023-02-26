@@ -9,40 +9,47 @@ BLUE	= '\033[1;34m'
 
 
 ### --- VARIABLES --- ###
-NAME = minishell
 
+NAME = minishell
 
 SRCS_PATH = src/
 INCS_PATH = inc/
 BIN_PATH = bin/
+DEP_PATH = dep/
 LIBFT_PATH = libft/
 
 HEADER = $(INCS_PATH)/$(NAME).h
 
-SRCS = main.c pwd.c cd.c execve.c pipe.c aux_functions.c multiple_pipes.c builtins.c export.c \
-	unset.c fn_list.c fn_main_readline.c fn_mask.c  fn_pip_splt_trim.c fn_vars.c fn_cleaning.c fn_create_data.c\
-	fn_getenvs.c fn_redirs.c fn_additional.c fnadd_free.c fnadd_libftmod.c fn_cd.c mi_execve.c #hardcoded.c
+SRCS = main_para_probar_makefile.c 
 
-OBJS = $(SRCS:%.c=bin/%.o)
+OBJS = $(SRCS:%.c=$(BIN_PATH)%.o)
+DEPS = $(OBJS:.o=$(DEP_PATH).d)
+
 CC = gcc
-CFLAGS = -g -O0 #-Wall -Werror -Wextra
-LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
-LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
-LIBRL_FLAGS += -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline
+CFLAGS = -Wall -Werror -Wextra
+DEPFLAGS = -MMD -MP -I inc
+DEBUGFLAGS = -g O3
+FANITIZEFLAGS = -fsanitize=address
+
+INCS_FLAGS = -I$(LIBFT_PATH) -I/Users/$(USER)/.brew/opt/readline/include
+LINK_FLAGS = -L$(LIBFT_PATH) -lft -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+
 RM = rm -f
+MK_DIR = mkdir -p $(@D)
 
 ###		RULES		###
 
 all: $(NAME)
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
-	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
+	@$(MK_DIR)
+	@$(CC) $(CFLAGS) $(DEPFLAGS) $(INCS_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(HEADER)
+	@echo $(PURPLE)"[Creating libft]"$(NONE)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS) $(LINK_FLAGS) #-fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:
@@ -61,6 +68,12 @@ re: fclean
 
 run:
 	@$(MAKE)
-	./minishell
+	@./minishell
+
+print-%:
+	$(info '$*'='$($*)')
+
+info-%:
+	$(MAKE) --dry-run --always-make $* | grep -v "info"
 
 .PHONY: all clean fclean re run
