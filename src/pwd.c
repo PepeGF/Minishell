@@ -1,24 +1,5 @@
 # include "../inc/minishell.h"
 
-char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[])
-{
-	int		i;
-	int		num_vars;
-	char	**matrix;
-
-	i = 0;
-	num_vars = -1;
-	while (envp_original[++num_vars]);
-	matrix = malloc(sizeof(char *) * (num_vars + 1));//puede no ser necesario
-	while (envp_original[i])
-	{
-		matrix[i] = ft_strdup(envp_original[i]);
-		i++;
-	}
-	matrix[i] = NULL;
-	//esto hay que liberarlo
-	return (matrix);
-}
 
 void	ft_free_array(char **envp_copy)
 {

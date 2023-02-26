@@ -84,7 +84,6 @@ void	ft_add_line_to_matrix(char ***matrix, char *line);
 
 /* pwd.c */
 
-char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
 void	ft_free_array(char **envp_copy);
 void	ft_free_list(t_command *lst);
 t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
