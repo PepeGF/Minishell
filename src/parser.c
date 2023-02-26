@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/02/26 19:20:27 by drontome         ###   ########.fr       */
+/*   Created: 2023/02/26 18:42:43 by drontome          #+#    #+#             */
+/*   Updated: 2023/02/26 19:23:25 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void sig_handler(int sig)
+char *parser(char *line)
 {
-	if (sig == SIGINT)
+	if (!line || ft_strncmp("exit", line, ft_strlen("exit")));
 	{
-		ft_putchar_fd('\n', 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
+		printf("exit\n");
+		return(NULL);
 	}
+	else if (*line != '\0')
+		add_history(line);
+
+	return (NULL);
 }
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_command	command;
-	char		**env_dup;
-	char		*line;
-
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_handler);
-	env_dup = ft_dup_matrix(envp);
-	while (TRUE)
-	{
-		line = readline("minishell$>");
-		if (parse(line) == NULL);
-			break ;
-	}
-}
-
