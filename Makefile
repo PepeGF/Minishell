@@ -27,9 +27,10 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 DEBUGFLAGS = -g O3
 FANITIZEFLAGS = -fsanitize=address
-LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
-#LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
-LIBRL_FLAGS = -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline
+
+INCS_FLAGS = -I$(LIBFT_PATH) -I/Users/$(USER)/.brew/opt/readline/include
+LINK_FLAGS = -L$(LIBFT_PATH) -lft -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+
 RM = rm -f
 
 ###		RULES		###
@@ -38,12 +39,12 @@ all: $(NAME)
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I/Users/$(USER)/.brew/opt/readline/include -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCS_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(HEADER)
-	@$(MAKE) -C $(LIBFT_PATH) --silent
+	@$(MAKE) -C $(LIBFT_PATH) #--silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS) $(LINK_FLAGS) #-fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:
@@ -62,6 +63,6 @@ re: fclean
 
 run:
 	@$(MAKE)
-	./minishell
+	@./minishell
 
 .PHONY: all clean fclean re run
