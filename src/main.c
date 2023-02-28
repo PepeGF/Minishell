@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/02/26 19:20:27 by drontome         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:58:43 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,20 @@ void sig_handler(int sig)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_command	command;
-	char		**env_dup;
+	// t_command	command;
+	// char		**env_dup;
 	char		*line;
 
+	if (argc != 1 || !argv)
+		return (1);
+	envp = (char **)envp;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_handler);
-	env_dup = ft_dup_matrix(envp);
+	// env_dup = ft_dup_matrix(envp);
 	while (TRUE)
 	{
 		line = readline("minishell$>");
-		if (parse(line) == NULL);
+		if (parser(line) == NULL)
 			break ;
 	}
 }
