@@ -1,3 +1,14 @@
+### --- COLORS --- ###
+
+RED		= '\033[1;31m'
+GREEN	= '\033[1;32m'
+PURPLE	= '\033[1;35m'
+YELLOW	= '\033[1;33m'
+NONE	= '\033[0m'
+BLUE	= '\033[1;34m'
+
+### --- VARIABLES --- ###
+
 NAME := bin/minishell
 
 MAKEFLAGS += --no-print-directory
@@ -19,7 +30,6 @@ main.c \
 parser.c \
 smart_split.c
 
-BONUS_SRC := \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
@@ -37,9 +47,9 @@ $(OBJS:.o=.d) \
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-
+CFLAGS = -Wall -Wextra -Werror -O3
 CPPFLAGS := -MMD -MP
+DEBUGFLAGS = -g3 -fsanitize=address
 
 INCS_FLAGS = $(addprefix -I, $(INC)) -I/Users/$(USER)/.brew/opt/readline/include
 LINK_FLAGS = $(LIBFT) -lft -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
@@ -59,12 +69,12 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LINK_FLAGS) -o $(NAME)
-	@echo "$(GREEN_COL)$(NAME) CREATED$(RESET_COL)"
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(OBJS) $(LINK_FLAGS) -o $(NAME)
+	@echo "$(GREEN_COL)$(@F) CREATED$(RESET_COL)"
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.c
 	$(MK_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCS_FLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(INCS_FLAGS) -c -o $@ $<
 
 $(LIBFT):
 	make -C $(dir $(LIBFT))
@@ -82,13 +92,14 @@ clean:
 fclean: clean
 	make fclean -C $(dir $(LIBFT))
 	$(RM) $(NAME)
-	@echo "$(RED_COL)$(NAME) DELETED$(RESET_COL)"
-	@if [ -f "$(BONUS_NAME)" ]; then \
-		$(RM) $(BONUS_NAME); \
-		echo "$(RED_COL)$(BONUS_NAME) DELETED$(RESET_COL)"; fi
+	@echo "$(RED_COL)$(@D) DELETED$(RESET_COL)"
 
 
 re: fclean all
+
+run:
+	@$(MAKE)
+	@./minishell
 
 print-%:
 	$(info '$*'='$($*)')

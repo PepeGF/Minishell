@@ -17,6 +17,7 @@ char *parser(char *line)
 	char **tokens;
 	int i;
 
+	tokens = NULL;
 	i = 0;
 	if (!line)// || ft_strncmp("exit", line, ft_strlen("exit")))
 	{
