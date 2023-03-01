@@ -12,28 +12,27 @@
 
 #include "minishell.h"
 
-char *parser(char *line)
+int	check_var(char *str, int i, char **env_dup)
 {
-	char **tokens;
+	if (str[i] == '~' && ft_strchr(str, '\'') < str + i ||\
+		ft_strchr(str, '\") < str + i)
+
+	
+}
+
+char **expander(char **tokens, char **env_dup)
+{
 	int i;
 
-	tokens = NULL;
-	i = 0;
-	if (!line)// || ft_strncmp("exit", line, ft_strlen("exit")))
+	while(tokens && *tokens)
 	{
-		printf("exit\n");
-		return(NULL);
-	}
-	else if (*line != '\0')
-	{
-		add_history(line);
-		tokens = smart_split(line);
-		while (tokens && tokens[i])
+		i = 0;
+		while (*tokens[i] != '\0')
 		{
-			printf("TOKENIZADOR ACTIVO: %s\n", tokens[i]);
+			if (ft_strchr("~$", *tokens[i]) != 0)
+				check_var(*tokens, i, env_dup);
 			i++;
 		}
+		tokens++;
 	}
-	ft_free_matrix(tokens);
-	return (NULL);
 }

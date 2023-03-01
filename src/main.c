@@ -25,20 +25,25 @@ void sig_handler(int sig)
 int	main(int argc, char **argv, char **envp)
 {
 	// t_command	command;
-	// char		**env_dup;
+	char		**env_dup;
 	char		*line;
 
 	if (argc != 1 || !argv)
 		return (1);
 	envp = (char **)envp;
-	signal(SIGQUIT, SIG_IGN);
+//	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_handler);
-	// env_dup = ft_dup_matrix(envp);
+	env_dup = ft_dup_matrix(envp);
+	if (env_dup == NULL)
+		error_n_exit(MEM, NULL);
 	while (TRUE)
 	{
 		line = readline("minishell$>");
-		if (parser(line) == NULL)
+		if (line == NULL)
 			break ;
+		parser(line); 
+		free(line);
 	}
+	ft_free_matrix(env_dup);
 }
 

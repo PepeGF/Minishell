@@ -27,8 +27,9 @@ BUILD_DIR := .build/
 
 SRC := \
 main.c \
-parser.c \
-smart_split.c
+lexer/parser.c \
+lexer/smart_split.c \
+error/error.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)
@@ -47,7 +48,7 @@ $(OBJS:.o=.d) \
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS := -MMD -MP
 DEBUGFLAGS = -g3 -fsanitize=address
 
@@ -69,6 +70,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS) $(LIBFT)
+	$(MK_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(DEBUGFLAGS) $(OBJS) $(LINK_FLAGS) -o $(NAME)
 	@echo "$(GREEN_COL)$(@F) CREATED$(RESET_COL)"
 
@@ -91,8 +93,8 @@ clean:
 
 fclean: clean
 	make fclean -C $(dir $(LIBFT))
-	$(RM) $(NAME)
-	@echo "$(RED_COL)$(@D) DELETED$(RESET_COL)"
+	$(RM) $(dir $(NAME))
+	@echo "$(RED_COL)$(dir $(NAME)) DELETED$(RESET_COL)"
 
 
 re: fclean all

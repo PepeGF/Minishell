@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:14:31 by drontome          #+#    #+#             */
-/*   Updated: 2023/02/28 21:00:37 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/01 20:22:30 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static char	*cross_string(char *s, size_t *i)
 		s++;
 	while (*s && (*s != c && (c != ' ' || (*s != '\'' && *s != '\"'))))
 	{
+		if (c == ' ' && (*s == '\'' || *s == '\"'))
+			break;
 		s++;
 		len++;
 	}
@@ -56,7 +58,6 @@ static size_t count_tokens(char *s)
 		if (*s)// && (s == aux || (*s != ' ' && *(s - 1) == ' ')))
 			i++;
 		s = cross_string(s, NULL);
-
 	}
 	return (i);
 }
@@ -67,10 +68,10 @@ static size_t ft_count_string(char *s)
 
 	i = 0;
 	if (*s == '\'' || *s == '\"')
-	s = cross_string(s, &i);
+		s = cross_string(s, &i);
 	else
 	{
-		while (*s && *s != ' ')
+		while (*s && ft_strchr("\'\" ", *s) == 0)
 		{
 			i++;
 			s++;

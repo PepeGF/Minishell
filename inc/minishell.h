@@ -17,6 +17,7 @@
 
 # define TRUE 1
 # define FALSE 0
+
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 // typedef struct s_data
@@ -65,10 +66,13 @@ typedef struct s_vars
 	size_t	line_len;
 }	t_vars;
 
-
+enum e_err{
+	MEM,
+};	
 
 char **smart_split(char *s);
 char *parser(char *line);
+void	error_n_exit(enum e_err, char **mem_alloc);
 
 
 
