@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char *parser(char *line)
+char *parser(char *line, char **env_dup)
 {
 	char **tokens;
 	int i;
@@ -28,6 +28,7 @@ char *parser(char *line)
 	{
 		add_history(line);
 		tokens = smart_split(line);
+        expander(tokens, env_dup);
 		while (tokens && tokens[i])
 		{
 			printf("TOKENIZADOR ACTIVO: #%s#\n", tokens[i]);

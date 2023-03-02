@@ -29,8 +29,9 @@ SRC := \
 main.c \
 lexer/parser.c \
 lexer/smart_split.c \
-error/error.c
-
+error/error.c \
+expander/expander.c \
+expander/expander_utils.c 
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 

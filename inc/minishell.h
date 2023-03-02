@@ -68,11 +68,12 @@ typedef struct s_vars
 
 enum e_err{
 	MEM,
-};	
+};
 
-char **smart_split(char *s);
-char *parser(char *line);
+char	**smart_split(char *s);
+char	*parser(char *line, char **env_dup);
 void	error_n_exit(enum e_err, char **mem_alloc);
+char	**expander(char **tokens, char **env_dup);
 
 
 
