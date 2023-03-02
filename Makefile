@@ -53,7 +53,7 @@ CPPFLAGS := -MMD -MP
 DEBUGFLAGS = -g3 -fsanitize=address
 
 INCS_FLAGS = $(addprefix -I, $(INC)) -I/Users/$(USER)/.brew/opt/readline/include
-LINK_FLAGS = $(LIBFT) -lft -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+LINK_FLAGS = $(LIBFT) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 
 ifeq ($(UNAME), Linux)
 INCS_FLAGS = $(addprefix -I, $(INC)) -I/usr/local/include
