@@ -28,7 +28,8 @@ BUILD_DIR := .build/
 SRC := \
 main.c \
 parser.c \
-smart_split.c
+smart_split.c \
+hardcoded.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)

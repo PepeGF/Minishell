@@ -67,8 +67,10 @@ typedef struct s_vars
 
 
 
-char **smart_split(char *s);
-char *parser(char *line);
+char	**smart_split(char *s);
+char	*parser(char *line);
+
+void	hardcoded(char **env_dup);
 
 
 
