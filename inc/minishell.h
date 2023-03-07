@@ -38,6 +38,12 @@ typedef struct s_command
 	struct s_command	*prev;
 }t_command;
 
+struct s_buitins
+{
+	char	*tipe;
+	int		(*func)(int argc, char **argv)
+}
+
 typedef struct s_vars
 {
 	// t_command	*list;
