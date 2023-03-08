@@ -41,8 +41,8 @@ typedef struct s_command
 struct s_buitins
 {
 	char	*tipe;
-	int		(*func)(int argc, char **argv)
-}
+	int		(*func)(int argc, char **argv);
+};
 
 typedef struct s_vars
 {
@@ -77,6 +77,9 @@ char	**smart_split(char *s);
 char	*parser(char *line);
 
 void	hardcoded(char **env_dup);
+void wololo();
+int	pwd_builtin();
+
 
 
 

@@ -41,5 +41,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 	} */
 	hardcoded(env_dup);
+	/*variable error = */ pwd_builtin();
+	// wololo();
+	return (0);
 }
 

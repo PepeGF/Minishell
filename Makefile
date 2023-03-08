@@ -29,7 +29,8 @@ SRC := \
 main.c \
 parser.c \
 smart_split.c \
-hardcoded.c
+hardcoded.c \
+builtins.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)
