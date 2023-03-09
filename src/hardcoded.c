@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+void    free_cmd_list(t_list *cmd_list);
+
 void    hardcoded(char **env_dup)
 {
 	(void)env_dup;
@@ -20,7 +22,7 @@ void    hardcoded(char **env_dup)
 
 	printf("%s\n", ((t_command *)(cmd_list->content))->cmd_splited[0]);
 
-	free_cmd_list(cmd_list)
+	free_cmd_list(cmd_list);
 	return ;
 }
 
@@ -33,9 +35,9 @@ void    free_cmd_list(t_list *cmd_list)
 	while (cmd_list)
 	{
 		i = 0;
-		while (cmd_list->cmd_splited[i])
+		while (((t_command *)(cmd_list->content))->cmd_splited[i])
 		{
-			free(cmd_list->cmd_splited[i])
+			free(((t_command *)(cmd_list->content))->cmd_splited[i]);
 			i++;
 		}
 		cmd_list = cmd_list->next;
