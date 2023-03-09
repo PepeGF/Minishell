@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	hardcoded(env_dup);
 	/*variable error = */ pwd_builtin();
 	// wololo();
+	ft_free_matrix(env_dup);
 	return (0);
 }
 
