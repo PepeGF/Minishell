@@ -28,18 +28,13 @@ void    hardcoded(char **env_dup)
 
 void    free_cmd_list(t_list *cmd_list)
 {
-	int i;
-
 	if (!cmd_list)
 		return ;
 	while (cmd_list)
 	{
-		i = 0;
-		while (((t_command *)(cmd_list->content))->cmd_splited[i])
-		{
-			free(((t_command *)(cmd_list->content))->cmd_splited[i]);
-			i++;
-		}
+		ft_free_matrix(((t_command *)(cmd_list->content))->cmd_splited);
+		ft_free_matrix(((t_command *)(cmd_list->content))->heredocs);
+		ft_free_matrix(((t_command *)(cmd_list->content))->appends);
 		cmd_list = cmd_list->next;
 	}
 	return ;
