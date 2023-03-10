@@ -34,12 +34,12 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_handler);
 	env_dup = ft_dup_matrix(envp);
-	while (TRUE)
+	/* while (TRUE)
 	{
 		line = readline("minishell$>");
 		if (parser(line) == NULL)
 			break ;
-	}
+	} */
 	hardcoded(env_dup);
 	/*variable error = */ pwd_builtin();
 	// wololo();

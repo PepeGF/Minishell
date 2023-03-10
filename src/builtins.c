@@ -47,3 +47,22 @@ int	pwd_builtin()
 	//perror("mensaje de error")
 	return (EXIT_FAILURE);
 }
+
+int	env_builtin(char **env_dup)
+{
+	int	i;
+
+	if (env_dup == NULL)
+	{
+		//print error
+		ft_putendl_fd("Minishell: env: No such file or directory");
+		return (EXIT_FAILURE);
+	}
+	i = 0;
+	while (env_dup[i])
+	{
+		ft_putendl_fd(env_dup[i]);
+		i++;
+	}
+	return (0);
+}
