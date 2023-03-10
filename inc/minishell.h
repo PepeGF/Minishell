@@ -77,8 +77,9 @@ char	**smart_split(char *s);
 char	*parser(char *line);
 
 void	hardcoded(char **env_dup);
-void wololo();
-int	pwd_builtin();
+void	wololo();
+int		pwd_builtin();
+int		env_builtin(char **env_dup);
 
 
 

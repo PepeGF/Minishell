@@ -55,13 +55,13 @@ int	env_builtin(char **env_dup)
 	if (env_dup == NULL)
 	{
 		//print error
-		ft_putendl_fd("Minishell: env: No such file or directory");
+		ft_putendl_fd("Minishell: env: No such file or directory", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	i = 0;
 	while (env_dup[i])
 	{
-		ft_putendl_fd(env_dup[i]);
+		ft_putendl_fd(env_dup[i], STDERR_FILENO);
 		i++;
 	}
 	return (0);
