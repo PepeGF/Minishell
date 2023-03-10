@@ -44,6 +44,8 @@ int	main(int argc, char **argv, char **envp)
 	/* exit status - variable error = */ pwd_builtin();
 	// wololo();
 	/* exit status - variable error = */ env_builtin(env_dup);
+	// free(line);
+	/* exit status - variable error = */ export_builtin(env_dup);
 	ft_free_matrix(env_dup);
 	return (0);
 }

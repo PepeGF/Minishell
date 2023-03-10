@@ -80,7 +80,7 @@ void	hardcoded(char **env_dup);
 void	wololo();
 int		pwd_builtin();
 int		env_builtin(char **env_dup);
-
+int	export_builtin(char **env_dup);
 
 
 

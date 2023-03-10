@@ -66,3 +66,18 @@ int	env_builtin(char **env_dup)
 	}
 	return (0);
 }
+
+int	export_builtin(char **env_dup)
+{
+// comprobar número de argumentos
+// si es solo export-> imprimir declare -x *variables entorno ordenadas = "valor" ojo con las comillas*
+// si es export algo
+	// comprobar si el nombre de la variable es válido
+		// primer carater letra o guion bajo
+		// resto caracter no caracter especial ni comillas
+	// comprobar si el valor asignado es válido
+	// comprobar si hay un igual en medio
+
+
+	return (0);
+}
