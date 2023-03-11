@@ -52,9 +52,13 @@ char	**smart_split(char *s);
 char	*parser(char *line);
 
 t_list	*hardcoded(char **env_dup);
+void    free_cmd_list(t_list *cmd_list);
 void	wololo();
+
+
 int		pwd_builtin();
 int		env_builtin(char **env_dup);
+
 int		export_builtin(char **env_dup, t_list *cmd_list);
 char	**ft_sort_matrix(char **env_dup);
 void	ft_sort_int_tab(char **tab, int size);

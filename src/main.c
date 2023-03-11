@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	// free(line);
 	/* exit status - variable error = */ export_builtin(env_dup, cmd_list);
 	ft_free_matrix(env_dup);
+	free_cmd_list(cmd_list);
 	return (0);
 }
 

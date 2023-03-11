@@ -98,7 +98,7 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 	// comprobar si el valor asignado es válido
 	// comprobar si hay un igual en medio
 
-
+	ft_free_matrix(aux);
 	return (0);
 }
 
