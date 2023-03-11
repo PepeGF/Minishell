@@ -20,6 +20,11 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 	{
 		return (0);
 	}
+	if (argc > 1)
+	{
+		return (ft_export_with_args(env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
+
+	}
 	aux = ft_sort_matrix(env_dup);
 	if (!aux)
 		return(EXIT_FAILURE);
@@ -27,10 +32,25 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 	{
 		// ft_print_matrix(aux);
 		ft_print_export_alone(aux);
+		ft_free_matrix(aux);
 		return (0);
 	}
 	ft_free_matrix(aux);
 	return (0);
+}
+
+int	ft_export_with_args(char **env_dup, char **cmd_splited)
+{
+	int		i;
+	char	**aux;
+
+	i = 1;
+	aux = ft_dup_matrix(env_dup);
+	while (aux[i])
+	{
+		
+		i++;
+	}
 }
 
 void	ft_print_export_alone(char **aux)
@@ -70,6 +90,7 @@ char	**ft_sort_matrix(char **env_dup)
 	matrix_len = ft_len_matrix(env_dup);
 	aux = ft_dup_matrix(env_dup);
 	ft_sort_int_tab(aux, matrix_len);
+	// ft_free_matrix(aux);
 	return (aux);
 }
 
