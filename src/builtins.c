@@ -71,6 +71,8 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
 	int	argc;
 	char	**aux;
+	int	i = 0;
+	int	j;
 
 	argc = ft_len_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 	if (argc == 0)//no tengo claro si hay q controlar esto
@@ -82,7 +84,30 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 		return(EXIT_FAILURE);
 	if (argc == 1)
 	{
-		ft_print_matrix(aux);
+		// ft_print_matrix(aux);
+		ft_print_export_alone(aux);
+	while (aux[i] != NULL)
+	{
+		j = 0;
+		ft_putstr_fd("declare -x ", 1);
+		while (aux[i][j] != '=' && aux[i][j] != '\0')
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			j++;
+		}
+		while (aux[i][j])
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			if (aux[i][j] == '=')
+				ft_putchar_fd('"', 1);
+			j++;
+		}
+		 if (ft_strchr(aux[i], '='))
+			ft_putchar_fd('\"', 1);
+		ft_putchar_fd('\n', 1);
+		i++;
+	}
+	return (0);
 		//imprimir matriz env, con los prefijos, las colmillas de valores y ordenado
 		//ordenar aux
 
@@ -100,6 +125,35 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 
 	ft_free_matrix(aux);
 	return (0);
+}
+
+void	ft_print_export_alone(char **aux)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (aux[i] != NULL)
+	{
+		j = 0;
+		ft_putstr_fd("declare -x ", 1);
+		while (aux[i][j] != '=' && aux[i][j] != '\0')
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			j++;
+		}
+		while (aux[i][j])
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			if (aux[i][j] == '=')
+				ft_putchar_fd('"', 1);
+			j++;
+		}
+		 if (ft_strchr(aux[i], '='))
+			ft_putchar_fd('\"', 1);
+		ft_putchar_fd('\n', 1);
+		i++;
+	}
 }
 
 char	**ft_sort_matrix(char **env_dup)

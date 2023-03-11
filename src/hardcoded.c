@@ -36,6 +36,7 @@ void    free_cmd_list(t_list *cmd_list)
 		ft_free_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 		ft_free_matrix(((t_command *)(cmd_list->content))->heredocs);
 		ft_free_matrix(((t_command *)(cmd_list->content))->appends);
+		free(cmd_list->content);
 		aux = cmd_list->next;
 		free(cmd_list);
 		cmd_list = aux;
