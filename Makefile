@@ -30,7 +30,8 @@ main.c \
 parser.c \
 smart_split.c \
 hardcoded.c \
-builtins.c
+builtins.c \
+export.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)
