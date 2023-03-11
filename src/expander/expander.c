@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:42:43 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/02 20:49:51 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/11 15:50:52 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,40 @@
 char *grep_value(char *var, char **env);
 int		is_inbrackets(char *str, char *var, char br);
 int		check_var(char *str, int i);
-static void	expand_var(char **tokens, char *str, int i, char **env_dup);
+static void	expand_var(char **tokens, int t, int i, char **env_dup);
 //static void	expand_home(char **tokens, char *str, int i, char **env_dup);
 static char	*grep_var(char *str);
 
-void	expand_var(char **tokens, char *str, int i, char **env_dup)
+static char *change_str(char *str, int i, char *value, char *var)
+
+{
+    char *new;
+
+    printf("LA ANTIGUA STR ES %s\n\n", str);
+    printf("LA LONGITUD ES %d\n\n", i);
+    new = ft_substr(str, 0, i);
+    new = ft_strjoin_free(new, value);
+    new =  ft_strjoin_free(new, ft_substr(str, i + ft_strlen(var), ft_strlen(str + i + ft_strlen(var))));
+    if (new)
+        printf("LA NUEVA STR ES %s\n\n", new);
+    free(new);
+    return (NULL);
+}
+
+static void	expand_var(char **tokens, int t, int i, char **env_dup)
 {
 	char *var;
 	char *value;
 
-	var = grep_var(str + i);
-	if (var == NULL)
+	var = grep_var(&tokens[t][i]);
+	value = grep_value(var, env_dup);
+	if (value == NULL)
 		return ;
-	value = grep_value(var + 1, env_dup);
-	tokens = (char **)tokens;
+    else
+        tokens[t] = change_str(tokens[t], i, value, var);
 	printf("LA VARIABLE ES %s\n\n", var);
-	printf("EL VALOR ES %s\n\n", value);
+	//printf("EL VALOR ES %s\n\n", value);
+	//free (value);
 	free (var);
 }
 
@@ -39,7 +57,13 @@ void	expand_var(char **tokens, char *str, int i, char **env_dup)
 
 char *grep_value(char *var, char **env)
 {
-	while(env && *env)
+    char *aux;
+
+    if (!var)
+        return (NULL);
+	aux = var;
+    var++;
+    while(env && *env)
 	{
 		if (ft_strncmp(var, *env, ft_strlen(var)) == 0)
 		{
@@ -47,6 +71,7 @@ char *grep_value(char *var, char **env)
 		}
 		env++;
 	}
+    free(aux);
 	return (NULL);
 }
 
@@ -68,23 +93,23 @@ char *grep_var(char *str)
 char **expander(char **tokens, char **env_dup)
 {
 	int i;
-	char **aux;
+    int t;
 
 	if (!tokens || !env_dup)
 		return(NULL);
-	aux = tokens;
-	while(aux && *aux)
+    t = 0;
+	while(tokens[t])
 	{
 		i = 0;
-		while (*aux && (*aux)[i] != '\0')
+		while (tokens[t] && tokens[t][i] != '\0')
 		{
-			if ((*aux)[i] == '$' && check_var(*aux, i))
-				expand_var(tokens, *aux, i, env_dup);
+			if (tokens[t][i] == '$' && check_var(tokens[t], i))
+				expand_var(tokens, t, i, env_dup);
 //			else if ((*aux)[i] == '$' && check_var(*aux, i))
 //				expand_home(tokens, *aux, i, env_dup);
 			i++;
 		}
-		aux++;
+		t++;
 	}
 	return (NULL);
 }

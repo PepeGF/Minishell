@@ -16,26 +16,31 @@ static char	*cross_string(char *s, size_t *i)
 {
 	char	c;
 	size_t		len;
+    int count;
 
+    c = 0;
 	len = 0;
+    count = 0;
 	if (*s == '\'' || *s == '\"')
 	{
 		c = *s;
+        count = 1;
 		len++;
 	}
-	else
-		c = ' ';
-	if (*s == c)
+	if (*s && (*s == c || *s == ' '))
 		s++;
-	while (*s && (*s != c && (c != ' ' || (*s != '\'' && *s != '\"'))))
+	while (*s && (*s != ' ' || (*s == ' ' && count == 1)))//(c != ' ' || (*s != '\'' && *s != '\"'))))
 	{
-		if (c == ' ' && (*s == '\'' || *s == '\"'))
-			break;
-		s++;
-		len++;
-	}
-	if (*s == c && *s != ' ')
-	{
+		if (c != 0 && (*s == c))
+        {
+            count = !count;
+            c = 0;
+        }
+        else if (c == 0 && (*s == '\'' || *s == '\"'))
+        {
+            c = *s;
+            count = !count;
+        }
 		s++;
 		len++;
 	}
@@ -67,6 +72,12 @@ static size_t ft_count_string(char *s)
 	size_t i;
 
 	i = 0;
+    cross_string(s, &i);
+    return(i);
+}
+/*	size_t i;
+
+	i = 0;
 	if (*s == '\'' || *s == '\"')
 		s = cross_string(s, &i);
 	else
@@ -78,7 +89,7 @@ static size_t ft_count_string(char *s)
 		}
 	}
 	return (i);
-}
+}*/
 
 static char **ft_free_null(char **pp, size_t i)
 {
@@ -115,4 +126,4 @@ char **smart_split(char *s)
 		i++;
 	}
 	return (pp);
-}
+} 
