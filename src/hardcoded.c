@@ -27,6 +27,8 @@ t_list    *hardcoded(char **env_dup)
 
 void    free_cmd_list(t_list *cmd_list)
 {
+	t_list	*aux;
+
 	if (!cmd_list)
 		return ;
 	while (cmd_list)
@@ -34,7 +36,9 @@ void    free_cmd_list(t_list *cmd_list)
 		ft_free_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 		ft_free_matrix(((t_command *)(cmd_list->content))->heredocs);
 		ft_free_matrix(((t_command *)(cmd_list->content))->appends);
-		cmd_list = cmd_list->next;
+		aux = cmd_list->next;
+		free(cmd_list);
+		cmd_list = aux;
 	}
 	return ;
 }
