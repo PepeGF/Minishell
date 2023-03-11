@@ -2,7 +2,7 @@
 
 void    free_cmd_list(t_list *cmd_list);
 
-void    hardcoded(char **env_dup)
+t_list    *hardcoded(char **env_dup)
 {
 	(void)env_dup;
 	t_list  *cmd_list;
@@ -20,10 +20,9 @@ void    hardcoded(char **env_dup)
 	cmd->heredocs = ft_split("", ' ');
 	cmd->appends = ft_split("", ' ');
 
-	printf("%s\n", ((t_command *)(cmd_list->content))->cmd_splited[0]);
+	printf("%s\n\n", ((t_command *)(cmd_list->content))->cmd_splited[0]);
 
-	free_cmd_list(cmd_list);
-	return ;
+	return (cmd_list);
 }
 
 void    free_cmd_list(t_list *cmd_list)

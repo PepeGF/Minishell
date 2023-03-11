@@ -25,6 +25,7 @@ void sig_handler(int sig)
 int	main(int argc, char **argv, char **envp)
 {
 	// t_command	command;
+	t_list		*cmd_list;
 	char		**env_dup;
 	// char		*line;
 
@@ -40,12 +41,12 @@ int	main(int argc, char **argv, char **envp)
 		if (parser(line) == NULL)
 			break ;
 	} */
-	hardcoded(env_dup);
-	/* exit status - variable error = */ pwd_builtin();
+	cmd_list = hardcoded(env_dup);
+	/* exit status - variable error = */ //pwd_builtin();
 	// wololo();
-	/* exit status - variable error = */ env_builtin(env_dup);
+	/* exit status - variable error = */ //env_builtin(env_dup);
 	// free(line);
-	/* exit status - variable error = */ export_builtin(env_dup);
+	/* exit status - variable error = */ export_builtin(env_dup, cmd_list);
 	ft_free_matrix(env_dup);
 	return (0);
 }
