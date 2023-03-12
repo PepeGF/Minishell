@@ -10,11 +10,11 @@
 		// resto caracter no caracter especial ni comillas
 	// comprobar si el valor asignado es válido
 	// comprobar si hay un igual en medio
-int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
+int	export_builtin(char **env_dup, t_list *cmd_list, char **local_vars)//quizás t_vars vars??
 {
 	int	argc;
 	char	**aux;
-
+(void)local_vars;
 	argc = ft_len_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 	if (argc == 0)//no tengo claro si hay q controlar esto
 	{
@@ -43,14 +43,58 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 {
 	int		i;
 	char	**aux;
+	int		ret_value;
 
 	i = 1;
 	aux = ft_dup_matrix(env_dup);
-	while (aux[i])
+	while (cmd_splited[i])
 	{
-		
+		//chequear primer caracter de "nombre"
+		ret_value = ft_check_valid_name_and_value(cmd_splited[i]);
+
+		//comprobar si "nombre" está en aux
+			//comprobar si tiene "=valor"
+		//comprobar si aux[i] tiene un "="
+			
 		i++;
 	}
+	return (0);
+}
+
+int		ft_check_valid_name_and_value(char *argv)
+{
+	int	i;
+	int	ret_value;
+
+	i = 0;
+	ret_value = 0;
+	if (ft_isalpha(argv[0]) != 1 && argv[0] != '_')
+			ret_value = ft_print_export_error(argv);
+	i = 1;
+	while (argv[i])
+	{
+		if (!((argv[i] >= 48 && argv[i] <= 57) ||
+				(argv[i] >= 65 && argv[i] <= 90) ||
+				argv[i] == 95 || argv[i] == 61 || 
+				(argv[i] >= 97 && argv[i] <= 122)))
+		{
+			ret_value = ft_print_export_error(argv);
+			break ;
+		}
+		i++;
+		}
+	return (ret_value);
+}
+
+int	ft_print_export_error(char *argv)
+{
+	int	ret_value;
+
+	ret_value = 1;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(argv, STDERR_FILENO);
+	ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+	return (ret_value);
 }
 
 void	ft_print_export_alone(char **aux)

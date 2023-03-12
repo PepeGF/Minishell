@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	// wololo();
 	/* exit status - variable error = */ //env_builtin(env_dup);
 	// free(line);
-	/* exit status - variable error = */ export_builtin(env_dup, cmd_list);
+	/* exit status - variable error = */ export_builtin(env_dup, cmd_list, NULL);
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
 	return (0);
