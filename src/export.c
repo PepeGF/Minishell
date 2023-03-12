@@ -47,21 +47,29 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 
 	i = 1;
 	aux = ft_dup_matrix(env_dup);
+	//comprobar los noombres=valor antes del bucle
+	/* meter dentro de "int	ft_check_valid_name_and_value(char *argv)"
+		un bucle que recorra el **cmd_splited
+		sacar de print_export_error
+		*/
 	while (cmd_splited[i])
 	{
-		//chequear primer caracter de "nombre"
 		ret_value = ft_check_valid_name_and_value(cmd_splited[i]);
-
-		//comprobar si "nombre" está en aux
+		if (ft_strchr_index(cmd_splited[i], '=') != -1)
+		{
+			printf("Wololo\n");
+		}
+		//comprobar si "nom	bre" está en aux
 			//comprobar si tiene "=valor"
 		//comprobar si aux[i] tiene un "="
 			
 		i++;
 	}
+	ft_free_matrix(aux);
 	return (0);
 }
 
-int		ft_check_valid_name_and_value(char *argv)
+int	ft_check_valid_name_and_value(char *argv)
 {
 	int	i;
 	int	ret_value;
@@ -73,10 +81,7 @@ int		ft_check_valid_name_and_value(char *argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (!((argv[i] >= 48 && argv[i] <= 57) ||
-				(argv[i] >= 65 && argv[i] <= 90) ||
-				argv[i] == 95 || argv[i] == 61 || 
-				(argv[i] >= 97 && argv[i] <= 122)))
+		if (!(ft_isalnum(argv[i]) == 1 || argv[i] == '_' || argv[i] == '='))
 		{
 			ret_value = ft_print_export_error(argv);
 			break ;
@@ -101,11 +106,13 @@ void	ft_print_export_alone(char **aux)
 {
 	int	i;
 	int	j;
+	int	check_first_equal;
 
 	i = 0;
 	while (aux[i] != NULL)
 	{
 		j = 0;
+		check_first_equal = 0;
 		ft_putstr_fd("declare -x ", 1);
 		while (aux[i][j] != '=' && aux[i][j] != '\0')
 		{
@@ -115,8 +122,11 @@ void	ft_print_export_alone(char **aux)
 		while (aux[i][j])
 		{
 			ft_putchar_fd(aux[i][j], 1);
-			if (aux[i][j] == '=')
+			if (aux[i][j] == '=' && check_first_equal == 0)
+			{
 				ft_putchar_fd('"', 1);
+				check_first_equal = 1;			
+			}
 			j++;
 		}
 		if (ft_strchr(aux[i], '='))
@@ -194,4 +204,18 @@ void	ft_print_matrix(char **matrix)
 		i++;
 	}
 	return ;
+}
+
+int	ft_strchr_index(const char *s, int c)
+{
+	int	i;
+
+	if (!s)
+		return (-1);
+	i = 0;
+	while (s[i] != '\0' && s[i] != (unsigned char)c)
+		i++;
+	if (s[i] == (unsigned char)c)
+		return (i);
+	return (-1);
 }

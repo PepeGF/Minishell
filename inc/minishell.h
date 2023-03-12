@@ -64,6 +64,7 @@ char	**ft_sort_matrix(char **env_dup);
 void	ft_sort_int_tab(char **tab, int size);
 int		ft_strcmp(char *s1, char *s2);
 void	ft_print_matrix(char **matrix);//esta debería ir a la libft
+int		ft_strchr_index(const char *s, int c);//esta tb
 void	ft_print_export_alone(char **aux);
 int		ft_export_with_args(char **env_dup, char **cmd_splited);
 int		ft_check_valid_name_and_value(char *argv);
