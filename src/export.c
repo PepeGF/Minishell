@@ -43,7 +43,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 {
 	int		i;
 	char	**aux;
-
+(void)cmd_splited;
 	i = 1;
 	aux = ft_dup_matrix(env_dup);
 	while (aux[i])
@@ -51,6 +51,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 		
 		i++;
 	}
+	return (0);
 }
 
 void	ft_print_export_alone(char **aux)
