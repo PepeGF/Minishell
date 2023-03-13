@@ -30,7 +30,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || !argv)
 		return (1);
-	envp = (char **)envp;
 //	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_handler);
 	env_dup = ft_dup_matrix(envp);

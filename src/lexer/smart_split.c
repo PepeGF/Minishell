@@ -27,10 +27,11 @@ static char	*cross_string(char *s, size_t *i)
         count = 1;
 		len++;
 	}
-	if (*s && (*s == c || *s == ' '))
+	if (*s && (*s == c || *s == ' ' || *s == '\t'))
 		s++;
-	while (*s && (*s != ' ' || (*s == ' ' && count == 1)))//(c != ' ' || (*s != '\'' && *s != '\"'))))
-	{
+	while (*s && ((*s != ' ' && *s != '\t') || \
+        ((*s == ' ' && count == 1) || (*s == '\t' && count == 1))))
+    {
 		if (c != 0 && (*s == c))
         {
             count = !count;
@@ -58,9 +59,9 @@ static size_t count_tokens(char *s)
 	i = 0;
 	while (s && *s)
 	{
-		while (s && *s && *s == ' ')
+		while (s && *s && (*s == ' ' || *s == '\t'))
 			s++;
-		if (*s)// && (s == aux || (*s != ' ' && *(s - 1) == ' ')))
+		if (*s)
 			i++;
 		s = cross_string(s, NULL);
 	}
@@ -116,7 +117,7 @@ char **smart_split(char *s)
 	i = 0;
 	while (*s && i < len)
 	{
-		while (*s && *s == ' ')
+		while (*s && (*s == ' ' || *s == '\t'))
 			s++;
 		pp[i] = ft_substr(s, 0, ft_count_string(s));
 		if (!pp[i])
