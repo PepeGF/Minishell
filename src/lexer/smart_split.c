@@ -6,56 +6,50 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:14:31 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/01 20:22:30 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:02:38 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*cross_string(char *s, size_t *i)
-{
-	char	c;
-	size_t		len;
-    int count;
+static size_t	count_tokens(char *s);
+static char		*cross_string(char *s, size_t *i);
+static char		*get_end_str(char *s, char c, size_t *len, int count);
+static size_t	count_string(char *s);
 
-    c = 0;
-	len = 0;
-    count = 0;
-	if (*s == '\'' || *s == '\"')
+char	**smart_split(char *s)
+{
+	char	**pp;
+	size_t	len;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	len = count_tokens(s);
+	if (len == 0)
+		return (NULL);
+	pp = ft_calloc(len + 1, sizeof(s));
+	if (!pp)
+		return (NULL);
+	i = 0;
+	while (*s && i < len)
 	{
-		c = *s;
-        count = 1;
-		len++;
+		while (*s && (*s == ' ' || *s == '\t'))
+			s++;
+		pp[i] = ft_substr(s, 0, count_string(s));
+		if (!pp[i])
+			return (ft_free_matrix(pp));
+		if (*s)
+			s = cross_string(s, NULL);
+		i++;
 	}
-	if (*s && (*s == c || *s == ' ' || *s == '\t'))
-		s++;
-	while (*s && ((*s != ' ' && *s != '\t') || \
-        ((*s == ' ' && count == 1) || (*s == '\t' && count == 1))))
-    {
-		if (c != 0 && (*s == c))
-        {
-            count = !count;
-            c = 0;
-        }
-        else if (c == 0 && (*s == '\'' || *s == '\"'))
-        {
-            c = *s;
-            count = !count;
-        }
-		s++;
-		len++;
-	}
-	if (i)
-		*i = len;
-	return (s);
+	return (pp);
 }
 
-static size_t count_tokens(char *s)
+static size_t	count_tokens(char *s)
 {
-	size_t i;
-	// char *aux;
+	size_t	i;
 
-	// aux = s;
 	i = 0;
 	while (s && *s)
 	{
@@ -68,63 +62,55 @@ static size_t count_tokens(char *s)
 	return (i);
 }
 
-static size_t ft_count_string(char *s)
+static char	*cross_string(char *s, size_t *i)
 {
-	size_t i;
+	char	c;
+	size_t	len;
+	int		count;
 
-	i = 0;
-    cross_string(s, &i);
-    return(i);
-}
-/*	size_t i;
-
-	i = 0;
+	c = 0;
+	len = 0;
+	count = 0;
 	if (*s == '\'' || *s == '\"')
-		s = cross_string(s, &i);
-	else
 	{
-		while (*s && ft_strchr("\'\" ", *s) == 0)
-		{
-			i++;
-			s++;
-		}
+		c = *s;
+		count = 1;
+		len++;
 	}
-	return (i);
-}*/
-
-static char **ft_free_null(char **pp, size_t i)
-{
-	while (i--)
-	free(pp[i]);
-	free(pp);
-	return (NULL);
+	if (*s && (*s == c || *s == ' ' || *s == '\t'))
+		s++;
+	s = get_end_str(s, c, &len, count);
+	if (i)
+		*i = len;
+	return (s);
 }
 
-char **smart_split(char *s)
+static char	*get_end_str(char *s, char c, size_t *len, int count)
 {
-	char **pp;
-	size_t len;
-	size_t i;
-
-	if (!s)
-		return (NULL);
-	len = count_tokens(s);
-	if (len == 0)
-			return (NULL);
-	pp = ft_calloc(len + 1, sizeof(s));
-	if (!pp)
-		return (NULL);
-	i = 0;
-	while (*s && i < len)
+	while (*s && ((*s != ' ' && *s != '\t') || \
+		((*s == ' ' && count == 1) || (*s == '\t' && count == 1))))
 	{
-		while (*s && (*s == ' ' || *s == '\t'))
-			s++;
-		pp[i] = ft_substr(s, 0, ft_count_string(s));
-		if (!pp[i])
-			return (ft_free_null(pp, i));
-		if (*s)
-			s = cross_string(s, NULL);
-		i++;
+		if (c != 0 && (*s == c))
+		{
+			count = !count;
+			c = 0;
+		}
+		else if (c == 0 && (*s == '\'' || *s == '\"'))
+		{
+			c = *s;
+			count = !count;
+		}
+		s++;
+		*len = *len + 1;
 	}
-	return (pp);
-} 
+	return (s);
+}
+
+static size_t	count_string(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	cross_string(s, &i);
+	return (i);
+}

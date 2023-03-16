@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
+/*   Updated: 2023/03/16 19:39:37 by drontome         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -11,34 +23,40 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include <sys/wait.h>//para linux funcion wait
+# include <sys/wait.h>
 # include <sys/param.h>
 # include <string.h>
 
+# define RED "\033[0;91m"
+# define GREEN "\033[0;32m"
+# define CEND "\033[0;39m"
 # define TRUE 1
 # define FALSE 0
 
-//no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
-
-// typedef struct s_data
-// {
-// 	int					num_cmds;
-// 	int					num_pipes;
-// 	int					last_code;
-// 	struct s_command	*cmd_list;
-// 	char				**envp_copy;
-// 	char				**export;
-// }	t_data;
-
 typedef struct s_command
 {
-	char	**cmd_splited;
-	int		fd[2];
-	char	**heredocs;
-	char	**appends;
+	char				**cmd_splited;
+	int					fd[2];
+	char				**heredocs;
+	char				**appends;
 	struct s_command	*prev;
 }t_command;
 
+enum e_err
+{
+	MEM,
+};
+
+char	*lexer(char *line, char **env_dup);
+char	**smart_split(char *s);
+char	**redir_split(char **tokens);
+void	error_n_exit(enum e_err err, char **mem_alloc);
+char	**expander(char **tokens, char **env_dup);
+int		is_inquotes(char *str, char *var, char *qu);
+
+#endif
+
+/*
 typedef struct s_vars
 {
 	// t_command	*list;
@@ -65,18 +83,16 @@ typedef struct s_vars
 	size_t 	num_pipes;
 	size_t	line_len;
 }	t_vars;
-
-enum e_err{
-	MEM,
-};
-
-char	**smart_split(char *s);
-char	*parser(char *line, char **env_dup);
-void	error_n_exit(enum e_err, char **mem_alloc);
-char	**expander(char **tokens, char **env_dup);
-int		is_inquotes(char *str, char *var, char br);
-
-
+*/
+// typedef struct s_data
+// {
+// 	int					num_cmds;
+// 	int					num_pipes;
+// 	int					last_code;
+// 	struct s_command	*cmd_list;
+// 	char				**envp_copy;
+// 	char				**export;
+// }	t_data;
 
 
 
@@ -231,5 +247,4 @@ int		is_inquotes(char *str, char *var, char br);
 
 // void ft_mi_exec(t_vars *vars);
 // void ft_debug_pr(void *arg, int type, char *name);
-#endif
 

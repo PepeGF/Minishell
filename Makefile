@@ -27,11 +27,13 @@ BUILD_DIR := .build/
 
 SRC := \
 main.c \
-lexer/parser.c \
+lexer/lexer.c \
+lexer/redir_split.c \
 lexer/smart_split.c \
+lexer/split_utils.c \
 error/error.c \
 expander/expander.c \
-expander/expander_utils.c 
+expander/expander_utils.c
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
