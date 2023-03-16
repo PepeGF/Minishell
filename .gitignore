@@ -50,8 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
 # Others
 .vscode
+.vscode/*
 .*
 *_bk
 bin/
