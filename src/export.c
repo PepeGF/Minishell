@@ -1,15 +1,5 @@
 #include "../inc/minishell.h"
 
-
-// comprobar número de argumentos
-
-// si es solo export-> imprimir declare -x *variables entorno ordenadas = "valor" ojo con las comillas*
-// si es export algo
-	// comprobar si el nombre de la variable es válido
-		// primer carater letra o guion bajo
-		// resto caracter no caracter especial ni comillas
-	// comprobar si el valor asignado es válido
-	// comprobar si hay un igual en medio
 int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
 	int		argc;
@@ -35,7 +25,7 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 		//ft_free_matrix(aux);
 		return (0);
 	}
-	// ft_free_matrix(aux);
+	ft_free_matrix(aux);
 	return (0);
 }
 
@@ -195,7 +185,7 @@ char	**ft_sort_matrix(char **env_dup)
 	matrix_len = ft_len_matrix(env_dup);
 	aux = ft_dup_matrix(env_dup);
 	ft_sort_int_tab(aux, matrix_len);
-	// ft_free_matrix(aux);
+	ft_free_matrix(aux);
 	return (aux);
 }
 
