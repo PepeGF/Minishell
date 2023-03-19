@@ -47,6 +47,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 
 	i = 1;
 	aux = ft_dup_matrix(env_dup);
+	ret_value = 0;
 	//comprobar los noombres=valor antes del bucle
 	/* meter dentro de "int	ft_check_valid_name_and_value(char *argv)"
 		un bucle que recorra el **cmd_splited
@@ -59,6 +60,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 		{
 			printf("Wololo\n");
 		}
+		ft_check_already_in_env(env_dup, cmd_splited[i]);
 		//comprobar si "nom	bre" está en aux
 			//comprobar si tiene "=valor"
 		//comprobar si aux[i] tiene un "="
@@ -67,6 +69,29 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 	}
 	ft_free_matrix(aux);
 	return (0);
+}
+
+int	ft_check_already_in_env(char **env_dup, char *argv)
+{
+	int	i;
+	int	len_argv;
+	int	diff;
+
+	if (!env_dup || !argv)
+		return (EXIT_FAILURE);
+	i = 0;
+	len_argv = ft_strlen(argv);
+	while (env_dup[i])
+	{
+		diff = ft_strncmp(env_dup[i], argv, len_argv);
+		if (diff == 0 && env_dup[i][len_argv] == '=')
+		{
+			printf("%s está dentro de env\n", argv);
+			return (TRUE);
+		}
+		i++;
+	}
+	return (FALSE);
 }
 
 int	ft_check_valid_name_and_value(char *argv)
