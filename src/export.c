@@ -43,25 +43,28 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 {
 	int		i;
 	char	**aux;
+	int		ret_value;
 
 	i = 1;
 	aux = ft_dup_matrix(env_dup);
+	ret_value = EXIT_SUCCESS;
 	while (cmd_splited[i])
 	{
 		if (ft_check_valid_name_and_value(cmd_splited[i]) == 0)
 		{
 			if (ft_check_already_in_env(aux, cmd_splited[i]) == FALSE)
 			{
+				free(aux);
 				aux = ft_add_line_to_matrix(aux, cmd_splited[i]);
 			}
 		}
 		else
-			return (EXIT_FAILURE);	
+			ret_value =  EXIT_FAILURE;	
 		i++;
 	}
 	ft_print_matrix(aux);
-	// ft_free_matrix(aux);
-	return (EXIT_SUCCESS);
+	ft_free_matrix(aux);
+	return (ret_value);
 }
 
 char	**ft_add_line_to_matrix(char **matrix, char *argv)
