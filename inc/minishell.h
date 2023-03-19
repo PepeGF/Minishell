@@ -70,6 +70,8 @@ int		ft_export_with_args(char **env_dup, char **cmd_splited);
 int		ft_check_valid_name_and_value(char *argv);
 int		ft_print_export_error(char *argv);
 int		ft_check_already_in_env(char **env_dup, char *argv);
+char	**ft_add_line_to_matrix(char **matrix, char *argv);
+
 
 
 
