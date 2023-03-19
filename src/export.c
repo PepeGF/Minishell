@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
+int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
 	int		argc;
 	char	**aux;
@@ -12,10 +12,10 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 	}
 	if (argc > 1)
 	{
-		return (ft_export_with_args(&env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
+		return (ft_export_with_args(env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
 
 	}
-	aux = ft_sort_matrix(env_dup);
+	aux = ft_sort_matrix(*env_dup);
 	if (!aux)
 		return(EXIT_FAILURE);
 	if (argc == 1)
