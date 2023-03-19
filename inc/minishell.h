@@ -66,11 +66,11 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_print_matrix(char **matrix);//esta debería ir a la libft
 int		ft_strchr_index(const char *s, int c);//esta tb
 void	ft_print_export_alone(char **aux);
-int		ft_export_with_args(char **env_dup, char **cmd_splited);
+int		ft_export_with_args(char ***env_dup, char **cmd_splited);
 int		ft_check_valid_name_and_value(char *argv);
 int		ft_print_export_error(char *argv);
 int		ft_check_already_in_env(char **env_dup, char *argv);
-char	**ft_add_line_to_matrix(char **matrix, char *argv);
+char	**ft_add_line_to_matrix(char ***matrix, char *argv);
 
 
 

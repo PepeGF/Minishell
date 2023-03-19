@@ -12,7 +12,7 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 	}
 	if (argc > 1)
 	{
-		return (ft_export_with_args(env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
+		return (ft_export_with_args(&env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
 
 	}
 	aux = ft_sort_matrix(env_dup);
@@ -20,64 +20,61 @@ int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 		return(EXIT_FAILURE);
 	if (argc == 1)
 	{
-		// ft_print_matrix(aux);
 		ft_print_export_alone(aux);
-		//ft_free_matrix(aux);
 		return (0);
 	}
 	ft_free_matrix(aux);
 	return (0);
 }
 
-int	ft_export_with_args(char **env_dup, char **cmd_splited)
+int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 {
 	int		i;
 	char	**aux;
 	int		ret_value;
 
 	i = 1;
-	aux = ft_dup_matrix(env_dup);
 	ret_value = EXIT_SUCCESS;
 	while (cmd_splited[i])
 	{
 		if (ft_check_valid_name_and_value(cmd_splited[i]) == 0)
 		{
-			if (ft_check_already_in_env(aux, cmd_splited[i]) == FALSE)
+			if (ft_check_already_in_env(*env_dup, cmd_splited[i]) == FALSE)
 			{
-				// free(aux);
-				aux = ft_add_line_to_matrix(aux, cmd_splited[i]);
+				aux = ft_add_line_to_matrix(env_dup, cmd_splited[i]);
+				*env_dup = aux;
 			}
 		}
 		else
 			ret_value =  EXIT_FAILURE;	
 		i++;
 	}
-	ft_print_matrix(aux);
-	// ft_free_matrix(aux);
+	ft_print_matrix(*env_dup);
+	ft_free_matrix(aux);
 	return (ret_value);
 }
 
-char	**ft_add_line_to_matrix(char **matrix, char *argv)
+char	**ft_add_line_to_matrix(char ***matrix, char *argv)
 {
 	int		i;
 	int		len_matrix;
 	char	**aux;
 
-	if(!matrix || !argv)
+	if(!matrix || !*matrix || !argv)
 		return (NULL);
-	len_matrix = ft_len_matrix(matrix);
+	len_matrix = ft_len_matrix(*matrix);
 	i = 0;
 	aux = malloc(sizeof(char *) * (len_matrix + 2));
 	if (!aux)
 		return (NULL);
 	aux[len_matrix + 1] = NULL;
-	while (matrix[i])
+	while (*matrix[i])
 	{
-		aux[i] = matrix[i];
+		aux[i] = *matrix[i];
 		i++;
 	}
-	aux[len_matrix] = argv;
-	// free(matrix);
+	aux[len_matrix] = ft_strdup(argv);
+	free(*matrix);
 	return (aux);
 }
 
