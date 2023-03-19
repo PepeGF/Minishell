@@ -10,11 +10,11 @@
 		// resto caracter no caracter especial ni comillas
 	// comprobar si el valor asignado es válido
 	// comprobar si hay un igual en medio
-int	export_builtin(char **env_dup, t_list *cmd_list, char **local_vars)//quizás t_vars vars??
+int	export_builtin(char **env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
-	int	argc;
+	int		argc;
 	char	**aux;
-(void)local_vars;
+
 	argc = ft_len_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 	if (argc == 0)//no tengo claro si hay q controlar esto
 	{
@@ -32,10 +32,10 @@ int	export_builtin(char **env_dup, t_list *cmd_list, char **local_vars)//quizás
 	{
 		// ft_print_matrix(aux);
 		ft_print_export_alone(aux);
-		ft_free_matrix(aux);
+		//ft_free_matrix(aux);
 		return (0);
 	}
-	ft_free_matrix(aux);
+	// ft_free_matrix(aux);
 	return (0);
 }
 
@@ -54,7 +54,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 		{
 			if (ft_check_already_in_env(aux, cmd_splited[i]) == FALSE)
 			{
-				free(aux);
+				// free(aux);
 				aux = ft_add_line_to_matrix(aux, cmd_splited[i]);
 			}
 		}
@@ -63,7 +63,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 		i++;
 	}
 	ft_print_matrix(aux);
-	ft_free_matrix(aux);
+	// ft_free_matrix(aux);
 	return (ret_value);
 }
 
@@ -87,7 +87,7 @@ char	**ft_add_line_to_matrix(char **matrix, char *argv)
 		i++;
 	}
 	aux[len_matrix] = argv;
-	free(matrix);
+	// free(matrix);
 	return (aux);
 }
 

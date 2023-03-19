@@ -32,21 +32,9 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || !argv)
 		return (1);
 	envp = (char **)envp;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_handler);
 	env_dup = ft_dup_matrix(envp);
-	/* while (TRUE)
-	{
-		line = readline("minishell$>");
-		if (parser(line) == NULL)
-			break ;
-	} */
 	cmd_list = hardcoded(env_dup);
-	/* exit status - variable error = */ //pwd_builtin();
-	// wololo();
-	/* exit status - variable error = */ //env_builtin(env_dup);
-	// free(line);
-	/* exit status - variable error = */ export_builtin(env_dup, cmd_list, NULL);
+	export_builtin(env_dup, cmd_list);
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
 	return (0);
