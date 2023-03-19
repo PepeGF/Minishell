@@ -61,7 +61,6 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 
 int	ft_replace_line_in_matrix(char **matrix, char *argv)
 {
-	int	ret_value;
 	int	i;
 	int	index;
 
@@ -69,7 +68,6 @@ int	ft_replace_line_in_matrix(char **matrix, char *argv)
 		return (EXIT_FAILURE);
 	//buscar índice en el que está la linea a reemplazar
 	i = 0;
-	ret_value = EXIT_SUCCESS;
 	while (matrix[i])
 	{
 		index = ft_strchr_index(argv, '=');
@@ -82,7 +80,7 @@ int	ft_replace_line_in_matrix(char **matrix, char *argv)
 			}
 		i++;
 	}
-	return (i);
+	return (EXIT_SUCCESS);
 }
 
 char	**ft_add_line_to_matrix(char ***matrix, char *argv)
