@@ -59,7 +59,8 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 			return (EXIT_FAILURE);	
 		i++;
 	}
-	ft_free_matrix(aux);
+	ft_print_matrix(aux);
+	// ft_free_matrix(aux);
 	return (EXIT_SUCCESS);
 }
 

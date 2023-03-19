@@ -14,13 +14,13 @@ t_list    *hardcoded(char **env_dup)
 	cmd_list->next = NULL;
 	cmd_list->content = (void *)cmd;
 
-	cmd->cmd_splited = ft_split("export ZZZ USER=jooose SHLVL xxx SHELL", ' ');
+	cmd->cmd_splited = ft_split("export ZZZ=123 USER=jooose SHLVL xxx SHELL", ' ');
 	cmd->fd[0] = 0;
 	cmd->fd[1] = 1;
 	cmd->heredocs = ft_split("", ' ');
 	cmd->appends = ft_split("", ' ');
 
-	printf("%s\n\n", ((t_command *)(cmd_list->content))->cmd_splited[0]);
+	// printf("%s\n\n", ((t_command *)(cmd_list->content))->cmd_splited[0]);
 
 	return (cmd_list);
 }
