@@ -56,11 +56,11 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 	while (cmd_splited[i])
 	{
 		ret_value = ft_check_valid_name_and_value(cmd_splited[i]);
+		ft_check_already_in_env(env_dup, cmd_splited[i]);
 		if (ft_strchr_index(cmd_splited[i], '=') != -1)
 		{
 			printf("Wololo\n");
 		}
-		ft_check_already_in_env(env_dup, cmd_splited[i]);
 		//comprobar si "nom	bre" está en aux
 			//comprobar si tiene "=valor"
 		//comprobar si aux[i] tiene un "="
@@ -68,7 +68,7 @@ int	ft_export_with_args(char **env_dup, char **cmd_splited)
 		i++;
 	}
 	ft_free_matrix(aux);
-	return (0);
+	return (ret_value);
 }
 
 int	ft_check_already_in_env(char **env_dup, char *argv)
@@ -83,11 +83,23 @@ int	ft_check_already_in_env(char **env_dup, char *argv)
 	len_argv = ft_strlen(argv);
 	while (env_dup[i])
 	{
-		diff = ft_strncmp(env_dup[i], argv, len_argv);
-		if (diff == 0 && env_dup[i][len_argv] == '=')
+		if (ft_strchr_index(argv, '=') == -1)
 		{
-			printf("%s está dentro de env\n", argv);
-			return (TRUE);
+			diff = ft_strncmp(env_dup[i], argv, len_argv);
+			if (diff == 0 && env_dup[i][len_argv] == '=')
+			{
+				printf("%s está dentro de env\n", argv);
+				return (TRUE);
+			}
+		}
+		else
+		{
+			diff = ft_strncmp(env_dup[i], argv, ft_strchr_index(argv, '=') + 1);
+			if (diff == 0)
+			{
+				printf("%s está dentro de env\n", argv);
+				return (TRUE);
+			}
 		}
 		i++;
 	}
