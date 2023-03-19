@@ -42,16 +42,47 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 			if (ft_check_already_in_env(*env_dup, cmd_splited[i]) == FALSE)
 			{
 				aux = ft_add_line_to_matrix(env_dup, cmd_splited[i]);
+				if (!aux)
+					return(EXIT_FAILURE);
 				*env_dup = aux;
+			}
+			else if (ft_strchr(cmd_splited[i], '=') != 0)
+			{
+				ft_replace_line_in_matrix(*env_dup, cmd_splited[i]);
 			}
 		}
 		else
 			ret_value =  EXIT_FAILURE;	
 		i++;
 	}
-	ft_print_matrix(*env_dup);
 	// ft_free_matrix(aux);
 	return (ret_value);
+}
+
+int	ft_replace_line_in_matrix(char **matrix, char *argv)
+{
+	int	ret_value;
+	int	i;
+	int	index;
+
+	if (!matrix || !argv)
+		return (EXIT_FAILURE);
+	//buscar índice en el que está la linea a reemplazar
+	i = 0;
+	ret_value = EXIT_SUCCESS;
+	while (matrix[i])
+	{
+		index = ft_strchr_index(argv, '=');
+		if (ft_strncmp(matrix[i], argv, index + 1) == 0)
+			{
+				free(matrix[i]);
+				matrix[i] = ft_strdup(argv);
+				if (!matrix[i])
+					return (EXIT_FAILURE);
+			}
+		i++;
+	}
+	return (i);
 }
 
 char	**ft_add_line_to_matrix(char ***matrix, char *argv)

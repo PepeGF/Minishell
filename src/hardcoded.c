@@ -14,7 +14,7 @@ t_list    *hardcoded(char **env_dup)
 	cmd_list->next = NULL;
 	cmd_list->content = (void *)cmd;
 
-	cmd->cmd_splited = ft_split("export ZZZ=123 USER=jooose SHLVL xxx SHELL", ' ');
+	cmd->cmd_splited = ft_split("export ZZZ=abc USER=jooose SHLVL xxx SHELL 3MIERDA=PPPP", ' ');
 	cmd->fd[0] = 0;
 	cmd->fd[1] = 1;
 	cmd->heredocs = ft_split("", ' ');
