@@ -50,7 +50,7 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 		i++;
 	}
 	ft_print_matrix(*env_dup);
-	ft_free_matrix(aux);
+	// ft_free_matrix(aux);
 	return (ret_value);
 }
 
@@ -68,9 +68,9 @@ char	**ft_add_line_to_matrix(char ***matrix, char *argv)
 	if (!aux)
 		return (NULL);
 	aux[len_matrix + 1] = NULL;
-	while (*matrix[i])
+	while ((*matrix)[i])
 	{
-		aux[i] = *matrix[i];
+		aux[i] = (*matrix)[i];
 		i++;
 	}
 	aux[len_matrix] = ft_strdup(argv);

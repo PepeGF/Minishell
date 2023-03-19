@@ -35,7 +35,8 @@ int	main(int argc, char **argv, char **envp)
 	env_dup = ft_dup_matrix(envp);
 	cmd_list = hardcoded(env_dup);
 	export_builtin(env_dup, cmd_list);
-	ft_free_matrix(env_dup);
+	printf("HASTA AQUI ESTAMOS MAL PERO VAMOS BIEN\n");
+	// ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
 	return (0);
 }
