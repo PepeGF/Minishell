@@ -14,6 +14,7 @@
 
 int			check_var(char *str, int i);
 char		*change_str(char *str, int i, char *value, char *var);
+int			next_hedoc(char **tokens, int t);
 static void	expand_var(char **tokens, int t, int i, char **env_dup);
 static void	expand_home(char **tokens, int t, int i, char **env_dup);
 static char	*grep_var(char *str);
@@ -32,9 +33,11 @@ char	**expander(char **tokens, char **env_dup)
 		i = 0;
 		while (tokens[t] && tokens[t][i] != '\0')
 		{
-			if (tokens[t][i] == '$' && check_var(tokens[t], i))
+			if (tokens[t][i] == '$' && check_var(tokens[t], i) \
+				&& !next_hedoc(tokens, t))
 				expand_var(tokens, t, i, env_dup);
-			else if (tokens[t][i] == '~' && check_var(tokens[t], i))
+			else if (tokens[t][i] == '~' && check_var(tokens[t], i) \
+				&& !next_hedoc(tokens, t))
 				expand_home(tokens, t, i, env_dup);
 			if (tokens[t][i] != '\0')
 				i++;
@@ -111,6 +114,7 @@ static char	*grep_var(char *str)
 	var = ft_substr(str, 0, i);
 	return (var);
 }
+
 /* CAMBIANDO ESTO POR is_alnum: str[i] && str[i] != ' ' && str[i] != '\"' && \
 		str[i] != '\\' && str[i] != '/')
 */

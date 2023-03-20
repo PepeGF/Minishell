@@ -27,13 +27,33 @@ static void	print_tokens(char **tokens)
 	}
 	printf("%sLEXER FINALIZADO%s\n", RED, CEND);
 }
+static int	check_quotes(char *line)
+{
+	int	qu;
+
+	qu = 0;
+	while (line && *line)
+	{
+		if (ft_strchr("\'\"", *line))
+		{
+			if (qu == 0)
+				qu = *line;
+			else if (qu == *line)
+				qu = 0;
+		}
+		line++;
+	}
+	return (qu);
+}
 
 char	*lexer(char *line, char **env)
 {
 	char	**tokens;
 
 	tokens = NULL;
-	if (*line != '\0')
+	if (check_quotes(line))
+		p_error(SYN, "while looking for matching quote");
+	else if (*line != '\0')
 	{
 		add_history(line);
 		tokens = smart_split(line);

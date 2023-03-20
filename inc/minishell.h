@@ -40,15 +40,17 @@ typedef struct s_command
 	int		outfile;
 }t_command;
 
-enum e_err
+typedef enum e_err
 {
 	MEM,
-};
+	SYN,
+}t_err;
 
 char	*lexer(char *line, char **env_dup);
 char	**smart_split(char *s);
 char	**redir_split(char **tokens);
 void	error_n_exit(enum e_err err, char **mem_alloc);
+void	p_error(t_err err, char *str);
 char	**expander(char **tokens, char **env_dup);
 int		is_inquotes(char *str, char *var, char *qu);
 int		is_redir(char *str, char *op);

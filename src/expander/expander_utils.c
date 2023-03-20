@@ -43,3 +43,16 @@ char	*change_str(char *str, int i, char *value, char *var)
 	free(str);
 	return (new);
 }
+
+int	next_hedoc(char **tokens, int t)
+{
+	int	len;
+
+	if (t < 1)
+	 	return (FALSE);
+	len = ft_strlen(tokens[t - 1]);
+	if (len == 2 && ft_strncmp("<<", tokens[t - 1], len) == 0)
+		return (TRUE);
+	else
+	 	return (FALSE);
+}

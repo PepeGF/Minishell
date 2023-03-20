@@ -88,14 +88,18 @@ int	is_inquotes(char *str, char *var, char *qu)
 	{
 		while (str && *str && str < var)
 		{
-			if (*str == *qu)
+			if (*qu == '\'' && *str == '\'' && is_inquotes(aux, str, "\""))
+				str++;
+			else if (*str == *qu)
 			{
 				if (count == 0 && str < var)
 					count = 1;
 				else if (count == 1 && str < var)
 					count = 0;
+				str++;
 			}
-			str++;
+			else
+				str++;
 		}
 		if (count == 1)
 			return (count);
