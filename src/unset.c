@@ -4,7 +4,6 @@ int	unset_builtin(char ***env_dup, char **cmd_splited)
 {
 	int		i;
 	int		j;
-	int		len_matrix;
 	char	**aux;
 	int		ret_value;
 //comprobar si los caracteres son válidos 0-9,a-z,_,A_Z
@@ -20,12 +19,13 @@ int	unset_builtin(char ***env_dup, char **cmd_splited)
 			//apuntar env_dup a aux
 (void)env_dup;
 (void)cmd_splited;
+(void)aux;
+(void)ret_value;
 	if (!env_dup || !*env_dup)
 		return(EXIT_FAILURE);
 	if (!cmd_splited || cmd_splited[1] == NULL)
 		return(EXIT_SUCCESS);
 	ret_value = EXIT_SUCCESS;
-	len_matrix = ft_len_matrix(*env_dup);
 	i = 1;
 
 	while (cmd_splited[i])
