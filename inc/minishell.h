@@ -13,7 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
+# include "../libft/inc/libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -35,11 +35,9 @@
 
 typedef struct s_command
 {
-	char				**cmd_splited;
-	int					fd[2];
-	char				**heredocs;
-	char				**appends;
-	struct s_command	*prev;
+	char	**cmd_splited;
+	int		infile;
+	int		outfile;
 }t_command;
 
 enum e_err
@@ -53,37 +51,16 @@ char	**redir_split(char **tokens);
 void	error_n_exit(enum e_err err, char **mem_alloc);
 char	**expander(char **tokens, char **env_dup);
 int		is_inquotes(char *str, char *var, char *qu);
+int		is_redir(char *str, char *op);
 
 #endif
 
-/*
 typedef struct s_vars
 {
-	// t_command	*list;
-	struct s_command	*cmd_list; //t_comad
-	char	**split;
-	char	*quotes;
-	char	*line;
-	int		*type;
-	char	**env_var;
-	int		i;
-	int		i2;
-	char	*temp;
-	char	*temp2;
-	int		start;
-	int		start2;
-	char	*var;
-	int		need_cleaning;
-	int					num_cmds;
-	// int					num_pipes;
-	int					last_code;
-	// char				**envp_copy;
-	char				**export;
-
-	size_t 	num_pipes;
-	size_t	line_len;
+	t_list	*nodes;
+	char	**env_dup;
 }	t_vars;
-*/
+
 // typedef struct s_data
 // {
 // 	int					num_cmds;

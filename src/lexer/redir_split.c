@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 int			is_app_or_her(char *str, char *red);
-int			is_redir(char *str, char *op);
 size_t		count_newtokens(char **tokens);
 static char	**check_tokens(char **tokens);
 static char	**fill_token(char **new_tokens, char *str);
