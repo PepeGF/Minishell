@@ -1,11 +1,5 @@
 #include "../inc/minishell.h"
 
-int	unset_builtin(char ***env_dup, char **cmd_splited)
-{
-	int		i;
-	int		j;
-	char	**aux;
-	int		ret_value;
 //comprobar si los caracteres son válidos 0-9,a-z,_,A_Z
 	//comprobar si nombre está en env_dup
 		//si no, salir con SUCCESS
@@ -17,29 +11,24 @@ int	unset_builtin(char ***env_dup, char **cmd_splited)
 				//si no es el index copiar a aux
 			//liberar env_dup
 			//apuntar env_dup a aux
+int	unset_builtin(char ***env_dup,  t_list *cmd_list)
+{
+	char	**aux;
+	int		ret_value;
+	char	*argv;
 (void)env_dup;
-(void)cmd_splited;
 (void)aux;
 (void)ret_value;
-	if (!env_dup || !*env_dup)
+	if (!env_dup || !*env_dup || !cmd_list)
 		return(EXIT_FAILURE);
-	if (!cmd_splited || cmd_splited[1] == NULL)
-		return(EXIT_SUCCESS);
-	ret_value = EXIT_SUCCESS;
-	i = 1;
-
-	while (cmd_splited[i])
+	argv = ((t_command *)(cmd_list->content))->cmd_splited;
+	if (!argv || argv[1] == NULL)
 	{
-		if (ft_check_valid_name(cmd_splited[i]) == 0)
-		j = 0;
-		while ((*env_dup)[j])
-		{
-
-			j++;
-		}
-		
-		i++;
+		if (argv[1] == NULL)
+			printf("SOLO HAS METIDO UNSET\n");
+		return(EXIT_SUCCESS);
 	}
+	ret_value = EXIT_SUCCESS;
 	return (EXIT_SUCCESS);
 }
 
