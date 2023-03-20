@@ -1,17 +1,13 @@
 #include "../inc/minishell.h"
 
-int	unset_builtin(char ***env_dup, t_list *cmd_list)
+int	unset_builtin(char ***env_dup, char **cmd_splited)
 {
-	int i;
-	int delete_count;
-
-	if (!env_dup || !*env_dup)
-		return(EXIT_FAILURE);
-	if (!cmd_list || !((t_command *)(cmd_list->content))->cmd_splited)
-		return(EXIT_SUCCESS);
-	//contar cuántos se van a eliminar (cuántos están en env_dup)
-	delete_count = ft_count_to_delete(*env_dup, ((t_command *)(cmd_list->content))->cmd_splited);
-
+	int		i;
+	int		j;
+	int		len_matrix;
+	char	**aux;
+	int		ret_value;
+//comprobar si los caracteres son válidos 0-9,a-z,_,A_Z
 	//comprobar si nombre está en env_dup
 		//si no, salir con SUCCESS
 		//si está -> eliminar:
@@ -22,28 +18,60 @@ int	unset_builtin(char ***env_dup, t_list *cmd_list)
 				//si no es el index copiar a aux
 			//liberar env_dup
 			//apuntar env_dup a aux
-	i = 0;
-	while ((*env_dup)[i])
+(void)env_dup;
+(void)cmd_splited;
+	if (!env_dup || !*env_dup)
+		return(EXIT_FAILURE);
+	if (!cmd_splited || cmd_splited[1] == NULL)
+		return(EXIT_SUCCESS);
+	ret_value = EXIT_SUCCESS;
+	len_matrix = ft_len_matrix(*env_dup);
+	i = 1;
+
+	while (cmd_splited[i])
 	{
+		if (ft_check_valid_name(cmd_splited[i]) == 0)
+		j = 0;
+		while ((*env_dup)[j])
+		{
+
+			j++;
+		}
+		
 		i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int ft_count_to_delete(char **matrix, char **cmd_splited)
+int	ft_check_valid_name(char *argv)
 {
-	int i;
-	int	j;
-	int counter;
+	int	i;
+	int	ret_value;
 
-	while (matrix[i])
+	i = 0;
+	ret_value = 0;
+	if (ft_isalpha(argv[0]) != 1 && argv[0] != '_')
+			ret_value = ft_print_unset_error(argv);
+	i = 1;
+	while (argv[i])
 	{
-		j = 0;
-		while (cmd_splited[j])
+		if (!(ft_isalnum(argv[i]) == 1 || argv[i] == '_'))
 		{
-			j++;
+			ret_value = ft_print_unset_error(argv);
+			break ;
 		}
 		i++;
 	}
-	
+	return (ret_value);
+}
+
+int	ft_print_unset_error(char *argv)
+{
+	int	ret_value;
+
+	ret_value = 1;
+	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+	ft_putstr_fd(argv, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	return (ret_value);
 }

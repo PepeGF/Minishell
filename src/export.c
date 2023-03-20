@@ -154,7 +154,7 @@ int	ft_check_valid_name_and_value(char *argv)
 			break ;
 		}
 		i++;
-		}
+	}
 	return (ret_value);
 }
 
@@ -163,9 +163,9 @@ int	ft_print_export_error(char *argv)
 	int	ret_value;
 
 	ret_value = 1;
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(argv, STDERR_FILENO);
-	ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	return (ret_value);
 }
 
