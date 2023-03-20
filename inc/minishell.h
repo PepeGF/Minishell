@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/16 20:06:32 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:02:38 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ char	**expander(char **tokens, char **env_dup);
 int		is_inquotes(char *str, char *var, char *qu);
 int		is_redir(char *str, char *op);
 
-#endif
 
 typedef struct s_vars
 {
 	t_list	*nodes;
 	char	**env_dup;
 }	t_vars;
+
+#endif
 
 // typedef struct s_data
 // {
