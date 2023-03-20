@@ -47,15 +47,12 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 				*env_dup = aux;
 			}
 			else if (ft_strchr(cmd_splited[i], '=') != 0)
-			{
 				ft_replace_line_in_matrix(*env_dup, cmd_splited[i]);
-			}
 		}
 		else
 			ret_value =  EXIT_FAILURE;	
 		i++;
 	}
-	// ft_free_matrix(aux);
 	return (ret_value);
 }
 

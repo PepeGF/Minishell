@@ -13,23 +13,47 @@
 			//apuntar env_dup a aux
 int	unset_builtin(char ***env_dup,  t_list *cmd_list)
 {
-	char	**aux;
 	int		ret_value;
 	char	**argv;
 (void)env_dup;
-(void)aux;
 (void)ret_value;
 	if (!env_dup || !*env_dup || !cmd_list)
 		return(EXIT_FAILURE);
 	argv = ((t_command *)(cmd_list->content))->cmd_splited;
 	if (!argv || argv[1] == NULL)
-	{
-		if (argv[1] == NULL)
-			printf("SOLO HAS METIDO UNSET\n");
 		return(EXIT_SUCCESS);
-	}
-	ret_value = EXIT_SUCCESS;
+	ret_value = 
+	ft_unset_with_argv(env_dup, argv);
 	return (EXIT_SUCCESS);
+}
+
+int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
+{
+	int		i;
+	int		j;
+	int		ret_value;
+	char	**aux;
+
+	i = 1;
+	ret_value = EXIT_SUCCESS;
+	while(cmd_splited[i])
+	{
+		if (ft_check_valid_name(cmd_splited[i]) == 0)
+		{
+			if (ft_check_already_in_env(*env_dup, cmd_splited[i]) == TRUE)
+			{
+				aux = ft_delete_line_from_matrix(env_dup, cmd_splited[i]);
+				if (!aux)
+					return (EXIT_FAILURE);
+				*env_dup = aux;
+			}
+		}
+		else
+			ret_value = EXIT_FAILURE;
+		i++;
+	}
+	aux = *env_dup;
+	return (ret_value);
 }
 
 int	ft_check_valid_name(char *argv)
