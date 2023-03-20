@@ -15,7 +15,7 @@ int	unset_builtin(char ***env_dup,  t_list *cmd_list)
 {
 	char	**aux;
 	int		ret_value;
-	char	*argv;
+	char	**argv;
 (void)env_dup;
 (void)aux;
 (void)ret_value;
