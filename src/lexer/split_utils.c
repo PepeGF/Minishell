@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:53:57 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/15 19:03:07 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:25:21 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,15 @@ int	is_inquotes(char *str, char *var, char *qu)
 	{
 		while (str && *str && str < var)
 		{
-			if (*qu == '\'' && *str == '\'' && is_inquotes(aux, str, "\""))
-				str++;
-			else if (*str == *qu)
+			if (*str == *qu && \
+				!(*qu == '\'' && *str == '\'' && is_inquotes(aux, str, "\"")))
 			{
 				if (count == 0 && str < var)
 					count = 1;
 				else if (count == 1 && str < var)
 					count = 0;
-				str++;
 			}
-			else
-				str++;
+			str++;
 		}
 		if (count == 1)
 			return (count);

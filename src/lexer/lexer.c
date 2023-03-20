@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/16 19:35:14 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:20:29 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	print_tokens(char **tokens)
 	}
 	printf("%sLEXER FINALIZADO%s\n", RED, CEND);
 }
+
 static int	check_quotes(char *line)
 {
 	int	qu;

@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:42:43 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/15 20:57:40 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:21:44 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	next_hedoc(char **tokens, int t)
 	int	len;
 
 	if (t < 1)
-	 	return (FALSE);
+		return (FALSE);
 	len = ft_strlen(tokens[t - 1]);
 	if (len == 2 && ft_strncmp("<<", tokens[t - 1], len) == 0)
 		return (TRUE);
 	else
-	 	return (FALSE);
+		return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:13:19 by drontome          #+#    #+#             */
-/*   Updated: 2023/01/01 12:49:45 by drontome         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:22:20 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	p_error(t_err err, char *str)
 	if (str)
 		ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
-	return ;	
+	return ;
 }
