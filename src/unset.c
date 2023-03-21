@@ -22,15 +22,13 @@ int	unset_builtin(char ***env_dup,  t_list *cmd_list)
 	argv = ((t_command *)(cmd_list->content))->cmd_splited;
 	if (!argv || argv[1] == NULL)
 		return(EXIT_SUCCESS);
-	ret_value = 
-	ft_unset_with_argv(env_dup, argv);
-	return (EXIT_SUCCESS);
+	ret_value = ft_unset_with_argv(env_dup, argv);
+	return (ret_value);
 }
 
 int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 {
 	int		i;
-	int		j;
 	int		ret_value;
 	char	**aux;
 
@@ -45,6 +43,7 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 				aux = ft_delete_line_from_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
 					return (EXIT_FAILURE);
+				free(*env_dup);
 				*env_dup = aux;
 			}
 		}
@@ -52,8 +51,39 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 			ret_value = EXIT_FAILURE;
 		i++;
 	}
-	aux = *env_dup;
 	return (ret_value);
+}
+
+char	**ft_delete_line_from_matrix(char ***matrix, char *argv)
+{
+	char	**aux;
+	int		i;
+	int		j;
+	int		len_matrix;
+
+	i = 0;
+	j = 0;
+	len_matrix = ft_len_matrix(*matrix);
+	aux = malloc(sizeof(char *) * len_matrix);
+	if (!aux)
+		return (NULL);
+	while ((*matrix)[i])
+	{//int diff = ft_strncmp((*matrix)[i], argv, ft_strlen(argv));
+		if (ft_strncmp((*matrix)[i], argv, ft_strlen(argv)) == 0 
+			&& ((*matrix)[i][ft_strlen(argv)] == '\0' 
+			|| (*matrix)[i][ft_strlen(argv)] == '='))
+		{
+			// printf("%s\t-->\t%s\t%d\n", (*matrix)[i], argv, diff);
+			free((*matrix)[i]);
+			i++;
+			continue;
+		}
+		aux[j] = (*matrix)[i];
+		i++;
+		j++;
+	}
+	aux[j] = NULL;
+	return (aux);
 }
 
 int	ft_check_valid_name(char *argv)

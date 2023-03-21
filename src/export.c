@@ -43,14 +43,17 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 			{
 				aux = ft_add_line_to_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
-					return(EXIT_FAILURE);
+				{
+					ret_value = EXIT_FAILURE;
+					return(ret_value);
+				}
 				*env_dup = aux;
 			}
 			else if (ft_strchr(cmd_splited[i], '=') != 0)
 				ft_replace_line_in_matrix(*env_dup, cmd_splited[i]);
 		}
 		else
-			ret_value =  EXIT_FAILURE;	
+			ret_value = EXIT_FAILURE;	
 		i++;
 	}
 	return (ret_value);

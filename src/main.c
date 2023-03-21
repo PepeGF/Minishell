@@ -34,7 +34,12 @@ int	main(int argc, char **argv, char **envp)
 	envp = (char **)envp;
 	env_dup = ft_dup_matrix(envp);
 	cmd_list = hardcoded(env_dup);
-	printf("RESULTADO: %d\n\n",unset_builtin(&env_dup, cmd_list));
+	// printf("******* VARIABES DE ENTORNO ANTES DE UNSET ********\n");
+	// printf("%p->direccion de meoria de env_dup\n", env_dup);
+	// ft_print_matrix(env_dup);
+	printf("\n\nRESULTADO: %d\n\n",unset_builtin(&env_dup, cmd_list));
+	// printf("******* VARIABES DE ENTORNO despues DE UNSET ********\n");
+	// printf("%p->direccion de meoria de env_dup\n", env_dup);
 	// ft_print_matrix(env_dup);
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);

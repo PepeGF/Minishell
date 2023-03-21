@@ -76,8 +76,8 @@ int		ft_replace_line_in_matrix(char **matrix, char *argv);
 int		unset_builtin(char ***env_dup,  t_list *cmd_list);
 int		ft_check_valid_name(char *argv);
 int		ft_print_unset_error(char *argv);
-
-
+int		ft_unset_with_argv(char ***env_dup, char **cmd_splited);
+char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
 
 
 
