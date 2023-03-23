@@ -79,6 +79,7 @@ int		ft_print_unset_error(char *argv);
 int		ft_unset_with_argv(char ***env_dup, char **cmd_splited);
 char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
 
+int		echo_builtin(char **cmd_splited, int fd);
 
 
 #endif

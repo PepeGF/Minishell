@@ -32,7 +32,8 @@ smart_split.c \
 hardcoded.c \
 builtins.c \
 export.c \
-unset.c
+unset.c \
+echo.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)

@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/20 12:24:34 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/03/23 07:10:41 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ int	main(int argc, char **argv, char **envp)
 	// printf("******* VARIABES DE ENTORNO ANTES DE UNSET ********\n");
 	// printf("%p->direccion de meoria de env_dup\n", env_dup);
 	// ft_print_matrix(env_dup);
-	printf("\n\nRESULTADO: %d\n\n",unset_builtin(&env_dup, cmd_list));
+	// printf("\n\nRESULTADO: %d\n\n",unset_builtin(&env_dup, cmd_list));
 	// printf("******* VARIABES DE ENTORNO despues DE UNSET ********\n");
 	// printf("%p->direccion de meoria de env_dup\n", env_dup);
 	// ft_print_matrix(env_dup);
+
+	int	echo_builtin("echo", )
+
+
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
 	return (0);
