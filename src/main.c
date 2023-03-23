@@ -42,7 +42,8 @@ int	main(int argc, char **argv, char **envp)
 	// printf("%p->direccion de meoria de env_dup\n", env_dup);
 	// ft_print_matrix(env_dup);
 
-	int	echo_builtin("echo", )
+	// ft_print_matrix(((t_command *)(cmd_list->content))->cmd_splited);
+	echo_builtin(((t_command *)(cmd_list->content))->cmd_splited, STDOUT_FILENO);
 
 
 	ft_free_matrix(env_dup);
