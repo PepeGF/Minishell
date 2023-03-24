@@ -33,7 +33,8 @@ hardcoded.c \
 builtins.c \
 export.c \
 unset.c \
-echo.c
+echo.c \
+cd.c
 
 
 SRC := $(SRC:%=$(SRC_DIR)%)

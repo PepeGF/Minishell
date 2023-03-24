@@ -81,6 +81,9 @@ char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
 
 int		echo_builtin(char **cmd_splited, int fd);
 
+int 	cd_builtin(char **env_dup, char **cmd_splited);
+char    *ft_get_value_env(char **env_dup, char *argv);
+int		ft_get_index_env(char **env_dup, char *argv);
 
 #endif
 

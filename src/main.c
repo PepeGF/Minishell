@@ -43,8 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	// ft_print_matrix(env_dup);
 
 	// ft_print_matrix(((t_command *)(cmd_list->content))->cmd_splited);
-	echo_builtin(((t_command *)(cmd_list->content))->cmd_splited, STDOUT_FILENO);
-
+	// echo_builtin(((t_command *)(cmd_list->content))->cmd_splited, STDOUT_FILENO);
+	cd_builtin(env_dup, ((t_command *)(cmd_list->content))->cmd_splited);
 
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
