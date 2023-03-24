@@ -3,14 +3,27 @@
 int cd_builtin(char **env_dup, char **cmd_splited)
 {
 	char    *dir;
+	char	*cwd;
+	char	*aux;
 
 	if (ft_len_matrix(cmd_splited) == 1)
+	{
+		dir = ft_get_value_env(env_dup, "HOME");
+		if (!dir)
 		{
-			dir = ft_get_value_env(env_dup, "HOME");
-			if (!dir)
-					return (EXIT_FAILURE);
-			free(dir);
+			printf("Minishell: cd: HOME not set\n");
+			//cambiar por llamada a la función correcta
+			return (EXIT_FAILURE);
 		}
+		cwd = getcwd(NULL, 0);
+		aux = ft_strjoin("OLDPWD=", cwd);
+		free(cwd);
+		ft_replace_line_in_matrix(env_dup, aux);
+		free(aux);
+		free(dir);
+		ft_print_matrix(env_dup);
+	}
+	
 	return (EXIT_SUCCESS);
 }
 
@@ -22,6 +35,8 @@ char    *ft_get_value_env(char **env_dup, char *argv)
 	int		len;
 
 	index_matrix = ft_get_index_env(env_dup, argv);
+	if (index_matrix == -1)
+		return (NULL);
 	index_str = ft_strchr_index(env_dup[index_matrix], '=');
 	len = ft_strlen(env_dup[index_matrix]);
 	aux = ft_substr(env_dup[index_matrix], index_str + 1, len);
