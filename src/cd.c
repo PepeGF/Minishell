@@ -7,6 +7,10 @@ int	cd_builtin(char ***env_dup, char **cmd_splited)
 	dir = ft_get_dir(env_dup, cmd_splited);
 	if (!dir)
 		return (EXIT_FAILURE);
+	//chdir bien y con error
+	//actualizar PWD
+	//actualizar ODPWD
+
 	printf("Dirección a la que cambiar: --->>>%s<<<<---\n", dir);
 	return (EXIT_SUCCESS);
 }
