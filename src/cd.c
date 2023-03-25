@@ -1,6 +1,44 @@
 #include "../inc/minishell.h"
 
-int cd_builtin(char **env_dup, char **cmd_splited)
+int	cd_builtin(char ***env_dup, char **cmd_splited)
+{
+	char	*dir;
+
+	dir = ft_get_dir(env_dup, cmd_splited);
+	if (!dir)
+		return (EXIT_FAILURE);
+	printf("Dirección a la que cambiar: --->>>%s<<<<---\n", dir);
+	return (EXIT_SUCCESS);
+}
+
+
+char	*ft_get_dir(char ***env_dup, char **cmd_splited)
+{
+	char	*dir;
+
+	dir = NULL;
+	if (ft_len_matrix(cmd_splited) == 1)
+	{
+		dir = ft_get_value_env(*env_dup, "HOME");
+		//print_error minishell: cd: HOME not set
+		if (!dir)
+			printf("minishell: cd: HOME not set\n");//esto no va aqui
+	}
+	else if (ft_strncmp(cmd_splited[1], "-", 2) == 0)
+	{
+		dir = ft_get_value_env(*env_dup, "OLDPWD");
+		//print_error minishell: cd: OLDPWD not set
+		if (!dir)
+			printf("minishell: cd: OLDPWD not set\n");//esto no va aqui
+	}
+	else{
+		dir = cmd_splited[1];
+		printf("directorio --->  %s\n", dir);}
+
+	return (dir);		
+}
+
+/* int cd_builtin(char ***env_dup, char **cmd_splited)
 {
 	char    *dir;
 	char	*cwd;
@@ -8,7 +46,7 @@ int cd_builtin(char **env_dup, char **cmd_splited)
 
 	if (ft_len_matrix(cmd_splited) == 1)
 	{
-		dir = ft_get_value_env(env_dup, "HOME");
+		dir = ft_get_value_env(*env_dup, "HOME");
 		if (!dir)
 		{
 			printf("Minishell: cd: HOME not set\n");
@@ -16,16 +54,22 @@ int cd_builtin(char **env_dup, char **cmd_splited)
 			return (EXIT_FAILURE);
 		}
 		cwd = getcwd(NULL, 0);
+		if (!cwd)
+		{
+			//print error de cd
+			return (EXIT_FAILURE);
+		}
 		aux = ft_strjoin("OLDPWD=", cwd);
 		free(cwd);
-		ft_replace_line_in_matrix(env_dup, aux);
+		ft_replace_line_in_matrix(*env_dup, aux);
 		free(aux);
 		free(dir);
-		ft_print_matrix(env_dup);
+		ft_print_matrix(*env_dup);
 	}
 	
 	return (EXIT_SUCCESS);
 }
+ */
 
 char    *ft_get_value_env(char **env_dup, char *argv)
 {
