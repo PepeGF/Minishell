@@ -104,6 +104,7 @@ char	**ft_add_line_to_matrix(char ***matrix, char *argv)
 	}
 	aux[len_matrix] = ft_strdup(argv);
 	free(*matrix);
+	*matrix = aux;
 	return (aux);
 }
 
@@ -114,7 +115,7 @@ int	ft_check_already_in_env(char **env_dup, char *argv)
 	int	diff;
 
 	if (!env_dup || !argv)
-		return (EXIT_FAILURE);
+		return (FALSE);
 	i = 0;
 	len_argv = ft_strlen(argv);
 	while (env_dup[i])

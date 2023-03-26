@@ -3,15 +3,30 @@
 int	cd_builtin(char ***env_dup, char **cmd_splited)
 {
 	char	*dir;
+	char	buf[PATH_MAX];
+	char	*aux;
 
 	dir = ft_get_dir(env_dup, cmd_splited);
 	if (!dir)
 		return (EXIT_FAILURE);
-	//chdir bien y con error
-	//actualizar PWD
-	//actualizar ODPWD
-
-	printf("Dirección a la que cambiar: --->>>%s<<<<---\n", dir);
+	getcwd(buf, sizeof(buf));
+	if (chdir(dir) != 0)
+		return (EXIT_FAILURE);//error minishell: cd: "dir" No such file or directory
+	else
+	{
+		aux = ft_strjoin("OLDPWD=", buf);
+		if (ft_check_already_in_env(*env_dup, "OLDPWD") == TRUE)
+			ft_replace_line_in_matrix(*env_dup, aux);
+		else
+			*env_dup = ft_add_line_to_matrix(env_dup, aux);
+		free(aux);
+		aux = ft_strjoin("PWD=", dir);
+		if (ft_check_already_in_env(*env_dup, "PWD") == TRUE)
+			ft_replace_line_in_matrix(*env_dup, aux);
+		else
+			*env_dup = ft_add_line_to_matrix(env_dup, aux);
+		free(aux);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -35,10 +50,8 @@ char	*ft_get_dir(char ***env_dup, char **cmd_splited)
 		if (!dir)
 			printf("minishell: cd: OLDPWD not set\n");//esto no va aqui
 	}
-	else{
+	else
 		dir = cmd_splited[1];
-		printf("directorio --->  %s\n", dir);}
-
 	return (dir);		
 }
 
