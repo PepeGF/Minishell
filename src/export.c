@@ -7,17 +7,15 @@ int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 
 	argc = ft_len_matrix(((t_command *)(cmd_list->content))->cmd_splited);
 	if (argc == 0)//no tengo claro si hay q controlar esto
-	{
 		return (0);
-	}
 	if (argc > 1)
 	{
-		return (ft_export_with_args(env_dup, ((t_command *)(cmd_list->content))->cmd_splited));
-
+		return (ft_export_with_args(env_dup, ((t_command *)(cmd_list->content)) \
+		->cmd_splited));
 	}
 	aux = ft_sort_matrix(*env_dup);
 	if (!aux)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (argc == 1)
 	{
 		ft_print_export_alone(aux);
@@ -43,17 +41,14 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 			{
 				aux = ft_add_line_to_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
-				{
-					ret_value = EXIT_FAILURE;
-					return(ret_value);
-				}
+					return (ret_value = EXIT_FAILURE);
 				*env_dup = aux;
 			}
 			else if (ft_strchr(cmd_splited[i], '=') != 0)
 				ft_replace_line_in_matrix(*env_dup, cmd_splited[i]);
 		}
 		else
-			ret_value = EXIT_FAILURE;	
+			ret_value = EXIT_FAILURE;
 		i++;
 	}
 	return (ret_value);
@@ -66,18 +61,17 @@ int	ft_replace_line_in_matrix(char **matrix, char *argv)
 
 	if (!matrix || !argv)
 		return (EXIT_FAILURE);
-	//buscar índice en el que está la linea a reemplazar
 	i = 0;
 	while (matrix[i])
 	{
 		index = ft_strchr_index(argv, '=');
 		if (ft_strncmp(matrix[i], argv, index + 1) == 0)
-			{
-				free(matrix[i]);
-				matrix[i] = ft_strdup(argv);
-				if (!matrix[i])
-					return (EXIT_FAILURE);
-			}
+		{
+			free(matrix[i]);
+			matrix[i] = ft_strdup(argv);
+			if (!matrix[i])
+				return (EXIT_FAILURE);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -89,7 +83,7 @@ char	**ft_add_line_to_matrix(char ***matrix, char *argv)
 	int		len_matrix;
 	char	**aux;
 
-	if(!matrix || !*matrix || !argv)
+	if (!matrix || !*matrix || !argv)
 		return (NULL);
 	len_matrix = ft_len_matrix(*matrix);
 	i = 0;
@@ -104,7 +98,6 @@ char	**ft_add_line_to_matrix(char ***matrix, char *argv)
 	}
 	aux[len_matrix] = ft_strdup(argv);
 	free(*matrix);
-	*matrix = aux;
 	return (aux);
 }
 
@@ -174,15 +167,24 @@ void	ft_print_export_alone(char **aux)
 {
 	int	i;
 	int	j;
-	int	check_first_equal;
+	int	first_equal;
 
 	i = 0;
 	while (aux[i] != NULL)
 	{
-		j = 0;
-		check_first_equal = 0;
+		/* j = 0;
+		first_equal = ft_strchr_index(aux[i], '=');
 		ft_putstr_fd("declare -x ", 1);
-		while (aux[i][j] != '=' && aux[i][j] != '\0')
+		while (aux[i][j])
+		{
+			if (j != first_equal)
+				ft_putchar_fd(aux[i][j], STDOUT_FILENO);
+			else
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+			j++;
+		} */
+		
+		/* while (aux[i][j] != '=' && aux[i][j] != '\0')
 		{
 			ft_putchar_fd(aux[i][j], 1);
 			j++;
@@ -193,10 +195,10 @@ void	ft_print_export_alone(char **aux)
 			if (aux[i][j] == '=' && check_first_equal == 0)
 			{
 				ft_putchar_fd('"', 1);
-				check_first_equal = 1;			
+				check_first_equal = 1;
 			}
 			j++;
-		}
+		} */
 		if (ft_strchr(aux[i], '='))
 			ft_putchar_fd('\"', 1);
 		ft_putchar_fd('\n', 1);
@@ -246,7 +248,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	aux;
 
 	i = 0;
-	//añadir protección !s1 || !s2, de momento no, solo va a ser usada al ordenar la matrix aux de export
+	if (!s1 || !s2)
+		return (EXIT_FAILURE);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])
@@ -256,7 +259,7 @@ int	ft_strcmp(char *s1, char *s2)
 		}
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	ft_print_matrix(char **matrix)

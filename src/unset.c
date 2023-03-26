@@ -1,27 +1,15 @@
 #include "../inc/minishell.h"
 
-//comprobar si los caracteres son válidos 0-9,a-z,_,A_Z
-	//comprobar si nombre está en env_dup
-		//si no, salir con SUCCESS
-		//si está -> eliminar:
-			//encontrar el index en env_dup
-			//crear aux con lenmatrix= len - 1
-			//poner nulo al final
-			//recorrer env_dup
-				//si no es el index copiar a aux
-			//liberar env_dup
-			//apuntar env_dup a aux
-int	unset_builtin(char ***env_dup,  t_list *cmd_list)
+int	unset_builtin(char ***env_dup, t_list *cmd_list)
 {
 	int		ret_value;
 	char	**argv;
-(void)env_dup;
-(void)ret_value;
+
 	if (!env_dup || !*env_dup || !cmd_list)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	argv = ((t_command *)(cmd_list->content))->cmd_splited;
 	if (!argv || argv[1] == NULL)
-		return(EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	ret_value = ft_unset_with_argv(env_dup, argv);
 	return (ret_value);
 }
@@ -34,7 +22,7 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 
 	i = 1;
 	ret_value = EXIT_SUCCESS;
-	while(cmd_splited[i])
+	while (cmd_splited[i])
 	{
 		if (ft_check_valid_name(cmd_splited[i]) == 0)
 		{
@@ -68,15 +56,14 @@ char	**ft_delete_line_from_matrix(char ***matrix, char *argv)
 	if (!aux)
 		return (NULL);
 	while ((*matrix)[i])
-	{//int diff = ft_strncmp((*matrix)[i], argv, ft_strlen(argv));
-		if (ft_strncmp((*matrix)[i], argv, ft_strlen(argv)) == 0 
-			&& ((*matrix)[i][ft_strlen(argv)] == '\0' 
+	{
+		if (ft_strncmp((*matrix)[i], argv, ft_strlen(argv)) == 0
+			&& ((*matrix)[i][ft_strlen(argv)] == '\0'
 			|| (*matrix)[i][ft_strlen(argv)] == '='))
 		{
-			// printf("%s\t-->\t%s\t%d\n", (*matrix)[i], argv, diff);
 			free((*matrix)[i]);
 			i++;
-			continue;
+			continue ;
 		}
 		aux[j] = (*matrix)[i];
 		i++;
