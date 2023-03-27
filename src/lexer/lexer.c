@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	print_tokens(char **tokens)
 {
 	int	count;
@@ -27,7 +27,7 @@ static void	print_tokens(char **tokens)
 	}
 	printf("%sLEXER FINALIZADO%s\n", RED, CEND);
 }
-
+*/
 static int	check_quotes(char *line)
 {
 	int	qu;
@@ -47,24 +47,31 @@ static int	check_quotes(char *line)
 	return (qu);
 }
 
-char	*lexer(char *line, char **env)
+char	**lexer(char *line, char **env_dup)
 {
 	char	**tokens;
+	char	qu;
 
 	tokens = NULL;
-	if (check_quotes(line))
-		p_error(SYN, "while looking for matching quote");
+	qu = check_quotes(line);
+	if (qu != 0)
+		p_error(QU, qu, "\'");
 	else if (*line != '\0')
 	{
 		add_history(line);
 		tokens = smart_split(line);
 		tokens = redir_split(tokens);
-		tokens = expander(tokens, env);
+		tokens = expander(tokens, env_dup);
 	}
-	if (tokens)
-	{
-		print_tokens(tokens);
-		ft_free_matrix(tokens);
-	}
-	return (NULL);
+	if (tokens && check_syntax(tokens))
+  {
+		free(line);
+		return (tokens);
+  }
+  else
+  {
+		free(line);
+    ft_free_matrix(tokens);
+    return (NULL);
+  }
 }

@@ -33,35 +33,51 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef struct s_command
-{
-	char	**cmd_splited;
-	int		infile;
-	int		outfile;
-}t_command;
-
-typedef enum e_err
-{
-	MEM,
-	SYN,
-}t_err;
-
-char	*lexer(char *line, char **env_dup);
-char	**smart_split(char *s);
-char	**redir_split(char **tokens);
-void	error_n_exit(enum e_err err, char **mem_alloc);
-void	p_error(t_err err, char *str);
-char	**expander(char **tokens, char **env_dup);
-int		is_inquotes(char *str, char *var, char *qu);
-int		is_redir(char *str, char *op);
-
-#endif
-
 typedef struct s_vars
 {
 	t_list	*nodes;
 	char	**env_dup;
 }	t_vars;
+
+typedef struct s_command
+{
+	char	**cmd_splited;
+	char  *infile;
+	char  *outfile;
+  int   flag[2];
+} t_command;
+
+typedef enum e_err
+{
+	MEM,
+	SYN,
+	QU,
+} t_err;
+
+typedef enum e_flag
+{
+  HER,
+  APP,
+} t_flag;
+
+char	**lexer(char *line, char **env_dup);
+char	**smart_split(char *s);
+char	**redir_split(char **tokens);
+void	error_n_exit(enum e_err err, char **mem_alloc);
+void	p_error(t_err err, char c, char *str);
+char	**expander(char **tokens, char **env_dup);
+int		is_inquotes(char *str, char *var, char *qu);
+int		is_redir(char *str, char *op);
+int		check_syntax(char **tokens);
+t_vars	*parser(char **tokens, char **env_dup);
+
+//////////////////////////////////INIT_UTILS///////////////////////////////////
+t_vars	*init_vars(char **env_dup, char **tokens);
+t_command	*init_cmd(void);
+void free_vars(t_vars *vars);
+void free_cmd(void *content);
+
+#endif
 
 // typedef struct s_data
 // {

@@ -57,7 +57,7 @@ static void	expand_var(char **tokens, int t, int i, char **env_dup)
 	tokens[t] = change_str(tokens[t], i, value, var);
 	if (var)
 	{
-		printf("LA VARIABLE ES %s\n\n", var);
+//		printf("LA VARIABLE ES %s\n\n", var);
 		free (var);
 	}
 }

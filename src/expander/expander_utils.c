@@ -32,14 +32,14 @@ char	*change_str(char *str, int i, char *value, char *var)
 {
 	char	*new;
 
-	printf("LA ANTIGUA STR ES %s\n\n", str);
+//	printf("LA ANTIGUA STR ES %s\n\n", str);
 	new = ft_substr(str, 0, i);
 	if (value != NULL)
 		new = ft_strjoin_free(new, value);
 	new = ft_strjoin_free(new, ft_substr(str, i + ft_strlen(var), \
 		ft_strlen(str + i + ft_strlen(var))));
-	if (new)
-		printf("LA NUEVA STR ES %s\n\n", new);
+//	if (new)
+//		printf("LA NUEVA STR ES %s\n\n", new);
 	free(str);
 	return (new);
 }
