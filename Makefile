@@ -31,9 +31,17 @@ lexer/lexer.c \
 lexer/redir_split.c \
 lexer/smart_split.c \
 lexer/split_utils.c \
-error/error.c \
+lexer/check_syntax.c \
 expander/expander.c \
-expander/expander_utils.c
+expander/expander_utils.c \
+parser/parser.c \
+parser/get_arg_n_pipe.c \
+parser/get_files.c \
+parser/here_doc.c \
+parser/rm_quotes.c \
+utils/vars_utils.c \
+utils/errors.c \
+utils/utils.c \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 

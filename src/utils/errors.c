@@ -24,11 +24,15 @@ void	error_n_exit(t_err err, char **mem_alloc)
 	exit(EXIT_FAILURE);
 }
 
-void	p_error(t_err err, char *str)
+void	p_error(t_err err, char c, char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (err == SYN)
-		ft_putstr_fd("syntax error: ", 2);
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+	if (err == QU)
+		ft_putstr_fd("error while looking for matching `", 2);
+	if (c != 0)
+		ft_putchar(c);
 	if (str)
 		ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
