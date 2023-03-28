@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
 #include "minishell.h"
 
-int			is_app_or_her(char *str, char *red);
-size_t		count_newtokens(char **tokens);
 static char	**check_tokens(char **tokens);
 static char	**fill_token(char **new_tokens, char *str);
 static char	**add_redir(char **new_tokens, char *str, int *i, int *len);

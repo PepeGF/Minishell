@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 static size_t	len_no_qu(char *str);
 
@@ -45,7 +45,7 @@ char	*rm_quotes(char *str)
 
 static size_t	len_no_qu(char *str)
 {
-	int len;
+	int	len;
 	int	qu;
 
 	len = 0;
@@ -62,4 +62,3 @@ static size_t	len_no_qu(char *str)
 	}
 	return (len);
 }
-

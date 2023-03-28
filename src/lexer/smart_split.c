@@ -87,8 +87,8 @@ static char	*cross_string(char *s, size_t *i)
 
 static char	*get_end_str(char *s, char c, size_t *len, int count)
 {
-	while (*s && ((*s != ' ' && *s != '\t') || \
-		((*s == ' ' && count == 1) || (*s == '\t' && count == 1))))
+	while (*s && ((*s != ' ' && *s != '\t') || ((*s == ' ' && count == 1)
+				|| (*s == '\t' && count == 1))))
 	{
 		if (c != 0 && (*s == c))
 		{

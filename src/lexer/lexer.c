@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
 #include "minishell.h"
+
+static int	check_quotes(char *line);
 /*
 static void	print_tokens(char **tokens)
 {
@@ -28,24 +31,6 @@ static void	print_tokens(char **tokens)
 	printf("%sLEXER FINALIZADO%s\n", RED, CEND);
 }
 */
-static int	check_quotes(char *line)
-{
-	int	qu;
-
-	qu = 0;
-	while (line && *line)
-	{
-		if (ft_strchr("\'\"", *line))
-		{
-			if (qu == 0)
-				qu = *line;
-			else if (qu == *line)
-				qu = 0;
-		}
-		line++;
-	}
-	return (qu);
-}
 
 char	**lexer(char *line, char **env_dup)
 {
@@ -64,14 +49,33 @@ char	**lexer(char *line, char **env_dup)
 		tokens = expander(tokens, env_dup);
 	}
 	if (tokens && check_syntax(tokens))
-  {
+	{
 		free(line);
 		return (tokens);
-  }
-  else
-  {
+	}
+	else
+	{
 		free(line);
-    ft_free_matrix(tokens);
-    return (NULL);
-  }
+		ft_free_matrix(tokens);
+		return (NULL);
+	}
+}
+
+static int	check_quotes(char *line)
+{
+	int	qu;
+
+	qu = 0;
+	while (line && *line)
+	{
+		if (ft_strchr("\'\"", *line))
+		{
+			if (qu == 0)
+				qu = *line;
+			else if (qu == *line)
+				qu = 0;
+		}
+		line++;
+	}
+	return (qu);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 extern int	g_exit;
 
@@ -42,4 +42,3 @@ int	check_syntax(char **tokens)
 	}
 	return (TRUE);
 }
-

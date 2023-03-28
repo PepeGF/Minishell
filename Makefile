@@ -27,7 +27,6 @@ BUILD_DIR := .build/
 
 SRC := \
 main.c \
-error/error.c \
 lexer/lexer.c \
 lexer/redir_split.c \
 lexer/smart_split.c \
@@ -41,6 +40,8 @@ parser/get_files.c \
 parser/here_doc.c \
 parser/rm_quotes.c \
 utils/vars_utils.c \
+utils/errors.c \
+utils/utils.c \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
