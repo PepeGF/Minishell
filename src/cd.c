@@ -1,5 +1,8 @@
 #include "../inc/minishell.h"
 
+char	*ft_quitar_lineas1(char *str, char *buf, char ***env_dup);
+char	*ft_quitar_lineas2(char *str, char *dir, char ***env_dup);
+
 int	cd_builtin(char ***env_dup, char **cmd_splited)
 {
 	char	*dir;
@@ -14,20 +17,36 @@ int	cd_builtin(char ***env_dup, char **cmd_splited)
 		return (EXIT_FAILURE);//error minishell: cd: "dir" No such file or directory
 	else
 	{
-		aux = ft_strjoin("OLDPWD=", buf);
-		if (ft_check_already_in_env(*env_dup, "OLDPWD") == TRUE)
-			ft_replace_line_in_matrix(*env_dup, aux);
-		else
-			*env_dup = ft_add_line_to_matrix(env_dup, aux);
+		aux = ft_quitar_lineas1("OLDPWD=", buf, env_dup);
 		free(aux);
-		aux = ft_strjoin("PWD=", dir);
-		if (ft_check_already_in_env(*env_dup, "PWD") == TRUE)
-			ft_replace_line_in_matrix(*env_dup, aux);
-		else
-			*env_dup = ft_add_line_to_matrix(env_dup, aux);
+		aux = ft_quitar_lineas2("PWD=", dir, env_dup);
 		free(aux);
 	}
 	return (EXIT_SUCCESS);
+}
+
+char	*ft_quitar_lineas1(char *str, char *buf, char ***env_dup)
+{
+	char	*aux;
+
+	aux = ft_strjoin(str, buf);
+	if (ft_check_already_in_env(*env_dup, str) == TRUE)
+		ft_replace_line_in_matrix(*env_dup, aux);
+	else
+		*env_dup = ft_add_line_to_matrix(env_dup, aux);
+	return (aux);
+}
+
+char	*ft_quitar_lineas2(char *str, char *dir, char ***env_dup)
+{
+	char	*aux;
+
+	aux = ft_strjoin(str, dir);
+	if (ft_check_already_in_env(*env_dup, str) == TRUE)
+		ft_replace_line_in_matrix(*env_dup, aux);
+	else
+		*env_dup = ft_add_line_to_matrix(env_dup, aux);
+	return (aux);
 }
 
 char	*ft_get_dir(char ***env_dup, char **cmd_splited)
@@ -51,13 +70,13 @@ char	*ft_get_dir(char ***env_dup, char **cmd_splited)
 	}
 	else
 		dir = cmd_splited[1];
-	return (dir);		
+	return (dir);
 }
 
-char    *ft_get_value_env(char **env_dup, char *argv)
+char	*ft_get_value_env(char **env_dup, char *argv)
 {
-	int	index_str;
-	int	index_matrix;
+	int		index_str;
+	int		index_matrix;
 	char	*aux;
 	int		len;
 
@@ -72,9 +91,9 @@ char    *ft_get_value_env(char **env_dup, char *argv)
 	return (aux);
 }
 
-int ft_get_index_env(char **env_dup, char *argv)
+int	ft_get_index_env(char **env_dup, char *argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_check_already_in_env(env_dup, argv) == TRUE)

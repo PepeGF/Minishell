@@ -53,7 +53,7 @@ $(OBJS:.o=.d) \
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 CPPFLAGS := -MMD -MP
 ### DEBUGFLAGS = -g3 -fsanitize=address
 

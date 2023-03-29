@@ -65,9 +65,7 @@ char	**ft_delete_line_from_matrix(char ***matrix, char *argv)
 			i++;
 			continue ;
 		}
-		aux[j] = (*matrix)[i];
-		i++;
-		j++;
+		aux[j++] = (*matrix)[i++];
 	}
 	aux[j] = NULL;
 	return (aux);

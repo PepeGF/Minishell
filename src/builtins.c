@@ -10,7 +10,7 @@
 } */
 
 //esta declaración según está cumple norma, pero no se si el g_ es correcto.
-static char	g_builtins[7][7] = {
+/* static char	g_builtins[7][7] = {
 	"pwd",
 	"env",
 	"export",
@@ -18,9 +18,9 @@ static char	g_builtins[7][7] = {
 	"echo",
 	"cd",
 {}
-};
+}; */
 
-void	wololo()
+/* void	wololo()
 {
 	int i = 0;
 	while (i <= 6)
@@ -28,9 +28,9 @@ void	wololo()
 		printf("%s\n", g_builtins[i]);
 		i++;
 	}
-}
+} */
 
-int	pwd_builtin()
+int	pwd_builtin(void)
 {
 	char	*directory;
 
@@ -55,7 +55,8 @@ int	env_builtin(char **env_dup)
 	if (env_dup == NULL)
 	{
 		//print error
-		ft_putendl_fd("Minishell: env: No such file or directory", STDERR_FILENO);
+		ft_putendl_fd("Minishell: env: No such file or directory",
+			STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	i = 0;

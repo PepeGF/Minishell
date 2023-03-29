@@ -17,10 +17,7 @@ int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 	if (!aux)
 		return (EXIT_FAILURE);
 	if (argc == 1)
-	{
 		ft_print_export_alone(aux);
-		return (0);
-	}
 	ft_free_matrix(aux);
 	return (0);
 }
@@ -172,7 +169,7 @@ void	ft_print_export_alone(char **aux)
 	i = 0;
 	while (aux[i] != NULL)
 	{
-		/* j = 0;
+		j = 0;
 		first_equal = ft_strchr_index(aux[i], '=');
 		ft_putstr_fd("declare -x ", 1);
 		while (aux[i][j])
@@ -182,23 +179,7 @@ void	ft_print_export_alone(char **aux)
 			else
 				ft_putstr_fd("=\"", STDOUT_FILENO);
 			j++;
-		} */
-		
-		/* while (aux[i][j] != '=' && aux[i][j] != '\0')
-		{
-			ft_putchar_fd(aux[i][j], 1);
-			j++;
 		}
-		while (aux[i][j])
-		{
-			ft_putchar_fd(aux[i][j], 1);
-			if (aux[i][j] == '=' && check_first_equal == 0)
-			{
-				ft_putchar_fd('"', 1);
-				check_first_equal = 1;
-			}
-			j++;
-		} */
 		if (ft_strchr(aux[i], '='))
 			ft_putchar_fd('\"', 1);
 		ft_putchar_fd('\n', 1);
@@ -214,7 +195,6 @@ char	**ft_sort_matrix(char **env_dup)
 	matrix_len = ft_len_matrix(env_dup);
 	aux = ft_dup_matrix(env_dup);
 	ft_sort_int_tab(aux, matrix_len);
-	ft_free_matrix(aux);
 	return (aux);
 }
 
