@@ -19,8 +19,11 @@ int	cd_builtin(char ***env_dup, char **cmd_splited)
 	{
 		aux = ft_quitar_lineas1("OLDPWD=", buf, env_dup);
 		free(aux);
-		aux = ft_quitar_lineas2("PWD=", dir, env_dup);
+		getcwd(buf, sizeof(buf));
+		aux = ft_quitar_lineas2("PWD=", buf, env_dup);
 		free(aux);
+
+printf("buffff->>>>\t%s\n", buf);
 	}
 	return (EXIT_SUCCESS);
 }
