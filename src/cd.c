@@ -89,7 +89,7 @@ char	*ft_get_value_env(char **env_dup, char *argv)
 	index_str = ft_strchr_index(env_dup[index_matrix], '=');
 	len = ft_strlen(env_dup[index_matrix]);
 	aux = ft_substr(env_dup[index_matrix], index_str + 1, len);
-	if (!aux)
+	if (!aux || ft_strlen(aux) == 0)
 		return (NULL);
 	return (aux);
 }
