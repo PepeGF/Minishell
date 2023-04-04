@@ -42,12 +42,12 @@ parser/rm_quotes.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
-hardcoded.c \
-builtins.c \
-export.c \
-unset.c \
-echo.c \
-cd.c
+builtins/builtins.c \
+builtins/export.c \
+builtins/unset.c \
+builtins/echo.c \
+builtins/cd.c
+#builtins/hardcoded.c \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
