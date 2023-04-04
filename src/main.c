@@ -6,26 +6,15 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/27 17:29:44 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/03 14:31:38 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include <stdio.h>
+#include "minishell.h"
 
-static void	sig_handler(int sig);
 static char	**get_envp(char **envp);
 int			g_exit;
 
-static void	sig_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_putchar_fd('\n', 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-	}
-}
 
 static char	**get_envp(char **envp)
 {
@@ -90,19 +79,26 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || !argv)
 		return (1);
-	//	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (TRUE)
 	{
+		signal(SIGINT, sig_handler);
 		env_dup = get_envp(envp);
+		// env_dup = NULL;
 		line = readline("Minishell$> ");
 		if (line == NULL)
+		{
+			printf("exit\n");
 			break ;
+		}
+		signal(SIGINT, SIG_IGN);
+		g_exit = 0;
 		tokens = lexer(line, env_dup);
-		//free (line);
 		vars = parser(tokens, env_dup);
-		print_vars(vars);
+		if (g_exit != 130)
+			print_vars(vars);
 		free_vars(vars);
 	}
 	ft_free_matrix(env_dup);
+	exit (g_exit);
 }

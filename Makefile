@@ -42,6 +42,7 @@ parser/rm_quotes.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
+utils/signals.c \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
@@ -57,7 +58,7 @@ OBJS := $(SRC:$(SRC_DIR)%.c=$(BUILD_DIR)%.o)
 DEPS := \
 $(OBJS:.o=.d) \
 
-CC = gcc
+CC = gcc 
 
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS := -MMD -MP

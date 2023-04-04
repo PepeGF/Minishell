@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:57:44 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/28 11:57:46 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/03 14:30:06 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_redir(char *str, char *red)
 	}
 	else
 	{
-		if (!ft_strchr("<>|", *red))
+		if (!ft_strchr("<>|", *red) || *red == '\0')
 			return (FALSE);
 		else if (!is_inquotes(str, red, "\'\""))
 			return (TRUE);
