@@ -14,7 +14,7 @@ t_list    *hardcoded(char **env_dup)
 	cmd_list->next = NULL;
 	cmd_list->content = (void *)cmd;
 
-	cmd->cmd_splited = ft_split("cd ..", ' ');
+	cmd->cmd_splited = ft_split("echo -n -n -nnnnnnnn -n -nnnnnn skjfsdf -n asfgsdf", ' ');
 	cmd->fd[0] = 0;
 	cmd->fd[1] = 1;
 	cmd->heredocs = ft_split("", ' ');

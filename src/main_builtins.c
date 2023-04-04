@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/29 21:37:56 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/04 11:10:29 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	main(int argc, char **argv, char **envp)
 	// ft_print_matrix(env_dup);
 
 	// ft_print_matrix(((t_command *)(cmd_list->content))->cmd_splited);
-	// echo_builtin(((t_command *)(cmd_list->content))->cmd_splited, STDOUT_FILENO);
+	echo_builtin(((t_command *)(cmd_list->content))->cmd_splited, STDOUT_FILENO);
 	// cd_builtin(&env_dup, ((t_command *)(cmd_list->content))->cmd_splited);
-	ft_print_matrix(env_dup);
+	// ft_print_matrix(env_dup);
 	// export_builtin(&env_dup, cmd_list);
 	ft_free_matrix(env_dup);
 	free_cmd_list(cmd_list);
