@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/05 17:08:02 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:24:50 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ typedef enum e_builtins
 /* ************************************************************************** */
 char		**lexer(char *line, char **env_dup);
 char		**expander(char **tokens, char **env_dup);
-t_vars		*parser(char **tokens, char **env_dup);
+int			parser(t_vars *vars, char **tokens);
 //////////////////////////////////INIT_UTILS////////////////////////////////////
-t_vars		*init_vars(char **env_dup, char **tokens);
+int			init_vars(t_vars *vars, char **tokens);
 t_command	*init_cmd(void);
 void		free_vars(t_vars *vars);
 void		free_cmd(void *content);

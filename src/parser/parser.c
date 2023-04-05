@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/20 20:24:45 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:26:02 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@
 static int	is_empty(char *str);
 extern int	g_exit;
 
-t_vars	*parser(char **tokens, char **env_dup)
+int	parser(t_vars *vars, char **tokens)
 {
 	int		t;
-	t_vars	*vars;
 	char	*arg;
 
 	t = 0;
-	vars = init_vars(env_dup, tokens);
+	init_vars(vars, tokens);
 	while (tokens && tokens[t] && g_exit != 130)
 	{
 		if (is_empty(tokens[t]))
@@ -38,7 +37,7 @@ t_vars	*parser(char **tokens, char **env_dup)
 			arg = rm_quotes(tokens[t]);
 			if (!arg || !get_arg(arg, vars))
 			{
-				ft_free_matrix(env_dup);
+				ft_free_matrix(vars->env_dup);
 				free_vars(vars);
 				error_n_exit(MEM, tokens);
 			}
@@ -46,7 +45,7 @@ t_vars	*parser(char **tokens, char **env_dup)
 		}
 	}
 	ft_free_matrix(tokens);
-	return (vars);
+	return (EXIT_SUCCESS);
 }
 
 static int	is_empty(char *str)
