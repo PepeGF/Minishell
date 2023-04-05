@@ -38,3 +38,13 @@ void	p_error(t_err err, char c, char *str)
 	ft_putstr_fd("\n", 2);
 	return ;
 }
+
+void	here_error(char *lim)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("warning: here-document delimited by end-of-file ", 2);
+	ft_putstr_fd("(wanted `", 2);
+	if (lim)
+		ft_putstr_fd(lim, 2);
+	ft_putstr_fd("\')\n", 2);
+}

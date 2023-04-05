@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/16 19:35:14 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/03 14:46:44 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	get_pipe(char **tokens, int t, t_vars *vars)
 	node = ft_lstnew(init_cmd());
 	if (!node || !node->content)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}

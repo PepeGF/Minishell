@@ -42,6 +42,7 @@ parser/rm_quotes.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
+utils/signals.c \
 builtins/builtins.c \
 builtins/export.c \
 builtins/unset.c \

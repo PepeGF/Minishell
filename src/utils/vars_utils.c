@@ -45,8 +45,8 @@ t_command	*init_cmd(void)
 
 void	free_vars(t_vars *vars)
 {
-	if (vars->env_dup)
-		ft_free_matrix(vars->env_dup);
+	//if (vars->env_dup)
+	//	ft_free_matrix(vars->env_dup);
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	free(vars);

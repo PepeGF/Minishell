@@ -17,6 +17,7 @@ static char	*fill_heredoc(char *lim);
 static int	get_fd(char **file);
 static void	free_n_close(char *line, char *lim, int fd);
 static void	false_heredoc(t_vars *vars, char **tokens, int t);
+extern int	g_exit;
 
 void	get_heredoc(t_vars *vars, char **tokens, int t)
 {
@@ -37,6 +38,7 @@ void	get_heredoc(t_vars *vars, char **tokens, int t)
 	lim = rm_quotes(tokens[t]);
 	if (!lim)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}
@@ -58,11 +60,12 @@ static char	*fill_heredoc(char *lim)
 		return (NULL);
 	}
 	line = NULL;
+	signal(SIGINT, sig_handler);
 	while (TRUE)
 	{
 		line = readline("> ");
-		if (!line || (ft_strncmp(line, lim, ft_strlen(lim)) == 0
-				&& ft_strlen(line) == ft_strlen(lim)))
+		if (g_exit == 130 || !line || (ft_strncmp(line, lim, ft_strlen(lim)) \
+			== 0 && ft_strlen(line) == ft_strlen(lim)))
 			break ;
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
@@ -101,15 +104,6 @@ static int	get_fd(char **file)
 	return (fd);
 }
 
-static void	free_n_close(char *line, char *lim, int fd)
-{
-	if (line)
-		free(line);
-	if (lim)
-		free(lim);
-	close(fd);
-}
-
 static void	false_heredoc(t_vars *vars, char **tokens, int t)
 {
 	char	*lim;
@@ -119,18 +113,31 @@ static void	false_heredoc(t_vars *vars, char **tokens, int t)
 	line = NULL;
 	if (!lim)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}
+	signal(SIGINT, sig_handler);
 	while (TRUE)
 	{
 		line = readline("> ");
-		if (!line || (ft_strncmp(line, lim, ft_strlen(lim)) == 0
-				&& ft_strlen(line) == ft_strlen(lim)))
+		if (g_exit == 130 || !line || (ft_strncmp(line, lim, ft_strlen(lim)) \
+			== 0 && ft_strlen(line) == ft_strlen(lim)))
 			break ;
 		free(line);
 	}
-	if (line)
+	free_n_close(line, lim, -1);
+}
+
+static void	free_n_close(char *line, char *lim, int fd)
+{
+	signal(SIGINT, SIG_IGN);
+	if (!line && g_exit != 130)
+		here_error(lim);
+	else if (line)
 		free(line);
-	free(lim);
+	if (lim)
+		free(lim);
+	if (fd >= 0)
+		close(fd);
 }

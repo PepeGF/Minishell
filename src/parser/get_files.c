@@ -32,6 +32,7 @@ void	get_infile(t_vars *vars, char **tokens, int t)
 	file = rm_quotes(tokens[t]);
 	if (!file)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}
@@ -53,6 +54,7 @@ void	get_outfile(t_vars *vars, char **tokens, int t)
 	file = rm_quotes(tokens[t]);
 	if (!file)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}
@@ -76,6 +78,7 @@ void	get_append(t_vars *vars, char **tokens, int t)
 	file = rm_quotes(tokens[t]);
 	if (!file)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}

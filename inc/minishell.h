@@ -26,6 +26,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/ioctl.h>
 # include <sys/param.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -82,9 +83,11 @@ void		free_cmd(void *content);
 ////////////////////////////////////UTILS///////////////////////////////////////
 int			is_inquotes(char *str, char *var, char *qu);
 int			is_redir(char *str, char *op);
+void		sig_handler(int sig);
 ////////////////////////////////////ERRORS//////////////////////////////////////
 void		error_n_exit(enum e_err err, char **mem_alloc);
 void		p_error(t_err err, char c, char *str);
+void		here_error(char *lim);
 
 int		pwd_builtin();
 int		env_builtin(char **env_dup);
