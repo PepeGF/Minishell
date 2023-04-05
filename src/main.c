@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/03 14:31:38 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:13:01 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	**get_envp(char **envp)
 	return (env_dup);
 }
 
-static void	print_matrix(char **mtx)
+/* static void	print_matrix(char **mtx)
 {
 	int	i;
 
@@ -40,9 +40,9 @@ static void	print_matrix(char **mtx)
 		mtx++;
 	}
 	printf("\n");
-}
+} */
 
-static void	print_vars(t_vars *vars)
+/* static void	print_vars(t_vars *vars)
 {
 	t_list		*nodes;
 	t_command	*cmd;
@@ -50,10 +50,10 @@ static void	print_vars(t_vars *vars)
 
 	i = 1;
 	printf("EL CONTENIDO DE VARS SE MOSTRARÁ EN PANTALLA\n\n");
-	/*
+	
   printf("ENV_DUP:\n", vars->env_dup);
   print_matrix(vars->env_dup);
-*/
+
 	nodes = vars->nodes;
 	while (nodes != NULL)
 	{
@@ -68,7 +68,7 @@ static void	print_vars(t_vars *vars)
 		nodes = nodes->next;
 	}
 	printf("\n");
-}
+} */
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -94,8 +94,9 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		tokens = lexer(line, env_dup);
 		vars = parser(tokens, env_dup);
-		if (g_exit != 130)
-			print_vars(vars);
+		ft_execute_builtin(vars);
+		// if (g_exit != 130)
+		// 	print_vars(vars);
 		free_vars(vars);
 	}
 	ft_free_matrix(env_dup);

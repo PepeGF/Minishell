@@ -1,34 +1,9 @@
 #include "../inc/minishell.h"
-/* static const struct s_builtins	g_builtins[] = {
-	{"echo", echo_builtin},
-	{"cd", cd_builtin},
-	{"pwd", pwd_builtin},
-	{"env", env_builtin},
-	{"export", export_builtin},
-	{"unset", unset_builtin},
-	{NULL, NULL}
-} */
 
-//esta declaración según está cumple norma, pero no se si el g_ es correcto.
-/* static char	g_builtins[7][7] = {
-	"pwd",
-	"env",
-	"export",
-	"unset",
-	"echo",
-	"cd",
-{}
-}; */
-
-/* void	wololo()
+int	exit_builtin(void)
 {
-	int i = 0;
-	while (i <= 6)
-	{
-		printf("%s\n", g_builtins[i]);
-		i++;
-	}
-} */
+	exit(EXIT_SUCCESS);
+}
 
 int	pwd_builtin(void)
 {

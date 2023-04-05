@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/05 16:13:14 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:08:02 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void		sig_handler(int sig);
 void		error_n_exit(enum e_err err, char **mem_alloc);
 void		p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
+
+int		ft_check_builtin(char **cmd_splitted);
+int		ft_execute_builtin(t_vars *vars);
 
 int		pwd_builtin();
 int		env_builtin(char **env_dup);
