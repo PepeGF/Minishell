@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
 
@@ -37,6 +38,7 @@ t_vars	*parser(char **tokens, char **env_dup)
 			arg = rm_quotes(tokens[t]);
 			if (!arg || !get_arg(arg, vars))
 			{
+				ft_free_matrix(env_dup);
 				free_vars(vars);
 				error_n_exit(MEM, tokens);
 			}

@@ -24,6 +24,7 @@ int	get_pipe(char **tokens, int t, t_vars *vars)
 	node = ft_lstnew(init_cmd());
 	if (!node || !node->content)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}

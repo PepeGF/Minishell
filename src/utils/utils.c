@@ -6,7 +6,7 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:57:44 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/03 14:30:06 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/04 19:33:05 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_redir(char *str, char *red)
 	}
 	else
 	{
-		if (!ft_strchr("<>|", *red) || *red == '\0')
+		if (*red == '\0' || !ft_strchr("<>|", *red))
 			return (FALSE);
 		else if (!is_inquotes(str, red, "\'\""))
 			return (TRUE);

@@ -38,6 +38,7 @@ void	get_heredoc(t_vars *vars, char **tokens, int t)
 	lim = rm_quotes(tokens[t]);
 	if (!lim)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}
@@ -112,6 +113,7 @@ static void	false_heredoc(t_vars *vars, char **tokens, int t)
 	line = NULL;
 	if (!lim)
 	{
+		ft_free_matrix(vars->env_dup);
 		free_vars(vars);
 		error_n_exit(MEM, tokens);
 	}

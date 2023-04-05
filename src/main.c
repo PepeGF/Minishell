@@ -80,11 +80,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || !argv)
 		return (1);
 	signal(SIGQUIT, SIG_IGN);
+	env_dup = get_envp(envp);
 	while (TRUE)
 	{
 		signal(SIGINT, sig_handler);
-		env_dup = get_envp(envp);
-		// env_dup = NULL;
 		line = readline("Minishell$> ");
 		if (line == NULL)
 		{
