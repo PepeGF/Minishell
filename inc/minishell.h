@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/28 12:34:16 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:13:14 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ typedef enum e_flag
 	HER,
 	APP,
 }			t_flag;
+
+typedef enum e_builtins
+{
+	PWD,
+	CD,
+	EXPORT,
+	UNSET,
+	ENV,
+	ECHO,
+	EXIT,
+	NONE,
+}			t_builtins;
+
 /* ************************************************************************** */
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
