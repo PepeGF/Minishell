@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+#include "builtins.h"
 
 static int	ft_check_n_echo(char *argv);
 static void	ft_echo_no_new_line(char **cmd_splited, int fd, int index);

@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+#include "builtins.h"
 
 int	exit_builtin(void)
 {

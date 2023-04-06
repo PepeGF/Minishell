@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/06 14:04:31 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/06 17:27:58 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,6 @@ static char	**get_envp(char **envp)
 	return (env_dup);
 }
 
-/* static void	print_matrix(char **mtx)
-{
-	int	i;
-
-	i = 1;
-	while (mtx && *mtx)
-	{
-		printf("\t\t\t%d. #%s#\n", i, *mtx);
-		i++;
-		mtx++;
-	}
-	printf("\n");
-} */
-
-/* static void	print_vars(t_vars *vars)
-{
-	t_list		*nodes;
-	t_command	*cmd;
-	int			i;
-
-	i = 1;
-	printf("EL CONTENIDO DE VARS SE MOSTRARÁ EN PANTALLA\n\n");
-	
-  printf("ENV_DUP:\n", vars->env_dup);
-  print_matrix(vars->env_dup);
-
-	nodes = vars->nodes;
-	while (nodes != NULL)
-	{
-		cmd = (t_command *)nodes->content;
-		printf("COMANDO %d:\n", i);
-		printf("\t\tinfile: %s\n", cmd->infile);
-		printf("\t\toutfile: %s\n", cmd->outfile);
-		printf("\t\tcmd_args: \n");
-		print_matrix(cmd->cmd_splited);
-		printf("\n");
-		i++;
-		nodes = nodes->next;
-	}
-	printf("\n");
-} */
-
 t_vars	*ft_init_varssss(char **envp)
 {
 	// char	**env_dup;
@@ -85,14 +43,15 @@ t_vars	*ft_init_varssss(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	// char	**env_dup;
 	char	**tokens;
 	char	*line;
-	t_vars	vars;
+	t_vars	*vars;
 
 	if (argc != 1 || !argv)
 		return (1);
 	signal(SIGQUIT, SIG_IGN);
-	// vars = ft_init_varssss(envp);
+	vars = ft_init_varssss(envp);
 	while (TRUE)
 	{
 		signal(SIGINT, sig_handler);
@@ -106,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		tokens = lexer(line, vars->env_dup);
 		parser(vars, tokens);
-		ft_execute_builtin(&vars);
+		ft_execute_builtin(vars);
 		// if (g_exit != 130)
 		// 	print_vars(vars);
 		free_vars(vars);
