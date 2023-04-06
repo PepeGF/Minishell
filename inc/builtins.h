@@ -42,8 +42,6 @@ int		ft_strchr_index(const char *s, int c);//esta tb
 int		ft_check_valid_name_and_value(char *argv);
 int		ft_print_export_error(char *argv);
 int		ft_check_already_in_env(char **env_dup, char *argv);
-char	**ft_add_line_to_matrix(char ***matrix, char *argv);
-int		ft_replace_line_in_matrix(char **matrix, char *argv);
 
 //////////////////////////////////// UNSET /////////////////////////////////////
 int		unset_builtin(char ***env_dup, t_list *cmd_list);

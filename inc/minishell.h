@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/06 17:31:02 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:32:47 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void		p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
 
 int		ft_execute_builtin(t_vars *vars);
-
+char	*ft_get_value_env(char **env_dup, char *argv);
+int		ft_replace_line_in_matrix(char **matrix, char *argv);
+char	**ft_add_line_to_matrix(char ***matrix, char *argv);
 
 #endif
