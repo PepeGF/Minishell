@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/06 18:42:30 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:02:58 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		tokens = lexer(line, vars.env_dup);
 		parser(&vars, tokens);
+		ft_execute_builtin(&vars);
 		if (g_exit != 130)
 			print_vars(&vars);
 		free_nodes(&vars);
