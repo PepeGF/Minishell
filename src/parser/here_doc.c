@@ -39,7 +39,7 @@ void	get_heredoc(t_vars *vars, char **tokens, int t)
 	if (!lim)
 	{
 		ft_free_matrix(vars->env_dup);
-		free_vars(vars);
+		free_nodes(vars);
 		error_n_exit(MEM, tokens);
 	}
 	cmd->infile = fill_heredoc(lim);
@@ -114,7 +114,7 @@ static void	false_heredoc(t_vars *vars, char **tokens, int t)
 	if (!lim)
 	{
 		ft_free_matrix(vars->env_dup);
-		free_vars(vars);
+		free_nodes(vars);
 		error_n_exit(MEM, tokens);
 	}
 	signal(SIGINT, sig_handler);

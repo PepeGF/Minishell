@@ -74,11 +74,12 @@ typedef enum e_flag
 /* ************************************************************************** */
 char		**lexer(char *line, char **env_dup);
 char		**expander(char **tokens, char **env_dup);
-t_vars		*parser(char **tokens, char **env_dup);
+void		parser(t_vars *vars, char **tokens);
 //////////////////////////////////INIT_UTILS////////////////////////////////////
-t_vars		*init_vars(char **env_dup, char **tokens);
+void		init_vars(t_vars *vars, char **envp);
 t_command	*init_cmd(void);
-void		free_vars(t_vars *vars);
+void		init_nodes(t_vars *vars, char **tokens);
+void		free_nodes(t_vars *vars);
 void		free_cmd(void *content);
 ////////////////////////////////////UTILS///////////////////////////////////////
 int			is_inquotes(char *str, char *var, char *qu);

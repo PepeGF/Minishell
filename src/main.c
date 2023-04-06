@@ -12,21 +12,8 @@
 
 #include "minishell.h"
 
-static char	**get_envp(char **envp);
 int			g_exit;
 
-
-static char	**get_envp(char **envp)
-{
-	char	**env_dup;
-
-	if (envp == NULL)
-		return (NULL);
-	env_dup = ft_dup_matrix(envp);
-	if (!env_dup)
-		error_n_exit(MEM, NULL);
-	return (env_dup);
-}
 
 static void	print_matrix(char **mtx)
 {
@@ -72,15 +59,13 @@ static void	print_vars(t_vars *vars)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**env_dup;
+	t_vars	vars;
 	char	**tokens;
 	char	*line;
-	t_vars	*vars;
 
 	if (argc != 1 || !argv)
-		return (1);
-	signal(SIGQUIT, SIG_IGN);
-	env_dup = get_envp(envp);
+		exit (EXIT_FAILURE);
+	init_vars(&vars, envp);
 	while (TRUE)
 	{
 		signal(SIGINT, sig_handler);
@@ -92,12 +77,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		signal(SIGINT, SIG_IGN);
 		g_exit = 0;
-		tokens = lexer(line, env_dup);
-		vars = parser(tokens, env_dup);
+		tokens = lexer(line, vars.env_dup);
+		parser(&vars, tokens);
 		if (g_exit != 130)
-			print_vars(vars);
-		free_vars(vars);
+			print_vars(&vars);
+		free_nodes(&vars);
 	}
-	ft_free_matrix(env_dup);
+	ft_free_matrix(vars.env_dup);
 	exit (g_exit);
 }
