@@ -6,11 +6,13 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/05 19:32:01 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:12:45 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_set_shlvl(char ***env_dup);
 
 void	init_vars(t_vars *vars, char **envp)
 {
@@ -24,6 +26,7 @@ void	init_vars(t_vars *vars, char **envp)
 	vars->env_dup = ft_dup_matrix(envp);
 	if (!vars->env_dup)
 		error_n_exit(MEM, NULL);
+	ft_set_shlvl(&vars->env_dup);
 }
 
 void	init_nodes(t_vars *vars, char **tokens)
@@ -72,3 +75,27 @@ void	free_cmd(void *content)
 	free(cmd);
 }
 
+static void	ft_set_shlvl(char ***env_dup)
+{
+	char	*shlvl;
+	char	*aux;
+	int		level;
+	char	**env_aux;
+
+	aux = ft_get_value_env(*env_dup, "SHLVL");
+	if (aux != NULL)
+	{
+		level = ft_atoi(aux) + 1;
+		shlvl = ft_itoa(level);
+		free(aux);
+		aux = ft_strjoin("SHLVL=", shlvl);
+		free(shlvl);
+		ft_replace_line_in_matrix(*env_dup, aux);
+		free(aux);
+	}
+	else
+	{
+		env_aux = ft_add_line_to_matrix(env_dup, "SHLVL=1");
+		*env_dup = env_aux;
+	}
+}
