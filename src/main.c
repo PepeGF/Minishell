@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/05 19:29:16 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:04:31 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,14 @@ t_vars	*ft_init_varssss(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// char	**env_dup;
 	char	**tokens;
 	char	*line;
-	t_vars	*vars;
+	t_vars	vars;
 
 	if (argc != 1 || !argv)
 		return (1);
 	signal(SIGQUIT, SIG_IGN);
-	vars = ft_init_varssss(envp);
+	// vars = ft_init_varssss(envp);
 	while (TRUE)
 	{
 		signal(SIGINT, sig_handler);
@@ -107,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		tokens = lexer(line, vars->env_dup);
 		parser(vars, tokens);
-		ft_execute_builtin(vars);
+		ft_execute_builtin(&vars);
 		// if (g_exit != 130)
 		// 	print_vars(vars);
 		free_vars(vars);
