@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+#include "builtins.h"
 
 char	*ft_quitar_lineas1(char *str, char *buf, char ***env_dup);
 char	*ft_quitar_lineas2(char *str, char *dir, char ***env_dup);

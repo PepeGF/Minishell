@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/28 12:34:16 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:32:47 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef enum e_flag
 	HER,
 	APP,
 }			t_flag;
+
 /* ************************************************************************** */
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
@@ -90,35 +91,9 @@ void		error_n_exit(enum e_err err, char **mem_alloc);
 void		p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
 
-int		pwd_builtin();
-int		env_builtin(char **env_dup);
-
-int		export_builtin(char ***env_dup, t_list *cmd_list);
-char	**ft_sort_matrix(char **env_dup);
-void	ft_sort_int_tab(char **tab, int size);
-int		ft_strcmp(char *s1, char *s2);
-void	ft_print_matrix(char **matrix);//esta debería ir a la libft
-int		ft_strchr_index(const char *s, int c);//esta tb
-void	ft_print_export_alone(char **aux);
-int		ft_export_with_args(char ***env_dup, char **cmd_splited);
-int		ft_check_valid_name_and_value(char *argv);
-int		ft_print_export_error(char *argv);
-int		ft_check_already_in_env(char **env_dup, char *argv);
-char	**ft_add_line_to_matrix(char ***matrix, char *argv);
+int		ft_execute_builtin(t_vars *vars);
+char	*ft_get_value_env(char **env_dup, char *argv);
 int		ft_replace_line_in_matrix(char **matrix, char *argv);
-
-int		unset_builtin(char ***env_dup,  t_list *cmd_list);
-int		ft_check_valid_name(char *argv);
-int		ft_print_unset_error(char *argv);
-int		ft_unset_with_argv(char ***env_dup, char **cmd_splited);
-char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
-
-int		echo_builtin(char **cmd_splited, int fd);
-
-int 	cd_builtin(char ***env_dup, char **cmd_splited);
-char    *ft_get_value_env(char **env_dup, char *argv);
-int		ft_get_index_env(char **env_dup, char *argv);
-char	*ft_get_dir(char ***env_dup, char **cmd_splited);
-
+char	**ft_add_line_to_matrix(char ***matrix, char *argv);
 
 #endif

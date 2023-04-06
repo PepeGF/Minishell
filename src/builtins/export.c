@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+#include "builtins.h"
 
 int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
