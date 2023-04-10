@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 #include "parser.h"
+#include <fcntl.h>
+
+static void	create_file(char *file, int app);
 
 void	get_infile(t_vars *vars, char **tokens, int t)
 {
@@ -51,6 +54,7 @@ void	get_outfile(t_vars *vars, char **tokens, int t)
 		return ;
 	else if (cmd->outfile != NULL)
 		free(cmd->outfile);
+	//open CREAR ARCHIVO
 	file = rm_quotes(tokens[t]);
 	if (!file)
 	{
@@ -59,9 +63,12 @@ void	get_outfile(t_vars *vars, char **tokens, int t)
 		error_n_exit(MEM, tokens);
 	}
 	else
+	{
+		if (cmd->flag[APP] == 1)
+			cmd->flag[APP] = 0;
+		create_file(file, cmd->flag[APP]);
 		cmd->outfile = file;
-	if (cmd->flag[APP == 1])
-		cmd->flag[APP] = 0;
+	}
 }
 
 void	get_append(t_vars *vars, char **tokens, int t)
@@ -84,8 +91,9 @@ void	get_append(t_vars *vars, char **tokens, int t)
 	}
 	else
 	{
-		cmd->outfile = file;
 		cmd->flag[APP] = 1;
+		create_file(file, cmd->flag[APP]);
+		cmd->outfile = file;
 	}
 }
 
@@ -108,3 +116,18 @@ int	get_redir(char **tokens, int t, t_vars *vars)
 		return (FALSE);
 	return (TRUE);
 }
+
+static void	create_file(char *file, int app)
+{
+	int	fd;
+
+	if (!file)
+		return;
+	if (app == 1)
+		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	else 
+		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd >= 0)
+		close(fd);
+}
+

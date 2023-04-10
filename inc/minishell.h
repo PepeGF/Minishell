@@ -76,6 +76,7 @@ typedef enum e_flag
 char		**lexer(char *line, char **env_dup);
 char		**expander(char **tokens, char **env_dup);
 void		parser(t_vars *vars, char **tokens);
+void		executor(t_vars *vars);
 //////////////////////////////////INIT_UTILS////////////////////////////////////
 void		init_vars(t_vars *vars, char **envp);
 t_command	*init_cmd(void);

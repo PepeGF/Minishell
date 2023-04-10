@@ -36,7 +36,8 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		tokens = lexer(line, vars.env_dup);
 		parser(&vars, tokens);
-		ft_execute_builtin(&vars);
+		executor(&vars);
+		//ft_execute_builtin(&vars);
 		free_nodes(&vars);
 	}
 	ft_free_matrix(vars.env_dup);

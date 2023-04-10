@@ -39,6 +39,8 @@ parser/get_arg_n_pipe.c \
 parser/get_files.c \
 parser/here_doc.c \
 parser/rm_quotes.c \
+executor/executor.c \
+executor/exec_utils.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
@@ -48,7 +50,6 @@ builtins/export.c \
 builtins/unset.c \
 builtins/echo.c \
 builtins/cd.c
-#builtins/hardcoded.c \
 
 SRC := $(SRC:%=$(SRC_DIR)%)
 
