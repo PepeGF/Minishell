@@ -45,6 +45,7 @@ typedef struct s_vars
 {
 	t_list	*nodes;
 	char	**env_dup;
+	char	*last_cmd;
 }			t_vars;
 
 typedef struct s_command
@@ -75,17 +76,18 @@ typedef enum e_flag
 /* ************************************************************************** */
 char		**lexer(char *line, char **env_dup);
 char		**expander(char **tokens, char **env_dup);
-void		parser(t_vars *vars, char **tokens);
+int			parser(t_vars *vars, char **tokens);
 void		executor(t_vars *vars);
 //////////////////////////////////INIT_UTILS////////////////////////////////////
 void		init_vars(t_vars *vars, char **envp);
 t_command	*init_cmd(void);
 void		init_nodes(t_vars *vars, char **tokens);
-void		free_nodes(t_vars *vars);
-void		free_cmd(void *content);
+void		update_vars(t_vars *vars);
 ////////////////////////////////////UTILS///////////////////////////////////////
 int			is_inquotes(char *str, char *var, char *qu);
 int			is_redir(char *str, char *op);
+void		free_nodes(t_vars *vars);
+void		free_cmd(void *content);
 void		sig_handler(int sig);
 ////////////////////////////////////ERRORS//////////////////////////////////////
 void		error_n_exit(enum e_err err, char **mem_alloc);

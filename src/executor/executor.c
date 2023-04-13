@@ -22,17 +22,9 @@ static int	execve_child(t_exec *child);
 
 int child_pepe(t_exec *child)
 {
-	char *str;
-	int	n;
 
 	child =(t_exec *)child;
 	
-	n = 0;
-	str = ft_itoa(n + 1);
-	ft_putstr(str);
-	free(str);
-	if (child->n_proc + 1 == child->tot_pr)
-		ft_putstr("\n");
 	exit(EXIT_SUCCESS);
 	return (TRUE);
 }
@@ -53,7 +45,8 @@ void	executor(t_vars *vars)
 		aux = aux->next;
 		child.n_proc++;
 	}
-	waitpid(-1, NULL, WUNTRACED);
+	if (g_exit == 0)
+		waitpid(-1, &g_exit, WUNTRACED);
 	ft_free_matrix(child.paths);
 }
 
@@ -74,8 +67,8 @@ static int	pipe_child(t_exec *child, t_command *cmd)
 		return(TRUE);
 	else
 	{
-		g_exit = errno;
-		perror("pipe");
+		g_exit = 1;
+		perror("minishell: ");
 		return (FALSE);
 	}
 }
@@ -87,8 +80,8 @@ static int	fork_child(t_exec *child)
 	id = fork();
 	if (id < 0)
 	{
-		g_exit = errno;
-		perror("fork");
+		g_exit = 1;
+		perror("minishell: ");
 		return (FALSE);
 	}
 	else if (id == 0)
@@ -118,27 +111,22 @@ static int	execve_child(t_exec *child)
 {
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
 		return(child_pepe(child));
-	else if (check_pos(child->n_proc, child->tot_pr) == FIRST)
-	{
-		dup2(child->pipe_out[WR], STDOUT_FILENO); // mejorar caso de fallo
+	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
+	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 		close(child->pipe_out[WR]);
-		return(child_pepe(child));
-	}
-	else if (check_pos(child->n_proc, child->tot_pr) == MID)
+	else if (check_pos(child->n_proc, child->tot_pr) == MID && \
+	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0 && \
+	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 	{
-		dup2(child->pipe_in[RD], STDIN_FILENO);
 		close(child->pipe_in[RD]);
-		dup2(child->pipe_out[WR], STDOUT_FILENO);
 		close(child->pipe_out[WR]);
-		return(child_pepe(child));
 	}
-	else if (check_pos(child->n_proc, child->tot_pr) == LAST)
-	{
-		dup2(child->pipe_in[RD], STDIN_FILENO);
+	else if (check_pos(child->n_proc, child->tot_pr) == LAST && \
+	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0)
 		close(child->pipe_in[RD]);
-		return(child_pepe(child));
-	}
-	return (FALSE);
+	else
+		exit (EXIT_FAILURE);
+	return(child_pepe(child));
 }
 
 

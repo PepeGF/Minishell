@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+extern int g_exit;
 
 void	error_n_exit(t_err err, char **mem_alloc)
 {
@@ -26,6 +27,7 @@ void	error_n_exit(t_err err, char **mem_alloc)
 
 void	p_error(t_err err, char c, char *str)
 {
+	g_exit = 2;
 	ft_putstr_fd("minishell: ", 2);
 	if (err == SYN)
 		ft_putstr_fd("syntax error near unexpected token `", 2);

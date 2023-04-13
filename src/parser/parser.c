@@ -17,7 +17,7 @@
 static int	is_empty(char *str);
 extern int	g_exit;
 
-void	parser(t_vars *vars, char **tokens)
+int	parser(t_vars *vars, char **tokens)
 {
 	int		t;
 	char	*arg;
@@ -37,7 +37,6 @@ void	parser(t_vars *vars, char **tokens)
 			arg = rm_quotes(tokens[t]);
 			if (!arg || !get_arg(arg, vars))
 			{
-				ft_free_matrix(vars->env_dup);
 				free_nodes(vars);
 				error_n_exit(MEM, tokens);
 			}
@@ -45,6 +44,7 @@ void	parser(t_vars *vars, char **tokens)
 		}
 	}
 	ft_free_matrix(tokens);
+	return (g_exit);
 }
 
 static int	is_empty(char *str)

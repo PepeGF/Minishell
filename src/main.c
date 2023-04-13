@@ -33,13 +33,13 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		signal(SIGINT, SIG_IGN);
-		g_exit = 0;
 		tokens = lexer(line, vars.env_dup);
-		parser(&vars, tokens);
-		executor(&vars);
+		g_exit = 0;
+		if (parser(&vars, tokens) == 0)
+			executor(&vars);
 		//ft_execute_builtin(&vars);
-		free_nodes(&vars);
+		update_vars(&vars);
 	}
-	ft_free_matrix(vars.env_dup);
+	free_nodes(&vars);
 	exit (g_exit);
 }

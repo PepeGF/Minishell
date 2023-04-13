@@ -10,19 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include <stdlib.h>
+extern int	g_exit;
 
 static void	ft_set_shlvl(char ***env_dup);
 
 void	init_vars(t_vars *vars, char **envp)
 {
 	signal(SIGQUIT, SIG_IGN);
+	*vars = (t_vars){};
 	if (envp == NULL)
-	{
-		*vars = (t_vars){};
 		return;
-	}
-	vars->nodes = NULL;
 	vars->env_dup = ft_dup_matrix(envp);
 	if (!vars->env_dup)
 		error_n_exit(MEM, NULL);
@@ -50,29 +50,21 @@ t_command	*init_cmd(void)
 	return (cmd);
 }
 
-void	free_nodes(t_vars *vars)
+void	update_vars(t_vars *vars)
 {
+	char **cmds;
+
+	cmds = ((t_command *)ft_lstlast(vars->nodes)->content)->cmd_splited;
+	if (g_exit == 0 && cmds)
+	{
+		if (vars->last_cmd != NULL)
+			free(vars->last_cmd);
+		vars->last_cmd = ft_strdup(cmds[ft_len_matrix(cmds) - 1]);
+	}
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
-}
-
-void	free_cmd(void *content)
-{
-	t_command	*cmd;
-
-	cmd = (t_command *)content;
-	if (cmd->cmd_splited)
-		ft_free_matrix(cmd->cmd_splited);
-	if (cmd->infile)
-	{
-		if (cmd->flag[HER])
-			unlink(cmd->infile);
-		free(cmd->infile);
-	}
-	if (cmd->outfile)
-		free(cmd->outfile);
-	free(cmd);
+//	printf("%s\n", vars->last_cmd);
 }
 
 static void	ft_set_shlvl(char ***env_dup)

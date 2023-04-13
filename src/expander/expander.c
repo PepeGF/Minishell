@@ -6,12 +6,14 @@
 /*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:42:43 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/16 19:39:09 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:34:18 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "libft.h"
 #include "minishell.h"
+#include "builtins.h"
 
 static void	expand_var(char **tokens, int t, int i, char **env_dup);
 static void	expand_home(char **tokens, int t, int i, char **env_dup);
@@ -52,10 +54,9 @@ static void	expand_var(char **tokens, int t, int i, char **env_dup)
 
 	var = grep_var(&tokens[t][i]);
 	value = grep_value(var, env_dup);
-	tokens[t] = change_str(tokens[t], i, value, var);
 	if (var)
 	{
-		//		printf("LA VARIABLE ES %s\n\n", var);
+		tokens[t] = change_str(tokens[t], i, value, var);
 		free(var);
 	}
 }
@@ -75,7 +76,7 @@ static char	*grep_value(char *var, char **env)
 	char	*aux;
 	char	*str;
 
-	if (!var)
+	if (!var || ft_strncmp(var, "$?", ft_strlen(var)) == 0)
 		return (NULL);
 	aux = ft_strjoin(var, "=");
 	str = NULL;
@@ -105,7 +106,10 @@ static char	*grep_var(char *str)
 
 	i = 1;
 	var = NULL;
-	while (str && ft_isalnum(str[i]))
+	if (str && (ft_isalpha(str[i]) || str[i] == '_'))
+		while (ft_isalpha(str[i]) || str[i] == '_')
+			i++;
+	else if (str && (ft_isdigit(str[i]) || str[i] == '?'))
 		i++;
 	if (i < 2)
 		return (NULL);

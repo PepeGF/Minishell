@@ -66,3 +66,32 @@ int	is_inquotes(char *str, char *var, char *qu)
 	}
 	return (count);
 }
+
+void	free_nodes(t_vars *vars)
+{
+	if (vars->env_dup)
+		ft_free_matrix(vars->env_dup);
+	if (vars->last_cmd != NULL)
+		free(vars->last_cmd);
+	if (vars->nodes)
+		ft_lstclear(&vars->nodes, free_cmd);
+}
+
+void	free_cmd(void *content)
+{
+	t_command	*cmd;
+
+	cmd = (t_command *)content;
+	if (cmd->cmd_splited)
+		ft_free_matrix(cmd->cmd_splited);
+	if (cmd->infile)
+	{
+		if (cmd->flag[HER])
+			unlink(cmd->infile);
+		free(cmd->infile);
+	}
+	if (cmd->outfile)
+		free(cmd->outfile);
+	free(cmd);
+}
+
