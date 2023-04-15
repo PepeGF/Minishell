@@ -7,10 +7,10 @@ int	unset_builtin(char ***env_dup, t_list *cmd_list)
 	char	**argv;
 
 	if (!env_dup || !*env_dup || !cmd_list)
-		return (EXIT_FAILURE);
+		return (FAILURE);
 	argv = ((t_command *)(cmd_list->content))->cmd_splited;
 	if (!argv || argv[1] == NULL)
-		return (EXIT_SUCCESS);
+		return (SUCCESS);
 	ret_value = ft_unset_with_argv(env_dup, argv);
 	return (ret_value);
 }
@@ -22,7 +22,7 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 	char	**aux;
 
 	i = 1;
-	ret_value = EXIT_SUCCESS;
+	ret_value = SUCCESS;
 	while (cmd_splited[i])
 	{
 		if (ft_check_valid_name(cmd_splited[i]) == 0)
@@ -31,13 +31,13 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 			{
 				aux = ft_delete_line_from_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
-					return (EXIT_FAILURE);
+					return (FAILURE);
 				free(*env_dup);
 				*env_dup = aux;
 			}
 		}
 		else
-			ret_value = EXIT_FAILURE;
+			ret_value = FAILURE;
 		i++;
 	}
 	return (ret_value);
@@ -79,12 +79,12 @@ int	ft_check_valid_name(char *argv)
 
 	i = 0;
 	ret_value = 0;
-	if (ft_isalpha(argv[0]) != 1 && argv[0] != '_')
+	if (ft_isalpha(argv[0]) != TRUE && argv[0] != '_')
 			ret_value = ft_print_unset_error(argv);
 	i = 1;
 	while (argv[i])
 	{
-		if (!(ft_isalnum(argv[i]) == 1 || argv[i] == '_'))
+		if (!(ft_isalnum(argv[i]) == TRUE || argv[i] == '_'))
 		{
 			ret_value = ft_print_unset_error(argv);
 			break ;
@@ -98,7 +98,7 @@ int	ft_print_unset_error(char *argv)
 {
 	int	ret_value;
 
-	ret_value = 1;
+	ret_value = FAILURE;
 	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 	ft_putstr_fd(argv, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);

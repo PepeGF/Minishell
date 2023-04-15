@@ -17,6 +17,11 @@ typedef enum e_builtins
 	NONE,
 }			t_builtins;
 
+typedef enum e_returns
+{
+	SUCCESS,
+	FAILURE,
+}			t_returns;
 /* ************************************************************************** */
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
