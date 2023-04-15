@@ -1,6 +1,12 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
+extern int	g_exit;
+static int	ft_print_unset_error(char *argv);
+static int	ft_unset_with_argv(char ***env_dup, char **cmd_splited);
+static int	ft_check_valid_name(char *argv);
+static char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
+
 int	unset_builtin(char ***env_dup, t_list *cmd_list)
 {
 	int		ret_value;
@@ -99,6 +105,7 @@ int	ft_print_unset_error(char *argv)
 	int	ret_value;
 
 	ret_value = FAILURE;
+	g_exit = EXIT_FAILURE;
 	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 	ft_putstr_fd(argv, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);

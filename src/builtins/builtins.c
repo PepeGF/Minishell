@@ -1,10 +1,7 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-int	exit_builtin(void)
-{
-	exit(EXIT_SUCCESS);
-}
+extern int	g_exit;
 
 int	pwd_builtin(void)
 {
@@ -18,7 +15,7 @@ int	pwd_builtin(void)
 		return (0);
 	}
 	free(directory);
-	return (EXIT_FAILURE);
+	return (FAILURE);
 }
 
 int	env_builtin(char **env_dup)
@@ -30,7 +27,7 @@ int	env_builtin(char **env_dup)
 		//print error
 		ft_putendl_fd("Minishell: env: No such file or directory",
 			STDERR_FILENO);
-		return (EXIT_FAILURE);
+		return (FAILURE);
 	}
 	i = 0;
 	while (env_dup[i])
@@ -85,6 +82,6 @@ int	ft_execute_builtin(t_vars *vars)
 	if (cmd == ECHO)
 		return (echo_builtin(cmd_splitted, 1));
 	if (cmd == EXIT)
-		return (exit_builtin());
+		return (exit_builtin(cmd_splitted));
 	return (-1);
 }

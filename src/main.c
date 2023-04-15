@@ -36,8 +36,8 @@ int	main(int argc, char **argv, char **envp)
 		tokens = lexer(line, vars.env_dup);
 		g_exit = 0;
 		if (parser(&vars, tokens) == 0)
-			executor(&vars);
-		ft_execute_builtin(&vars);
+			ft_execute_builtin(&vars);
+			// executor(&vars);
 		update_vars(&vars);
 	}
 	free_nodes(&vars);

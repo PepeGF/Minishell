@@ -166,10 +166,12 @@ void	ft_print_export_alone(char **aux)
 	int	i;
 	int	j;
 	int	first_equal;
-
+//excluir "_"
 	i = 0;
 	while (aux[i] != NULL)
 	{
+		if (ft_strncmp("_=", aux[i], 3) == 0)
+			i++;
 		j = 0;
 		first_equal = ft_strchr_index(aux[i], '=');
 		ft_putstr_fd("declare -x ", 1);

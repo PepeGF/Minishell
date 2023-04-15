@@ -50,10 +50,6 @@ int		ft_check_already_in_env(char **env_dup, char *argv);
 
 //////////////////////////////////// UNSET /////////////////////////////////////
 int		unset_builtin(char ***env_dup, t_list *cmd_list);
-int		ft_check_valid_name(char *argv);
-int		ft_print_unset_error(char *argv);
-int		ft_unset_with_argv(char ***env_dup, char **cmd_splited);
-char	**ft_delete_line_from_matrix(char ***env_dup, char *argv);
 
 ///////////////////////////////////// ECHO /////////////////////////////////////
 int		echo_builtin(char **cmd_splited, int fd);
@@ -63,5 +59,8 @@ int		cd_builtin(char ***env_dup, char **cmd_splited);
 char	*ft_get_value_env(char **env_dup, char *argv);
 int		ft_get_index_env(char **env_dup, char *argv);
 char	*ft_get_dir(char ***env_dup, char **cmd_splited);
+
+///////////////////////////////////// EXIT /////////////////////////////////////
+int		exit_builtin(char **cmd_splitted);
 
 #endif

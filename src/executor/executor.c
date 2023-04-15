@@ -20,11 +20,102 @@ static int	fork_child(t_exec *child);
 static void	close_fd(t_exec *child);
 static int	execve_child(t_exec *child);
 
+char	*ft_get_right_path(t_exec *child)
+{
+	int	i;
+	char	*path;
+
+	if (!child)
+		return (NULL);
+	i = 0;
+	while (child->paths[i])
+		{
+			path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
+			if (path == NULL)
+				i++;
+			else if (access(path, X_OK) != 0)
+				{
+					free(path);
+					i++;
+				}
+			else
+				return (path);
+		}
+	return (NULL);
+}
+
+
 int child_pepe(t_exec *child)
 {
+	char	*path;
+	int		fd_in;
+	int		fd_out;
 
-	child =(t_exec *)child;
-	
+	if (child->tot_pr == 1)
+	{
+		if (child->cmd->infile != NULL)
+		{
+			fd_in = open(child->cmd->infile, O_RDONLY);
+			if (fd_in < 0)
+			{
+				g_exit = errno;
+				perror("minishell: open");
+				exit(g_exit);
+			}
+			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
+		}
+		if (child->cmd->outfile != NULL)
+		{
+			if (child->cmd->flag[APP] == 1)
+				fd_out = open(child->cmd->outfile, O_APPEND | O_CREAT);
+			else
+				fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
+			if (fd_out < 0)
+			{
+				g_exit = errno;
+				perror("minishell: open");
+				exit(g_exit);
+			}
+			dup2(fd_out, STDOUT_FILENO);
+			close(fd_out);
+		}
+	}
+	else
+	{
+		if (child->cmd->infile != NULL)
+			{
+				fd_in = open(child->cmd->infile, O_RDONLY);
+				if (fd_in < 0)
+				{
+					g_exit = errno;
+					perror("minishell: open");
+					exit(g_exit);
+				}
+				dup2(fd_in, child->pipe_in[RD]);
+				close(fd_in);
+			}
+		if (child->cmd->outfile != NULL)
+			{
+				if (child->cmd->flag[APP] == 1)
+					fd_out = open(child->cmd->outfile, O_APPEND | O_CREAT);
+				else
+					fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
+				if (fd_out < 0)
+				{
+					g_exit = errno;
+					perror("minishell: open");
+					exit(g_exit);
+				}
+				dup2(fd_out, child->pipe_out[WR]);
+				close(fd_out);
+			}
+	}
+	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
+		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
+	path = ft_get_right_path(child);
+	if (path != NULL)
+		execve(path, child->cmd->cmd_splited, child->env_dup);
 	exit(EXIT_SUCCESS);
 	return (TRUE);
 }
