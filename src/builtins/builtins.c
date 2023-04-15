@@ -18,9 +18,6 @@ int	pwd_builtin(void)
 		return (0);
 	}
 	free(directory);
-	//si hay error directory == NULL, en ese caso
-	//establecer valor de error (no consigo que el original falle)
-	//perror("mensaje de error")
 	return (EXIT_FAILURE);
 }
 
