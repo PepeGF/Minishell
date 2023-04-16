@@ -59,11 +59,15 @@ void	update_vars(t_vars *vars)
 	{
 		if (vars->last_cmd != NULL)
 			free(vars->last_cmd);
-		vars->last_cmd = ft_strdup(cmds[ft_len_matrix(cmds) - 1]);
+		if (vars->nodes->next == NULL)
+			vars->last_cmd = ft_strdup(cmds[ft_len_matrix(cmds) - 1]);
+		else
+			vars->last_cmd = ft_strdup("");
 	}
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 //	printf("%s\n", vars->last_cmd);
 }
 
