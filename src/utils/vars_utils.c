@@ -67,7 +67,6 @@ void	update_vars(t_vars *vars)
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 //	printf("%s\n", vars->last_cmd);
 }
 
