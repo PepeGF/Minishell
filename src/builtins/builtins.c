@@ -55,7 +55,7 @@ int	ft_check_builtin(char **cmd_splitted)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd_splitted[0], builtins[i], ft_strlen(builtins[i] + 1)) == 0)
+		if (ft_strncmp(cmd_splitted[0], builtins[i], ft_strlen(builtins[i]) + 1) == 0)
 			return (i);
 		i++;
 	}

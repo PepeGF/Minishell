@@ -70,7 +70,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS := -MMD -MP
-DEBUGFLAGS = -g3 -fsanitize=address
+DEBUGFLAGS = -g3 #-fsanitize=address
 
 INCS_FLAGS = $(addprefix -I, $(INC)) -I/Users/$(USER)/.brew/opt/readline/include
 LINK_FLAGS = $(LIBFT) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline

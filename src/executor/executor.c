@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "executor.h"
+#include "builtins.h"
 #include <stdlib.h>
 
 extern int	g_exit;
@@ -127,18 +128,24 @@ void	executor(t_vars *vars)
 	t_exec	child;
 
 	aux = (t_list *)vars->nodes;
-	child = init_child(vars);
-	while (child.n_proc < child.tot_pr)
+	if (vars->nodes->next == NULL && \
+		ft_check_builtin(((t_command *)(vars->nodes->content))->cmd_splited) != -1)
+		ft_execute_builtin(vars);
+	else
 	{
-		if(!pipe_child(&child, (t_command *)aux->content) || \
-			!fork_child(&child))
-			break;
-		aux = aux->next;
-		child.n_proc++;
+		child = init_child(vars);
+		while (child.n_proc < child.tot_pr)
+		{
+			if(!pipe_child(&child, (t_command *)aux->content) || \
+				!fork_child(&child))
+				break;
+			aux = aux->next;
+			child.n_proc++;
+		}
+		if (g_exit == 0)
+			waitpid(-1, &g_exit, WUNTRACED);//WNOHANG
+		ft_free_matrix(child.paths);
 	}
-	if (g_exit == 0)
-		waitpid(-1, &g_exit, WUNTRACED);
-	ft_free_matrix(child.paths);
 }
 
 

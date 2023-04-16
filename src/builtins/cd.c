@@ -1,56 +1,75 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-char	*ft_quitar_lineas1(char *str, char *buf, char ***env_dup);
-char	*ft_quitar_lineas2(char *str, char *dir, char ***env_dup);
+extern int	g_exit;
+
+int	ft_set_directories(char *buf, char ***env_dup, char *dir);
+
+int	ft_getcwd_error(char *dir)
+{
+	perror("minishell");
+	free(dir);
+	g_exit = EXIT_FAILURE;
+	return (FAILURE);
+}
+
+int	ft_join_error(char *dir)
+{
+	perror(NULL);
+	free(dir);
+	g_exit = 12;
+	return (FAILURE);
+}
+
+int	ft_chdir_error(char *dir)
+{
+	perror("minishell: cd");
+	g_exit = EXIT_FAILURE;
+	free(dir);
+	return (FAILURE);
+}
 
 int	cd_builtin(char ***env_dup, char **cmd_splited)
 {
 	char	*dir;
 	char	buf[PATH_MAX];
-	char	*aux;
 
 	dir = ft_get_dir(env_dup, cmd_splited);
 	if (!dir)
-		return (EXIT_FAILURE);
-	getcwd(buf, sizeof(buf));
+		return (FAILURE);
+	if (getcwd(buf, sizeof(buf)) == NULL)
+		return (ft_getcwd_error(dir));
 	if (chdir(dir) != 0)
-		return (EXIT_FAILURE);//error minishell: cd: "dir" No such file or directory
+		return (ft_chdir_error(dir));
 	else
-	{
-		aux = ft_quitar_lineas1("OLDPWD=", buf, env_dup);
-		free(aux);
-		getcwd(buf, sizeof(buf));
-		aux = ft_quitar_lineas2("PWD=", buf, env_dup);
-		free(aux);
-
-printf("buffff->>>>\t%s\n", buf);
-	}
-	return (EXIT_SUCCESS);
+		return (ft_set_directories(buf, env_dup, dir));
 }
 
-char	*ft_quitar_lineas1(char *str, char *buf, char ***env_dup)
+int	ft_set_directories(char *buf, char ***env_dup, char *dir)
 {
 	char	*aux;
+	char	temp[PATH_MAX];
 
-	aux = ft_strjoin(str, buf);
-	if (ft_check_already_in_env(*env_dup, str) == TRUE)
+	aux = ft_strjoin("OLDPWD=", buf);
+	if (!aux)
+		return (ft_join_error(dir));
+	if (ft_check_already_in_env(*env_dup, "OLDPWD") == TRUE)
 		ft_replace_line_in_matrix(*env_dup, aux);
 	else
 		*env_dup = ft_add_line_to_matrix(env_dup, aux);
-	return (aux);
-}
-
-char	*ft_quitar_lineas2(char *str, char *dir, char ***env_dup)
-{
-	char	*aux;
-
-	aux = ft_strjoin(str, dir);
-	if (ft_check_already_in_env(*env_dup, str) == TRUE)
+	free(aux);
+	if (getcwd(temp, sizeof(temp)) == NULL)
+		return (ft_getcwd_error(dir));
+	aux = ft_strjoin("PWD=", dir);
+	if (!aux)
+		return (ft_join_error(dir));
+	if (ft_check_already_in_env(*env_dup, "PWD=") == TRUE)
 		ft_replace_line_in_matrix(*env_dup, aux);
 	else
 		*env_dup = ft_add_line_to_matrix(env_dup, aux);
-	return (aux);
+	free(aux);
+	free(dir);
+	return (SUCCESS);
 }
 
 char	*ft_get_dir(char ***env_dup, char **cmd_splited)
@@ -61,19 +80,23 @@ char	*ft_get_dir(char ***env_dup, char **cmd_splited)
 	if (ft_len_matrix(cmd_splited) == 1)
 	{
 		dir = ft_get_value_env(*env_dup, "HOME");
-		//print_error minishell: cd: HOME not set
 		if (!dir)
-			printf("minishell: cd: HOME not set\n");//esto no va aqui
+		{
+			g_exit = EXIT_FAILURE;
+			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+		}
 	}
 	else if (ft_strncmp(cmd_splited[1], "-", 2) == 0)
 	{
 		dir = ft_get_value_env(*env_dup, "OLDPWD");
-		//print_error minishell: cd: OLDPWD not set
 		if (!dir)
-			printf("minishell: cd: OLDPWD not set\n");//esto no va aqui
+		{
+			g_exit = EXIT_FAILURE;
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+		}
 	}
 	else
-		dir = cmd_splited[1];
+		dir = ft_strdup(cmd_splited[1]);
 	return (dir);
 }
 
