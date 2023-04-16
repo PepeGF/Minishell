@@ -123,9 +123,11 @@ void	executor(t_vars *vars)
 {
 	t_list	*aux;
 	t_exec	child;
+	size_t	i;
 
 	aux = (t_list *)vars->nodes;
 	child = init_child(vars);
+	i = 0;
 	while (child.n_proc < child.tot_pr)
 	{
 		if(!pipe_child(&child, (t_command *)aux->content) || \
@@ -135,7 +137,8 @@ void	executor(t_vars *vars)
 		child.n_proc++;
 	}
 	if (g_exit == 0)
-		waitpid(-1, &g_exit, WUNTRACED);
+		while(i++ < child.tot_pr)
+			waitpid(-1, &g_exit, WUNTRACED);
 	ft_free_matrix(child.paths);
 }
 
