@@ -46,6 +46,8 @@ utils/errors.c \
 utils/utils.c \
 utils/signals.c \
 builtins/builtins.c \
+builtins/env.c \
+builtins/pwd.c \
 builtins/export.c \
 builtins/unset.c \
 builtins/echo.c \

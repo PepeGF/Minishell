@@ -1,14 +1,7 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-int	ft_sort_error(void)
-{
-	g_exit = 12;
-	perror(NULL);
-	return (FAILURE);
-}
-
-int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
+int	export_builtin(char ***env_dup, t_list *cmd_list)
 {
 	int		argc;
 	char	**aux;
@@ -23,7 +16,7 @@ int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 	}
 	aux = ft_sort_matrix(*env_dup);
 	if (!aux)
-		return (ft_sort_error());
+		return (ft_memory_error());
 	if (argc == 1)
 		ft_print_export_alone(aux);
 	ft_free_matrix(aux);
@@ -37,7 +30,7 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 	int		ret_value;
 
 	i = 1;
-	ret_value = EXIT_SUCCESS;
+	ret_value = SUCCESS;
 	while (cmd_splited[i])
 	{
 		if (ft_check_valid_name_and_value(cmd_splited[i]) == 0)
@@ -46,14 +39,14 @@ int	ft_export_with_args(char ***env_dup, char **cmd_splited)
 			{
 				aux = ft_add_line_to_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
-					return (ret_value = EXIT_FAILURE);
+					return (ret_value = ft_memory_error());
 				*env_dup = aux;
 			}
 			else if (ft_strchr(cmd_splited[i], '=') != 0)
 				ft_replace_line_in_matrix(*env_dup, cmd_splited[i]);
 		}
 		else
-			ret_value = EXIT_FAILURE;
+			ret_value = FAILURE;
 		i++;
 	}
 	return (ret_value);
@@ -65,7 +58,7 @@ int	ft_replace_line_in_matrix(char **matrix, char *argv)
 	int	index;
 
 	if (!matrix || !argv)
-		return (EXIT_FAILURE);
+		return (FAILURE);
 	i = 0;
 	while (matrix[i])
 	{
@@ -75,11 +68,11 @@ int	ft_replace_line_in_matrix(char **matrix, char *argv)
 			free(matrix[i]);
 			matrix[i] = ft_strdup(argv);
 			if (!matrix[i])
-				return (EXIT_FAILURE);
+				return (FAILURE);
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 char	**ft_add_line_to_matrix(char ***matrix, char *argv)
@@ -190,7 +183,6 @@ void	ft_print_lines(char *line, int first_equal)
 void	ft_print_export_alone(char **aux)
 {
 	int	i;
-	int	j;
 	int	first_equal;
 
 	i = 0;
@@ -202,7 +194,6 @@ void	ft_print_export_alone(char **aux)
 			if (aux[i] == NULL)
 				break ;
 		}
-		j = 0;
 		first_equal = ft_strchr_index(aux[i], '=');
 		ft_print_lines(aux[i], first_equal);
 		i++;
@@ -253,7 +244,7 @@ int	ft_strcmp(char *s1, char *s2)
 
 	i = 0;
 	if (!s1 || !s2)
-		return (EXIT_FAILURE);
+		return (-1);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])
@@ -263,7 +254,7 @@ int	ft_strcmp(char *s1, char *s2)
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 void	ft_print_matrix(char **matrix)

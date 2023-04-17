@@ -10,11 +10,11 @@ int	echo_builtin(char **cmd_splited, int fd)
 	int	i;
 
 	if (!cmd_splited)
-		return (EXIT_FAILURE);
+		return (FAILURE);
 	if (cmd_splited[1] == NULL)
 	{
 		ft_putendl_fd("", fd);
-		return (EXIT_SUCCESS);
+		return (SUCCESS);
 	}
 	i = 1;
 	while (ft_check_n_echo(cmd_splited[i]) == TRUE)
@@ -23,7 +23,7 @@ int	echo_builtin(char **cmd_splited, int fd)
 		ft_echo_no_new_line(cmd_splited, fd, i);
 	else
 		ft_echo_with_new_line(cmd_splited, fd);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 static void	ft_echo_with_new_line(char **cmd_splited, int fd)

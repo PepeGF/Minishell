@@ -1,40 +1,6 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-int	pwd_builtin(void)
-{
-	char	*directory;
-
-	directory = getcwd(NULL, 0);
-	if (directory)
-	{
-		ft_putendl_fd(directory, STDOUT_FILENO);
-		free(directory);
-		return (0);
-	}
-	free(directory);
-	return (FAILURE);
-}
-
-int	env_builtin(char **env_dup)
-{
-	int	i;
-
-	if (env_dup == NULL)
-	{
-		//print error
-		ft_putendl_fd("Minishell: env: No such file or directory",
-			STDERR_FILENO);
-		return (FAILURE);
-	}
-	i = 0;
-	while (env_dup[i])
-	{
-		ft_putendl_fd(env_dup[i], STDERR_FILENO);
-		i++;
-	}
-	return (0);
-}
 
 int	ft_check_builtin(char **cmd_splitted)
 {

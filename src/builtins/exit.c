@@ -9,7 +9,7 @@ int	exit_builtin(char **cmd_splitted)
 {
 	if (ft_len_matrix(cmd_splitted) > 2)
 	{
-		ft_putendl_fd("Minishell: exit: too many arguments", 2);
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		g_exit = 255;
 		exit(EXIT_FAILURE);
 	}
@@ -47,7 +47,7 @@ int	ft_isnumber(char *str)
 
 int	ft_exit_error_no_number(char *str)
 {
-	ft_putstr_fd("Minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	g_exit = 255;
@@ -63,6 +63,5 @@ int	ft_exit_with_arg(char *str)
 		num = 256 + num;
 	g_exit = num;
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	
-	return (WEXITSTATUS(num));
+	return (num);
 }

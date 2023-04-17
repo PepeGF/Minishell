@@ -1,7 +1,6 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-extern int	g_exit;
 static int	ft_print_unset_error(char *argv);
 static int	ft_unset_with_argv(char ***env_dup, char **cmd_splited);
 static int	ft_check_valid_name(char *argv);
@@ -37,7 +36,7 @@ int	ft_unset_with_argv(char ***env_dup, char **cmd_splited)
 			{
 				aux = ft_delete_line_from_matrix(env_dup, cmd_splited[i]);
 				if (!aux)
-					return (FAILURE);
+					return (ft_memory_error());
 				free(*env_dup);
 				*env_dup = aux;
 			}

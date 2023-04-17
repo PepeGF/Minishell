@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:13:19 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/20 12:22:20 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:58:01 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ void	here_error(char *lim)
 	if (lim)
 		ft_putstr_fd(lim, 2);
 	ft_putstr_fd("\')\n", 2);
+}
+
+int	ft_memory_error(void)
+{
+	g_exit = 12;
+	perror(NULL);
+	return (1);
 }
