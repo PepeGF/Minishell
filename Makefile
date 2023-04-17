@@ -46,12 +46,15 @@ utils/errors.c \
 utils/utils.c \
 utils/signals.c \
 builtins/builtins.c \
+builtins/builtins_utils.c \
 builtins/env.c \
 builtins/pwd.c \
 builtins/export.c \
+builtins/export_utils.c \
 builtins/unset.c \
 builtins/echo.c \
 builtins/cd.c \
+builtins/cd_utils.c \
 builtins/exit.c
 
 SRC := $(SRC:%=$(SRC_DIR)%)

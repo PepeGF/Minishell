@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 22:45:41 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/17 22:45:42 by josgarci         ###   ########.fr       */
+/*   Created: 2023/04/17 22:45:25 by josgarci          #+#    #+#             */
+/*   Updated: 2023/04/17 22:45:27 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-int	env_builtin(char **env_dup)
+int	ft_getcwd_error(char *dir)
 {
-	int	i;
+	perror("minishell");
+	free(dir);
+	g_exit = EXIT_FAILURE;
+	return (FAILURE);
+}
 
-	if (env_dup == NULL)
-	{
-		ft_putendl_fd("minishell: env: No such file or directory",
-			STDERR_FILENO);
-		g_exit = 127;
-		return (FAILURE);
-	}
-	i = 0;
-	while (env_dup[i])
-	{
-		ft_putendl_fd(env_dup[i], STDOUT_FILENO);
-		i++;
-	}
-	return (SUCCESS);
+int	ft_join_error(char *dir)
+{
+	perror(NULL);
+	free(dir);
+	g_exit = 12;
+	return (FAILURE);
+}
+
+int	ft_chdir_error(char *dir)
+{
+	perror("minishell: cd");
+	g_exit = EXIT_FAILURE;
+	free(dir);
+	return (FAILURE);
 }

@@ -1,31 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 22:45:18 by josgarci          #+#    #+#             */
+/*   Updated: 2023/04/17 22:45:20 by josgarci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-int	ft_set_directories(char *buf, char ***env_dup, char *dir);
-
-int	ft_getcwd_error(char *dir)
-{
-	perror("minishell");
-	free(dir);
-	g_exit = EXIT_FAILURE;
-	return (FAILURE);
-}
-
-int	ft_join_error(char *dir)
-{
-	perror(NULL);
-	free(dir);
-	g_exit = 12;
-	return (FAILURE);
-}
-
-int	ft_chdir_error(char *dir)
-{
-	perror("minishell: cd");
-	g_exit = EXIT_FAILURE;
-	free(dir);
-	return (FAILURE);
-}
+static int	ft_set_directories(char *buf, char ***env_dup, char *dir);
+static char	*ft_get_dir(char ***env_dup, char **cmd_splited);
+static int	ft_get_index_env(char **env_dup, char *argv);
 
 int	cd_builtin(char ***env_dup, char **cmd_splited)
 {
