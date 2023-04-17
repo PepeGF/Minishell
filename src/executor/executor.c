@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/07 21:31:24 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/17 23:22:39 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,8 @@ void	executor(t_vars *vars)
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
 	child = init_child(vars);
-	while (child.n_proc < child.tot_pr)
-	if (vars->nodes->next == NULL && \
-		ft_check_builtin(((t_command *)(vars->nodes->content))->cmd_splited) != -1)
+	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
+			(vars->nodes->content))->cmd_splited) != -1)
 		ft_execute_builtin(vars);
 	else
 	{
@@ -144,9 +143,10 @@ void	executor(t_vars *vars)
 			aux = aux->next;
 			child.n_proc++;
 		}
-		if (g_exit == 0)
-			waitpid(-1, &g_exit, WUNTRACED);//WNOHANG
-		ft_free_matrix(child.paths);
+		//   ¡¡¡¡¡¡¡¡¡¡¡ DANI AQUI !!!!!!!!!
+		if (g_exit == 0)//esto sobra 
+			waitpid(-1, &g_exit, WUNTRACED);//WNOHANG //esto también
+		ft_free_matrix(child.paths); //esto no estoy seguro
 	}
 	if (g_exit == 0)
 	{
