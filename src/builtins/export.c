@@ -1,13 +1,20 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
+int	ft_sort_error(void)
+{
+	g_exit = 12;
+	perror(NULL);
+	return (FAILURE);
+}
+
 int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 {
 	int		argc;
 	char	**aux;
 
 	argc = ft_len_matrix(((t_command *)(cmd_list->content))->cmd_splited);
-	if (argc == 0)//no tengo claro si hay q controlar esto
+	if (argc == 0)
 		return (0);
 	if (argc > 1)
 	{
@@ -16,7 +23,7 @@ int	export_builtin(char ***env_dup, t_list *cmd_list)//quizás t_vars vars??
 	}
 	aux = ft_sort_matrix(*env_dup);
 	if (!aux)
-		return (EXIT_FAILURE);
+		return (ft_sort_error());
 	if (argc == 1)
 		ft_print_export_alone(aux);
 	ft_free_matrix(aux);
@@ -161,31 +168,43 @@ int	ft_print_export_error(char *argv)
 	return (ret_value);
 }
 
+void	ft_print_lines(char *line, int first_equal)
+{
+	int	j;
+
+	j = 0;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	while (line[j])
+	{
+		if (j != first_equal)
+			ft_putchar_fd(line[j], STDOUT_FILENO);
+		else
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+		j++;
+	}
+	if (first_equal != -1)
+		ft_putchar_fd('\"', STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
 void	ft_print_export_alone(char **aux)
 {
 	int	i;
 	int	j;
 	int	first_equal;
-//excluir "_"
+
 	i = 0;
 	while (aux[i] != NULL)
 	{
-		if (ft_strncmp("_=", aux[i], 3) == 0)
+		if (ft_strncmp("_=", aux[i], 2) == 0)
+		{
 			i++;
+			if (aux[i] == NULL)
+				break ;
+		}
 		j = 0;
 		first_equal = ft_strchr_index(aux[i], '=');
-		ft_putstr_fd("declare -x ", 1);
-		while (aux[i][j])
-		{
-			if (j != first_equal)
-				ft_putchar_fd(aux[i][j], STDOUT_FILENO);
-			else
-				ft_putstr_fd("=\"", STDOUT_FILENO);
-			j++;
-		}
-		if (ft_strchr(aux[i], '='))
-			ft_putchar_fd('\"', 1);
-		ft_putchar_fd('\n', 1);
+		ft_print_lines(aux[i], first_equal);
 		i++;
 	}
 }
@@ -197,6 +216,8 @@ char	**ft_sort_matrix(char **env_dup)
 
 	matrix_len = ft_len_matrix(env_dup);
 	aux = ft_dup_matrix(env_dup);
+	if (!aux)
+		return (NULL);
 	ft_sort_int_tab(aux, matrix_len);
 	return (aux);
 }

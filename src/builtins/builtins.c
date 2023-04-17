@@ -1,8 +1,6 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-extern int	g_exit;
-
 int	pwd_builtin(void)
 {
 	char	*directory;
@@ -42,7 +40,8 @@ int	ft_check_builtin(char **cmd_splitted)
 {
 	char	*builtins[8];
 	int		i;
-	if(!cmd_splitted)//esto es para evitar segfault en pruebas
+
+	if (!cmd_splitted)
 		return (-2);
 	builtins[0] = "pwd";
 	builtins[1] = "cd";
@@ -55,7 +54,8 @@ int	ft_check_builtin(char **cmd_splitted)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd_splitted[0], builtins[i], ft_strlen(builtins[i]) + 1) == 0)
+		if (ft_strncmp(cmd_splitted[0], builtins[i],
+				ft_strlen(builtins[i]) + 1) == 0)
 			return (i);
 		i++;
 	}

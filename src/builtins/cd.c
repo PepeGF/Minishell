@@ -1,8 +1,6 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-extern int	g_exit;
-
 int	ft_set_directories(char *buf, char ***env_dup, char *dir);
 
 int	ft_getcwd_error(char *dir)

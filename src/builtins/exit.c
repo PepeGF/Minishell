@@ -1,8 +1,6 @@
 #include "../inc/minishell.h"
 #include "builtins.h"
 
-extern int	g_exit;
-
 static int	ft_isnumber(char *str);
 static int	ft_exit_error_no_number(char *str);
 static int	ft_exit_with_arg(char *str);
