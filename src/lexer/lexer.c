@@ -41,6 +41,8 @@ char	**lexer(char *line, char **env_dup)
 	qu = check_quotes(line);
 	if (qu != 0)
 		p_error(QU, qu, "\'");
+	else if (ft_strncmp(line, "\n", ft_strlen(line) == 0))
+		return (NULL);
 	else if (*line != '\0')
 	{
 		add_history(line);

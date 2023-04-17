@@ -17,6 +17,7 @@ typedef struct s_exec
 	char		**paths;
 	size_t		n_proc;
 	size_t		tot_pr;
+	pid_t		last_cmd;
 }			t_exec;
 /* ************************************************************************** */
 /*                                   ENUMS                                    */

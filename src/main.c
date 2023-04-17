@@ -28,12 +28,11 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, sig_handler);
 		line = readline("Minishell$> ");
 		if (line == NULL)
-		{
-			printf("exit\n");
 			break ;
-		}
 		signal(SIGINT, SIG_IGN);
 		tokens = lexer(line, vars.env_dup);
+		if (!tokens)
+			continue;
 		g_exit = 0;
 		if (parser(&vars, tokens) == 0)
 			executor(&vars);
@@ -41,5 +40,6 @@ int	main(int argc, char **argv, char **envp)
 		update_vars(&vars);
 	}
 	free_nodes(&vars);
+	printf("exit\n");
 	exit (g_exit);
 }

@@ -71,8 +71,8 @@ void	free_nodes(t_vars *vars)
 {
 	if (vars->env_dup)
 		ft_free_matrix(vars->env_dup);
-	if (vars->last_cmd != NULL)
-		free(vars->last_cmd);
+	if (vars->last_arg != NULL)
+		free(vars->last_arg);
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 }

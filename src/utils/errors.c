@@ -31,7 +31,7 @@ void	p_error(t_err err, char c, char *str)
 	ft_putstr_fd("minishell: ", 2);
 	if (err == SYN)
 		ft_putstr_fd("syntax error near unexpected token `", 2);
-	if (err == QU)
+	else if (err == QU)
 		ft_putstr_fd("error while looking for matching `", 2);
 	if (c != 0)
 		ft_putchar(c);
@@ -49,4 +49,13 @@ void	here_error(char *lim)
 	if (lim)
 		ft_putstr_fd(lim, 2);
 	ft_putstr_fd("\')\n", 2);
+}
+
+void	exec_error(char *str, char *path)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	if (path)
+		free(path);
+	exit(127);
 }

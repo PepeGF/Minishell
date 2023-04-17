@@ -18,7 +18,7 @@ extern int	g_exit;
 static int	pipe_child(t_exec *child, t_command *cmd);
 static int	fork_child(t_exec *child);
 static void	close_fd(t_exec *child);
-static int	execve_child(t_exec *child);
+static void	execve_child(t_exec *child);
 
 char	*ft_get_right_path(t_exec *child)
 {
@@ -44,8 +44,7 @@ char	*ft_get_right_path(t_exec *child)
 	return (NULL);
 }
 
-
-int child_pepe(t_exec *child)
+void child_pepe(t_exec *child)
 {
 	char	*path;
 	int		fd_in;
@@ -111,11 +110,12 @@ int child_pepe(t_exec *child)
 	}
 	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
 		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
-	path = ft_get_right_path(child);
-	if (path != NULL)
+	else
+	{
+		path = ft_get_right_path(child);
 		execve(path, child->cmd->cmd_splited, child->env_dup);
-	exit(EXIT_FAILURE);
-	return (TRUE);
+	}
+	exec_error(child->cmd->cmd_splited[0], path);
 }
 
 
@@ -123,11 +123,11 @@ void	executor(t_vars *vars)
 {
 	t_list	*aux;
 	t_exec	child;
-	size_t	i;
 
 	aux = (t_list *)vars->nodes;
+	if (((t_command *)aux->content)->cmd_splited == NULL)
+		return ;
 	child = init_child(vars);
-	i = 0;
 	while (child.n_proc < child.tot_pr)
 	{
 		if(!pipe_child(&child, (t_command *)aux->content) || \
@@ -137,8 +137,10 @@ void	executor(t_vars *vars)
 		child.n_proc++;
 	}
 	if (g_exit == 0)
-		while(i++ < child.tot_pr)
-			waitpid(-1, &g_exit, WUNTRACED);
+	{
+		waitpid(child.last_cmd, &g_exit, WUNTRACED);
+		while(waitpid(-1, NULL, WUNTRACED) > 0);
+	}
 	ft_free_matrix(child.paths);
 }
 
@@ -179,7 +181,11 @@ static int	fork_child(t_exec *child)
 	else if (id == 0)
 		execve_child(child);
 	else
+	{
+		if (child->n_proc + 1 == child->tot_pr)
+			child->last_cmd = id;
 	 	close_fd(child);
+	}
 	return (TRUE);
 }
 
@@ -199,8 +205,10 @@ static void	close_fd(t_exec *child)
 	return ;
 }
 
-static int	execve_child(t_exec *child)
+static void	execve_child(t_exec *child)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
 		return(child_pepe(child));
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
