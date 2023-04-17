@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 		g_exit = 0;
 		if (parser(&vars, tokens) == 0)
 			executor(&vars);
-		//ft_execute_builtin(&vars);
 		update_vars(&vars);
 	}
 	free_nodes(&vars);

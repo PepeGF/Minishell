@@ -1,54 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/17 22:44:52 by josgarci          #+#    #+#             */
+/*   Updated: 2023/04/17 22:44:58 by josgarci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 #include "builtins.h"
-
-int	exit_builtin(void)
-{
-	exit(EXIT_SUCCESS);
-}
-
-int	pwd_builtin(void)
-{
-	char	*directory;
-
-	directory = getcwd(NULL, 0);
-	if (directory)
-	{
-		ft_putendl_fd(directory, STDOUT_FILENO);
-		free(directory);
-		return (0);
-	}
-	free(directory);
-	//si hay error directory == NULL, en ese caso
-	//establecer valor de error (no consigo que el original falle)
-	//perror("mensaje de error")
-	return (EXIT_FAILURE);
-}
-
-int	env_builtin(char **env_dup)
-{
-	int	i;
-
-	if (env_dup == NULL)
-	{
-		//print error
-		ft_putendl_fd("Minishell: env: No such file or directory",
-			STDERR_FILENO);
-		return (EXIT_FAILURE);
-	}
-	i = 0;
-	while (env_dup[i])
-	{
-		ft_putendl_fd(env_dup[i], STDERR_FILENO);
-		i++;
-	}
-	return (0);
-}
 
 int	ft_check_builtin(char **cmd_splitted)
 {
 	char	*builtins[8];
 	int		i;
-	if(!cmd_splitted)//esto es para evitar segfault en pruebas
+
+	if (!cmd_splitted)
 		return (-2);
 	builtins[0] = "pwd";
 	builtins[1] = "cd";
@@ -61,7 +31,8 @@ int	ft_check_builtin(char **cmd_splitted)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(cmd_splitted[0], builtins[i], ft_strlen(builtins[i] + 1)) == 0)
+		if (ft_strncmp(cmd_splitted[0], builtins[i],
+				ft_strlen(builtins[i]) + 1) == 0)
 			return (i);
 		i++;
 	}
@@ -88,6 +59,6 @@ int	ft_execute_builtin(t_vars *vars)
 	if (cmd == ECHO)
 		return (echo_builtin(cmd_splitted, 1));
 	if (cmd == EXIT)
-		return (exit_builtin());
+		return (exit_builtin(cmd_splitted));
 	return (-1);
 }
