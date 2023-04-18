@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/18 19:12:11 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:50:58 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "builtins.h"
 #include <stdlib.h>
 
-extern int	g_exit;
 static int	pipe_child(t_exec *child, t_command *cmd);
 static int	fork_child(t_exec *child);
 static void	close_fd(t_exec *child);
@@ -23,58 +22,58 @@ static void	run_child(t_exec *child);
 
 char	*ft_get_right_path(t_exec *child)
 {
-	int	i;
+	int		i;
 	char	*path;
 
 	if (!child)
 		return (NULL);
 	i = 0;
 	while (child->paths[i])
+	{
+		path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
+		if (path == NULL)
+			i++;
+		else if (access(path, X_OK) != 0)
 		{
-			path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
-			if (path == NULL)
-				i++;
-			else if (access(path, X_OK) != 0)
-				{
-					free(path);
-					i++;
-				}
-			else
-				return (path);
+			free(path);
+			i++;
 		}
+		else
+			return (path);
+	}
 	return (NULL);
 }
 
-void	redirect_fd(t_exec *child, int *fd_in, int *fd_out)
+void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 {
-	if (child->cmd->infile != NULL)
+	if (cmd->infile != NULL)
+	{
+		*fd_in = open(cmd->infile, O_RDONLY);
+		if (*fd_in < 0)
 		{
-			*fd_in = open(child->cmd->infile, O_RDONLY);
-			if (*fd_in < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(*fd_in, STDIN_FILENO);
-			close(*fd_in);
+			perror("minishell");
+			exit(EXIT_FAILURE);
 		}
-		if (child->cmd->outfile != NULL)
+		dup2(*fd_in, STDIN_FILENO);
+		close(*fd_in);
+	}
+	if (cmd->outfile != NULL)
+	{
+		if (cmd->flag[APP] == 1)
+			*fd_out = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
+		else
+			*fd_out = open(cmd->outfile, O_WRONLY | O_CREAT);
+		if (*fd_out < 0)
 		{
-			if (child->cmd->flag[APP] == 1)
-				*fd_out = open(child->cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
-			else
-				*fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
-			if (*fd_out < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(*fd_out, STDOUT_FILENO);
-			close(*fd_out);
+			perror("minishell");
+			exit(EXIT_FAILURE);
 		}
+		dup2(*fd_out, STDOUT_FILENO);
+		close(*fd_out);
+	}
 }
 
-void child_pepe(t_exec *child)
+void ft_child(t_exec *child)
 {
 	char	*path;
 	int		fd_in;
@@ -82,7 +81,7 @@ void child_pepe(t_exec *child)
 
 	if (child->cmd->cmd_splited == NULL)
 		exit(EXIT_SUCCESS);
-	redirect_fd(child, &fd_in, &fd_out);
+	redirect_fd(child->cmd, &fd_in, &fd_out);
 	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
 		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
 	else
@@ -192,7 +191,7 @@ static void	run_child(t_exec *child)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
-		return(child_pepe(child));
+		return(ft_child(child));
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 		close(child->pipe_out[WR]);
@@ -208,7 +207,7 @@ static void	run_child(t_exec *child)
 		close(child->pipe_in[RD]);
 	else
 		exit (EXIT_FAILURE);
-	return(child_pepe(child));
+	return(ft_child(child));
 }
 
 
