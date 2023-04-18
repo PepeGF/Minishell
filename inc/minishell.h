@@ -93,10 +93,8 @@ void		sig_handler(int sig);
 void		error_n_exit(enum e_err err, char **mem_alloc);
 void		p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
-void	exec_error(char *str, char *path);
 //////////////////////////////////BUILTINS//////////////////////////////////////
 int			ft_memory_error(void);
-
 int		ft_execute_builtin(t_vars *vars);
 char	*ft_get_value_env(char **env_dup, char *argv);
 int		ft_replace_line_in_matrix(char **matrix, char *argv);

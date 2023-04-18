@@ -24,7 +24,8 @@ t_exec	init_child(t_vars *vars)
 	child.env_dup = vars->env_dup;
 	child.paths = get_paths(vars->env_dup);
 	child.n_proc = 0;
-	child.tot_pr = ft_lstsize(vars->nodes); 
+	child.tot_pr = ft_lstsize(vars->nodes);
+	child.last_cmd = 0;
 	return (child);
 }
 

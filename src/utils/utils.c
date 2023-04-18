@@ -75,6 +75,7 @@ void	free_nodes(t_vars *vars)
 		free(vars->last_arg);
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
+	rl_clear_history();
 }
 
 void	free_cmd(void *content)

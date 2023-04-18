@@ -64,7 +64,8 @@ void	update_vars(t_vars *vars)
 		if (vars->nodes->next == NULL)
 			vars->last_arg = ft_strdup(cmds[ft_len_matrix(cmds) - 1]);
 		else
-			vars->last_arg = ft_strdup("");
+			vars->last_arg = NULL;
+	// SUSTITUIR SI ES POSIBLE EN ENV_DUP "_"
 	}
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);

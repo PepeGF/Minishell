@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
+
 extern int g_exit;
 
 void	error_n_exit(t_err err, char **mem_alloc)
@@ -51,14 +53,22 @@ void	here_error(char *lim)
 	ft_putstr_fd("\')\n", 2);
 }
 
-void	exec_error(char *str, char *path)
+void	exec_error(t_exec *child, char *path)
 {
+	char *str;
+
+	str = child->cmd->cmd_splited[0];
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": command not found\n", 2);
 	if (path)
 		free(path);
+	free_cmd((void *)child->cmd);
+	ft_free_matrix(child->env_dup);
+	ft_free_matrix(child->paths);
+	rl_clear_history();
 	exit(127);
 }
+
 int	ft_memory_error(void)
 {
 	g_exit = 12;

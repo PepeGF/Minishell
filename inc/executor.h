@@ -38,7 +38,7 @@ typedef enum e_proc
 /* ************************************************************************** */
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
-t_proc check_pos(size_t pos, size_t tot);
+t_proc	check_pos(size_t pos, size_t tot);
 t_exec	init_child(t_vars *vars); int	ch_pipe_pos(t_exec *child, t_proc pos);
-
+void	exec_error(t_exec *child, char *path);
 #endif

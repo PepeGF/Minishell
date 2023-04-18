@@ -69,7 +69,7 @@ void child_pepe(t_exec *child)
 		if (child->cmd->outfile != NULL)
 		{
 			if (child->cmd->flag[APP] == 1)
-				fd_out = open(child->cmd->outfile, O_APPEND | O_CREAT);
+				fd_out = open(child->cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
 			else
 				fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
 			if (fd_out < 0)
@@ -114,9 +114,10 @@ void child_pepe(t_exec *child)
 	else
 	{
 		path = ft_get_right_path(child);
-		execve(path, child->cmd->cmd_splited, child->env_dup);
+		if (path)
+			execve(path, child->cmd->cmd_splited, child->env_dup);
 	}
-	exec_error(child->cmd->cmd_splited[0], path);
+	exec_error(child, path);
 }
 
 
@@ -128,10 +129,9 @@ void	executor(t_vars *vars)
 	aux = (t_list *)vars->nodes;
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
-	child = init_child(vars);
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
 			(vars->nodes->content))->cmd_splited) != -1)
-		ft_execute_builtin(vars);
+		ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
 	else
 	{
 		child = init_child(vars);
@@ -143,17 +143,13 @@ void	executor(t_vars *vars)
 			aux = aux->next;
 			child.n_proc++;
 		}
-		//   ¡¡¡¡¡¡¡¡¡¡¡ DANI AQUI !!!!!!!!!
-		if (g_exit == 0)//esto sobra 
-			waitpid(-1, &g_exit, WUNTRACED);//WNOHANG //esto también
-		ft_free_matrix(child.paths); //esto no estoy seguro
+		if (g_exit == 0) // DANI: checkear esta condición
+		{
+			waitpid(child.last_cmd, &g_exit, WUNTRACED);
+			while(waitpid(-1, NULL, WUNTRACED) > 0);
+		}
+		ft_free_matrix(child.paths);
 	}
-	if (g_exit == 0)
-	{
-		waitpid(child.last_cmd, &g_exit, WUNTRACED);
-		while(waitpid(-1, NULL, WUNTRACED) > 0);
-	}
-	ft_free_matrix(child.paths);
 }
 
 
