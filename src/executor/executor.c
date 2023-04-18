@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/17 23:22:39 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/18 19:12:11 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern int	g_exit;
 static int	pipe_child(t_exec *child, t_command *cmd);
 static int	fork_child(t_exec *child);
 static void	close_fd(t_exec *child);
-static void	execve_child(t_exec *child);
+static void	run_child(t_exec *child);
 
 char	*ft_get_right_path(t_exec *child)
 {
@@ -45,6 +45,35 @@ char	*ft_get_right_path(t_exec *child)
 	return (NULL);
 }
 
+void	redirect_fd(t_exec *child, int *fd_in, int *fd_out)
+{
+	if (child->cmd->infile != NULL)
+		{
+			*fd_in = open(child->cmd->infile, O_RDONLY);
+			if (*fd_in < 0)
+			{
+				perror("minishell: ");
+				exit(EXIT_FAILURE);
+			}
+			dup2(*fd_in, STDIN_FILENO);
+			close(*fd_in);
+		}
+		if (child->cmd->outfile != NULL)
+		{
+			if (child->cmd->flag[APP] == 1)
+				*fd_out = open(child->cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
+			else
+				*fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
+			if (*fd_out < 0)
+			{
+				perror("minishell: ");
+				exit(EXIT_FAILURE);
+			}
+			dup2(*fd_out, STDOUT_FILENO);
+			close(*fd_out);
+		}
+}
+
 void child_pepe(t_exec *child)
 {
 	char	*path;
@@ -53,62 +82,7 @@ void child_pepe(t_exec *child)
 
 	if (child->cmd->cmd_splited == NULL)
 		exit(EXIT_SUCCESS);
-	if (child->tot_pr == 1)
-	{
-		if (child->cmd->infile != NULL)
-		{
-			fd_in = open(child->cmd->infile, O_RDONLY);
-			if (fd_in < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(fd_in, STDIN_FILENO);
-			close(fd_in);
-		}
-		if (child->cmd->outfile != NULL)
-		{
-			if (child->cmd->flag[APP] == 1)
-				fd_out = open(child->cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
-			else
-				fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
-			if (fd_out < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(fd_out, STDOUT_FILENO);
-			close(fd_out);
-		}
-	}
-	else
-	{
-		if (child->cmd->infile != NULL)
-			{
-				fd_in = open(child->cmd->infile, O_RDONLY);
-				if (fd_in < 0)
-				{
-					perror("minishell: ");
-					exit(EXIT_FAILURE);
-				}
-				dup2(fd_in, STDIN_FILENO);
-				close(fd_in);
-			}
-		if (child->cmd->outfile != NULL)
-			{
-				if (child->cmd->flag[APP] == 1)
-					fd_out = open(child->cmd->outfile, O_APPEND | O_CREAT);
-				else
-					fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
-				if (fd_out < 0)
-				{
-					perror("minishell: ");
-					exit(EXIT_FAILURE);
-				}
-				dup2(fd_out, STDOUT_FILENO);
-				close(fd_out);
-			}
-	}
+	redirect_fd(child, &fd_in, &fd_out);
 	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
 		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
 	else
@@ -187,7 +161,7 @@ static int	fork_child(t_exec *child)
 		return (FALSE);
 	}
 	else if (id == 0)
-		execve_child(child);
+		run_child(child);
 	else
 	{
 		if (child->n_proc + 1 == child->tot_pr)
@@ -213,7 +187,7 @@ static void	close_fd(t_exec *child)
 	return ;
 }
 
-static void	execve_child(t_exec *child)
+static void	run_child(t_exec *child)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
