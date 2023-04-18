@@ -89,8 +89,8 @@ void ft_child(t_exec *child)
 		path = ft_get_right_path(child);
 		if (path)
 			execve(path, child->cmd->cmd_splited, child->env_dup);
+		exec_error(child, path);
 	}
-	exec_error(child, path);
 }
 
 
