@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: JoseGF <JoseGF@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/17 18:59:01 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:45:50 by JoseGF           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void		p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
 //////////////////////////////////BUILTINS//////////////////////////////////////
 int			ft_memory_error(void);
-int		ft_execute_builtin(t_vars *vars);
-char	*ft_get_value_env(char **env_dup, char *argv);
-int		ft_replace_line_in_matrix(char **matrix, char *argv);
-char	**ft_add_line_to_matrix(char ***matrix, char *argv);
+int			ft_execute_builtin(t_vars *vars);
+char		*ft_get_value_env(char **env_dup, char *argv);
+int			ft_replace_line_in_matrix(char **matrix, char *argv);
+char		**ft_add_line_to_matrix(char ***matrix, char *argv);
 
 #endif

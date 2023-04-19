@@ -47,6 +47,7 @@ utils/utils.c \
 utils/signals.c \
 builtins/builtins.c \
 builtins/builtins_utils.c \
+builtins/builtins_redirections.c \
 builtins/env.c \
 builtins/pwd.c \
 builtins/export.c \

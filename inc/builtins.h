@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: JoseGF <JoseGF@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 22:50:47 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/18 19:42:29 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:45:32 by JoseGF           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,10 @@ int		ft_check_valid_name_and_value(char *argv);
 int		ft_check_already_in_env(char **env_dup, char *argv);
 char	**ft_add_line_to_matrix(char ***matrix, char *argv);
 int		ft_replace_line_in_matrix(char **matrix, char *argv);
+
+//////////////////////////// BUILTINS REDIRECTIONS /////////////////////////////
+int		ft_redirect_out(t_command *cmd, int *stdout_fd);
+int		ft_redirect_builtins(t_command *cmd, int *stdout_fd, int *stdin_fd);
+int		ft_recorver_std_fd(t_command *cmd, int std_fd[2]);
 
 #endif
