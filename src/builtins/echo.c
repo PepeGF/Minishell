@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: JoseGF <JoseGF@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 22:45:32 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/17 22:45:34 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:45:53 by JoseGF           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	echo_builtin(char **cmd_splited, int fd)
 		ft_echo_no_new_line(cmd_splited, fd, i);
 	else
 		ft_echo_with_new_line(cmd_splited, fd);
+	// write(2, "XXXXX\n", 6);
 	return (SUCCESS);
 }
 
