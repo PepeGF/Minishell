@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JoseGF <JoseGF@student.42.fr>              +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 22:44:52 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/19 19:48:57 by JoseGF           ###   ########.fr       */
+/*   Updated: 2023/04/20 18:33:00 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,12 @@ int	ft_execute_builtin(t_vars *vars)
 	{
 		if (ft_redirect_builtins(((t_command *)(vars->nodes->content)), \
 			&std_fd[1], &std_fd[0]))
-			return (-2);//impplementarlo en llamada
-	}
-	status = ft_run_builtin(cmd_splitted, vars, cmd);
-	if (cmd >= 0)
-	{
+			return (FAILURE);
+		status = ft_run_builtin(cmd_splitted, vars, cmd);
 		if (ft_recorver_std_fd(((t_command *)(vars->nodes->content)), std_fd))
-			return (-3);
+			return (FAILURE);
 	}
-	else
-		status = -1;
+	else if (cmd < 0)
+		status = SUCCESS;
 	return (status);
 }

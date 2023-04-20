@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/18 19:50:58 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:38:30 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	executor(t_vars *vars)
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
-			(vars->nodes->content))->cmd_splited) != -1)
+			(vars->nodes->content))->cmd_splited) >= 0)
 		g_exit = ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
 	else
 	{

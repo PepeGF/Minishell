@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 22:45:51 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/17 22:45:52 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:58:57 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exit_builtin(char **cmd_splitted)
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		g_exit = 255;
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	else if (ft_len_matrix(cmd_splitted) == 2)
 	{
@@ -35,7 +35,7 @@ int	exit_builtin(char **cmd_splitted)
 	else
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
+		exit (EXIT_SUCCESS);
 	}
 }
 
