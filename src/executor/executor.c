@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 static int	pipe_child(t_exec *child, t_command *cmd);
 static int	fork_child(t_exec *child);
@@ -73,24 +75,50 @@ void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 	}
 }
 
+void	ft_execve_child(t_exec *child)
+{
+	t_vars	vars;
+	int	status;
+	
+	vars.nodes = ft_lstnew((void *)child->cmd);
+	if (vars.nodes == NULL)
+	{
+		free_cmd((void *)child->cmd);
+		ft_free_matrix(child->paths);
+		rl_clear_history();
+		error_n_exit(MEM, child->env_dup);
+	}
+	vars.env_dup = child->env_dup;
+	vars.last_arg = NULL;
+	status = ft_execute_builtin(&vars);
+	ft_lstclear(&vars.nodes, free_cmd);
+	ft_free_matrix(child->env_dup);
+	ft_free_matrix(child->paths);
+	rl_clear_history();
+	exit(status);
+}
+
 void ft_child(t_exec *child)
 {
 	char	*path;
 	int		fd_in;
 	int		fd_out;
 
+	path = NULL;
 	if (child->cmd->cmd_splited == NULL)
 		exit(EXIT_SUCCESS);
 	redirect_fd(child->cmd, &fd_in, &fd_out);
-	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
+	if (ft_check_builtin(child->cmd->cmd_splited) >= 0)
+		ft_execve_child(child);
+	else if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
 		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
 	else
 	{
 		path = ft_get_right_path(child);
 		if (path)
 			execve(path, child->cmd->cmd_splited, child->env_dup);
-		exec_error(child, path);
 	}
+	exec_error(child, path);
 }
 
 
@@ -104,7 +132,7 @@ void	executor(t_vars *vars)
 		return ;
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
 			(vars->nodes->content))->cmd_splited) != -1)
-		ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
+		g_exit = ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
 	else
 	{
 		child = init_child(vars);
@@ -165,7 +193,7 @@ static int	fork_child(t_exec *child)
 	{
 		if (child->n_proc + 1 == child->tot_pr)
 			child->last_cmd = id;
-	 	close_fd(child);
+		close_fd(child);
 	}
 	return (TRUE);
 }
@@ -194,13 +222,17 @@ static void	run_child(t_exec *child)
 		return(ft_child(child));
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
+	{
 		close(child->pipe_out[WR]);
+		close(child->pipe_out[RD]);
+	}
 	else if (check_pos(child->n_proc, child->tot_pr) == MID && \
 	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0 && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 	{
 		close(child->pipe_in[RD]);
 		close(child->pipe_out[WR]);
+		close(child->pipe_out[RD]);
 	}
 	else if (check_pos(child->n_proc, child->tot_pr) == LAST && \
 	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0)
@@ -209,7 +241,6 @@ static void	run_child(t_exec *child)
 		exit (EXIT_FAILURE);
 	return(ft_child(child));
 }
-
 
 
 
