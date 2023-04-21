@@ -6,110 +6,111 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/17 23:22:39 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:38:30 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
 #include <stdlib.h>
+#include <unistd.h>
 
-extern int	g_exit;
 static int	pipe_child(t_exec *child, t_command *cmd);
 static int	fork_child(t_exec *child);
 static void	close_fd(t_exec *child);
-static void	execve_child(t_exec *child);
+static void	run_child(t_exec *child);
 
 char	*ft_get_right_path(t_exec *child)
 {
-	int	i;
+	int		i;
 	char	*path;
 
 	if (!child)
 		return (NULL);
 	i = 0;
 	while (child->paths[i])
+	{
+		path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
+		if (path == NULL)
+			i++;
+		else if (access(path, X_OK) != 0)
 		{
-			path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
-			if (path == NULL)
-				i++;
-			else if (access(path, X_OK) != 0)
-				{
-					free(path);
-					i++;
-				}
-			else
-				return (path);
+			free(path);
+			i++;
 		}
+		else
+			return (path);
+	}
 	return (NULL);
 }
 
-void child_pepe(t_exec *child)
+void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
+{
+	if (cmd->infile != NULL)
+	{
+		*fd_in = open(cmd->infile, O_RDONLY);
+		if (*fd_in < 0)
+		{
+			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
+		dup2(*fd_in, STDIN_FILENO);
+		close(*fd_in);
+	}
+	if (cmd->outfile != NULL)
+	{
+		if (cmd->flag[APP] == 1)
+			*fd_out = open(cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
+		else
+			*fd_out = open(cmd->outfile, O_WRONLY | O_CREAT);
+		if (*fd_out < 0)
+		{
+			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
+		dup2(*fd_out, STDOUT_FILENO);
+		close(*fd_out);
+	}
+}
+
+void	ft_execve_child(t_exec *child)
+{
+	t_vars	vars;
+	int	status;
+	
+	vars.nodes = ft_lstnew((void *)child->cmd);
+	if (vars.nodes == NULL)
+	{
+		free_cmd((void *)child->cmd);
+		ft_free_matrix(child->paths);
+		rl_clear_history();
+		error_n_exit(MEM, child->env_dup);
+	}
+	vars.env_dup = child->env_dup;
+	vars.last_arg = NULL;
+	status = ft_execute_builtin(&vars);
+	ft_lstclear(&vars.nodes, free_cmd);
+	ft_free_matrix(child->env_dup);
+	ft_free_matrix(child->paths);
+	rl_clear_history();
+	exit(status);
+}
+
+void ft_child(t_exec *child)
 {
 	char	*path;
 	int		fd_in;
 	int		fd_out;
 
+	path = NULL;
 	if (child->cmd->cmd_splited == NULL)
 		exit(EXIT_SUCCESS);
-	if (child->tot_pr == 1)
-	{
-		if (child->cmd->infile != NULL)
-		{
-			fd_in = open(child->cmd->infile, O_RDONLY);
-			if (fd_in < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(fd_in, STDIN_FILENO);
-			close(fd_in);
-		}
-		if (child->cmd->outfile != NULL)
-		{
-			if (child->cmd->flag[APP] == 1)
-				fd_out = open(child->cmd->outfile, O_WRONLY | O_APPEND | O_CREAT);
-			else
-				fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
-			if (fd_out < 0)
-			{
-				perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-			dup2(fd_out, STDOUT_FILENO);
-			close(fd_out);
-		}
-	}
-	else
-	{
-		if (child->cmd->infile != NULL)
-			{
-				fd_in = open(child->cmd->infile, O_RDONLY);
-				if (fd_in < 0)
-				{
-					perror("minishell: ");
-					exit(EXIT_FAILURE);
-				}
-				dup2(fd_in, STDIN_FILENO);
-				close(fd_in);
-			}
-		if (child->cmd->outfile != NULL)
-			{
-				if (child->cmd->flag[APP] == 1)
-					fd_out = open(child->cmd->outfile, O_APPEND | O_CREAT);
-				else
-					fd_out = open(child->cmd->outfile, O_WRONLY | O_CREAT);
-				if (fd_out < 0)
-				{
-					perror("minishell: ");
-					exit(EXIT_FAILURE);
-				}
-				dup2(fd_out, STDOUT_FILENO);
-				close(fd_out);
-			}
-	}
-	if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
+	redirect_fd(child->cmd, &fd_in, &fd_out);
+	if (ft_check_builtin(child->cmd->cmd_splited) >= 0)
+		ft_execve_child(child);
+	else if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
 		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
 	else
 	{
@@ -130,8 +131,8 @@ void	executor(t_vars *vars)
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
-			(vars->nodes->content))->cmd_splited) != -1)
-		ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
+			(vars->nodes->content))->cmd_splited) >= 0)
+		g_exit = ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
 	else
 	{
 		child = init_child(vars);
@@ -187,12 +188,12 @@ static int	fork_child(t_exec *child)
 		return (FALSE);
 	}
 	else if (id == 0)
-		execve_child(child);
+		run_child(child);
 	else
 	{
 		if (child->n_proc + 1 == child->tot_pr)
 			child->last_cmd = id;
-	 	close_fd(child);
+		close_fd(child);
 	}
 	return (TRUE);
 }
@@ -213,30 +214,33 @@ static void	close_fd(t_exec *child)
 	return ;
 }
 
-static void	execve_child(t_exec *child)
+static void	run_child(t_exec *child)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
-		return(child_pepe(child));
+		return(ft_child(child));
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
+	{
 		close(child->pipe_out[WR]);
+		close(child->pipe_out[RD]);
+	}
 	else if (check_pos(child->n_proc, child->tot_pr) == MID && \
 	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0 && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 	{
 		close(child->pipe_in[RD]);
 		close(child->pipe_out[WR]);
+		close(child->pipe_out[RD]);
 	}
 	else if (check_pos(child->n_proc, child->tot_pr) == LAST && \
 	dup2(child->pipe_in[RD], STDIN_FILENO) >= 0)
 		close(child->pipe_in[RD]);
 	else
 		exit (EXIT_FAILURE);
-	return(child_pepe(child));
+	return(ft_child(child));
 }
-
 
 
 
