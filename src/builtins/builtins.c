@@ -77,7 +77,7 @@ int	ft_execute_builtin(t_vars *vars)
 		if (ft_recorver_std_fd(((t_command *)(vars->nodes->content)), std_fd))
 			return (FAILURE);
 	}
-	else if (cmd < 0)
+	else
 		status = SUCCESS;
 	return (status);
 }
