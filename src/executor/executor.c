@@ -121,6 +121,10 @@ void ft_child(t_exec *child)
 	exec_error(child, path);
 }
 
+void	ft_set_underscore(char ***env_dup, char **cmd_splited)
+{
+	
+}
 
 void	executor(t_vars *vars)
 {
@@ -130,9 +134,12 @@ void	executor(t_vars *vars)
 	aux = (t_list *)vars->nodes;
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
+	if (vars->nodes->next == NULL)
+		ft_set_underscore(&vars->env_dup, \
+			((t_command *)(vars->nodes->content))->cmd_splited);
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
 			(vars->nodes->content))->cmd_splited) >= 0)
-		g_exit = ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
+		g_exit = ft_execute_builtin(vars);
 	else
 	{
 		child = init_child(vars);
