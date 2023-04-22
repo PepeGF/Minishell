@@ -57,20 +57,9 @@ void	update_vars(t_vars *vars)
 	cmds = ((t_command *)ft_lstlast(vars->nodes)->content)->cmd_splited;
 	if (g_exit > 255)
 		g_exit = g_exit % 255;
-	if (g_exit == 0 && cmds)
-	{
-		if (vars->last_arg != NULL)
-			free(vars->last_arg);
-		if (vars->nodes->next == NULL)
-			vars->last_arg = ft_strdup(cmds[ft_len_matrix(cmds) - 1]);
-		else
-			vars->last_arg = NULL;
-	// SUSTITUIR SI ES POSIBLE EN ENV_DUP "_"
-	}
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
-//	printf("%s\n", vars->last_cmd);
 }
 
 static void	ft_set_shlvl(char ***env_dup)

@@ -45,7 +45,6 @@ typedef struct s_vars
 {
 	t_list	*nodes;
 	char	**env_dup;
-	char	*last_arg;
 }			t_vars;
 
 typedef struct s_command
