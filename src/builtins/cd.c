@@ -25,8 +25,7 @@ int	cd_builtin(char ***env_dup, char **cmd_splited)
 	dir = ft_get_dir(env_dup, cmd_splited);
 	if (!dir)
 		return (FAILURE);
-	if (getcwd(buf, sizeof(buf)) == NULL)
-		return (ft_getcwd_error(dir));
+	getcwd(buf, sizeof(buf));
 	if (chdir(dir) != 0)
 		return (ft_chdir_error(dir));
 	else

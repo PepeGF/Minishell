@@ -23,13 +23,10 @@ int	ft_check_valid_name_and_value(char *argv)
 	if (ft_isalpha(argv[0]) != 1 && argv[0] != '_')
 			ret_value = ft_print_export_error(argv);
 	i = 1;
-	while (argv[i])
+	while (argv[i] != '=')
 	{
-		if (!(ft_isalnum(argv[i]) == 1 || argv[i] == '_' || argv[i] == '='))
-		{
-			ret_value = ft_print_export_error(argv);
-			break ;
-		}
+		if (!(ft_isalnum(argv[i]) == 1 || argv[i] == '_'))
+			return (ft_print_export_error(argv));
 		i++;
 	}
 	return (ret_value);

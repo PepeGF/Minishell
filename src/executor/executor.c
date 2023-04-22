@@ -69,10 +69,10 @@ void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 	}
 }
 
-void	ft_execve_child(t_exec *child)
+void	ft_execve_child_to_vars(t_exec *child)
 {
 	t_vars	vars;
-	int	status;
+	int		status;
 
 	vars.nodes = ft_lstnew((void *)child->cmd);
 	if (vars.nodes == NULL)
@@ -83,7 +83,6 @@ void	ft_execve_child(t_exec *child)
 		error_n_exit(MEM, child->env_dup);
 	}
 	vars.env_dup = child->env_dup;
-	vars.last_arg = NULL;
 	status = ft_execute_builtin(&vars);
 	ft_lstclear(&vars.nodes, free_cmd);
 	ft_free_matrix(child->env_dup);
@@ -92,7 +91,7 @@ void	ft_execve_child(t_exec *child)
 	exit(status);
 }
 
-void ft_child(t_exec *child)
+void	ft_child(t_exec *child)
 {
 	char	*path;
 	int		fd_in;
@@ -103,9 +102,10 @@ void ft_child(t_exec *child)
 		exit(EXIT_SUCCESS);
 	redirect_fd(child->cmd, &fd_in, &fd_out);
 	if (ft_check_builtin(child->cmd->cmd_splited) >= 0)
-		ft_execve_child(child);
+		ft_execve_child_to_vars(child);
 	else if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
-		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited, child->env_dup);
+		execve(child->cmd->cmd_splited[0], child->cmd->cmd_splited,
+			child->env_dup);
 	else
 	{
 		path = ft_get_right_path(child);
@@ -115,6 +115,29 @@ void ft_child(t_exec *child)
 	exec_error(child, path);
 }
 
+void	ft_set_underscore(t_list *node, char ***env_dup, char **cmd_splited)
+{
+	int		i;
+	char	*aux;
+
+	if (node != NULL || env_dup == NULL || *env_dup == NULL
+		|| cmd_splited == NULL || cmd_splited[0] == NULL)
+		return ;
+	i = 0;
+	while (cmd_splited[i])
+		i++;
+	aux = ft_strjoin("_=", cmd_splited[i - 1]);
+	if (ft_check_already_in_env(*env_dup, "_") == TRUE)
+	{
+		if (ft_replace_line_in_matrix(*env_dup, aux) == FAILURE)
+			free (aux);
+		free(aux);
+		return ;
+	}
+	else
+		*env_dup = ft_add_line_to_matrix(env_dup, aux);
+	free(aux);
+}
 
 void	executor(t_vars *vars)
 {
@@ -124,6 +147,9 @@ void	executor(t_vars *vars)
 	aux = (t_list *)vars->nodes;
 	if (((t_command *)aux->content)->cmd_splited == NULL)
 		return ;
+	if (vars->nodes->next == NULL)
+		ft_set_underscore(aux->next, &vars->env_dup, \
+			(((t_command *)aux->content)->cmd_splited));
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
 			(vars->nodes->content))->cmd_splited) >= 0)
 		g_exit = ft_execute_builtin(vars);
@@ -132,36 +158,36 @@ void	executor(t_vars *vars)
 		child = init_child(vars);
 		while (child.n_proc < child.tot_pr)
 		{
-			if(!pipe_child(&child, (t_command *)aux->content) || \
+			if (!pipe_child(&child, (t_command *)aux->content) || \
 				!fork_child(&child))
-				break;
+				break ;
 			aux = aux->next;
 			child.n_proc++;
 		}
 		if (g_exit == 0) // DANI: checkear esta condición
 		{
 			waitpid(child.last_cmd, &g_exit, WUNTRACED);
-			while(waitpid(-1, NULL, WUNTRACED) > 0);
+			while (waitpid(-1, NULL, WUNTRACED) > 0)
+				;
 		}
 		ft_free_matrix(child.paths);
 	}
 }
 
-
 static int	pipe_child(t_exec *child, t_command *cmd)
 {
 	child->cmd = cmd;
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
-		return(TRUE);
+		return (TRUE);
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
 			pipe(child->pipe_out) == 0)
-		return(TRUE);
-	else if  (check_pos(child->n_proc, child->tot_pr) == LAST && \
+		return (TRUE);
+	else if (check_pos(child->n_proc, child->tot_pr) == LAST && \
 			ch_pipe_pos(child, LAST))
-		return(TRUE);
+		return (TRUE);
 	else if ((check_pos(child->n_proc, child->tot_pr) == MID) && \
 			ch_pipe_pos(child, MID))
-		return(TRUE);
+		return (TRUE);
 	else
 	{
 		g_exit = 1;
@@ -213,7 +239,7 @@ static void	run_child(t_exec *child)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
-		return(ft_child(child));
+		return (ft_child(child));
 	else if (check_pos(child->n_proc, child->tot_pr) == FIRST && \
 	dup2(child->pipe_out[WR], STDOUT_FILENO) >= 0)
 	{
@@ -233,30 +259,5 @@ static void	run_child(t_exec *child)
 		close(child->pipe_in[RD]);
 	else
 		exit (EXIT_FAILURE);
-	return(ft_child(child));
+	return (ft_child(child));
 }
-
-
-
-/*
-static void	close_and_wait(int *p_end, int child1, int child2)
-{
-	int	status1;
-	int	status2;
-
-	close(p_end[0]);
-	close(p_end[1]);
-	waitpid(child1, &status1, 0);
-	waitpid(child2, &status2, 0);
-	if (WIFEXITED(status1))
-		status1 = WEXITSTATUS(status1);
-	if (WIFEXITED(status2))
-		status2 = WEXITSTATUS(status2);
-	if (status1 == NO_PATH)
-		ft_printf("%sCommand 1 not found or cannot be executed.%s\n", RED, CEND);
-	if (status2 == NO_PATH)
-		ft_printf("%sCommand 2 not found or cannot be executed.%s\n", RED, CEND);
-	exit(status2);
-	return ;
-}
-*/
