@@ -51,7 +51,7 @@ int	ft_run_builtin(char **cmd_splitted, t_vars *vars, int cmd)
 		return (unset_builtin(&(vars->env_dup), vars->nodes));
 	else if (cmd == ENV)
 		return (env_builtin(vars->env_dup));
-	else if (cmd == ECHO)
+	else if (cmd == ECHOO)
 		return (echo_builtin(cmd_splitted, 1));
 	else if (cmd == EXIT)
 		return (exit_builtin(cmd_splitted));

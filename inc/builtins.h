@@ -26,7 +26,7 @@ typedef enum e_builtins
 	EXPORT,
 	UNSET,
 	ENV,
-	ECHO,
+	ECHOO,
 	EXIT,
 	NONE,
 }			t_builtins;
