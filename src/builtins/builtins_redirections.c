@@ -13,7 +13,7 @@ int	ft_redirect_out(t_command *cmd, int *stdout_fd)
 	else
 		fd_out = open(cmd->outfile, O_WRONLY | O_CREAT);
 	if (fd_out < 0)
-		return (ft_perror());
+		return (p_error(FD, 0, cmd->outfile));
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 		return (ft_perror());
 	if (close(fd_out) == 1)
@@ -32,7 +32,7 @@ int	ft_redirect_builtins(t_command *cmd, int *stdout_fd, int *stdin_fd)
 		*stdin_fd = dup(STDIN_FILENO);
 		fd_in = open(cmd->infile, O_RDONLY);
 		if (fd_in < 0)
-			return (ft_perror());
+			return (p_error(FD, 0, cmd->infile));
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 			return (ft_perror());
 		if (close(fd_in) == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/20 18:38:30 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:17:26 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_get_right_path(t_exec *child)
 	int		i;
 	char	*path;
 
-	if (!child)
+	if (!child || child->paths == NULL)
 		return (NULL);
 	i = 0;
 	while (child->paths[i])
@@ -52,10 +52,7 @@ void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 	{
 		*fd_in = open(cmd->infile, O_RDONLY);
 		if (*fd_in < 0)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
+			exit(p_error(FD, 0, cmd->infile));
 		dup2(*fd_in, STDIN_FILENO);
 		close(*fd_in);
 	}
@@ -66,10 +63,7 @@ void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 		else
 			*fd_out = open(cmd->outfile, O_WRONLY | O_CREAT);
 		if (*fd_out < 0)
-		{
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
+			exit(p_error(FD, 0, cmd->outfile));
 		dup2(*fd_out, STDOUT_FILENO);
 		close(*fd_out);
 	}
@@ -79,7 +73,7 @@ void	ft_execve_child(t_exec *child)
 {
 	t_vars	vars;
 	int	status;
-	
+
 	vars.nodes = ft_lstnew((void *)child->cmd);
 	if (vars.nodes == NULL)
 	{
@@ -132,7 +126,7 @@ void	executor(t_vars *vars)
 		return ;
 	if (vars->nodes->next == NULL && ft_check_builtin(((t_command *) \
 			(vars->nodes->content))->cmd_splited) >= 0)
-		g_exit = ft_execute_builtin(vars); // PEPE: añadir builtins en los hijos
+		g_exit = ft_execute_builtin(vars);
 	else
 	{
 		child = init_child(vars);

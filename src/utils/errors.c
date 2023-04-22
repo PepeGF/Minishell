@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:13:19 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/17 18:58:01 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:38:33 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ void	error_n_exit(t_err err, char **mem_alloc)
 	ft_putstr_fd("Error\n", 2);
 	if (err == MEM)
 	{
-		perror("minishell: memory error");
+		perror("minishell");
 		if (mem_alloc != NULL)
 			ft_free_matrix(mem_alloc);
 	}
-	exit(EXIT_FAILURE);
+
+    exit(EXIT_FAILURE);
 }
 
-void	p_error(t_err err, char c, char *str)
+int	p_error(t_err err, char c, char *str)
 {
 	g_exit = 2;
 	ft_putstr_fd("minishell: ", 2);
@@ -37,10 +38,13 @@ void	p_error(t_err err, char c, char *str)
 		ft_putstr_fd("error while looking for matching `", 2);
 	if (c != 0)
 		ft_putchar(c);
-	if (str)
+	if (err == FD)
+        perror(str);
+	else if (str)
 		ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
-	return ;
+    if (err != FD)
+        ft_putstr_fd("\n", 2);
+	return (EXIT_FAILURE);
 }
 
 void	here_error(char *lim)

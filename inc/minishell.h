@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: JoseGF <JoseGF@student.42.fr>              +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/19 19:45:50 by JoseGF           ###   ########.fr       */
+/*   Updated: 2023/04/21 20:10:01 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef enum e_err
 	MEM,
 	SYN,
 	QU,
+	FD,
 }			t_err;
 
 typedef enum e_flag
@@ -91,7 +92,7 @@ void		free_cmd(void *content);
 void		sig_handler(int sig);
 ////////////////////////////////////ERRORS//////////////////////////////////////
 void		error_n_exit(enum e_err err, char **mem_alloc);
-void		p_error(t_err err, char c, char *str);
+int			p_error(t_err err, char c, char *str);
 void		here_error(char *lim);
 //////////////////////////////////BUILTINS//////////////////////////////////////
 int			ft_memory_error(void);
