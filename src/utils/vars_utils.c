@@ -23,6 +23,8 @@ void	init_vars(t_vars *vars, char **envp)
 	*vars = (t_vars){};
 	if (envp == NULL)
 		return;
+	if (tcgetattr(STDIN_FILENO, &vars->settings) == -1)
+		perror(NULL);
 	vars->env_dup = ft_dup_matrix(envp);
 	if (!vars->env_dup)
 		error_n_exit(MEM, NULL);
@@ -60,6 +62,10 @@ void	update_vars(t_vars *vars)
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
+	// if (tcsetattr(STDIN_FILENO, TCSANOW, &vars->settings) == -1)
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &vars->settings) == -1)
+	// if (tcsetattr(STDIN_FILENO, TCSADRAIN, &vars->settings) == -1)
+		perror(NULL);
 }
 
 static void	ft_set_shlvl(char ***env_dup)

@@ -30,6 +30,7 @@
 # include <sys/param.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <termios.h>
 /* ************************************************************************** */
 /*                                  DEFINES                                   */
 /* ************************************************************************** */
@@ -43,8 +44,9 @@
 /* ************************************************************************** */
 typedef struct s_vars
 {
-	t_list	*nodes;
-	char	**env_dup;
+	t_list			*nodes;
+	char			**env_dup;
+	struct termios	settings;
 }			t_vars;
 
 typedef struct s_command
@@ -54,6 +56,7 @@ typedef struct s_command
 	char	*outfile;
 	int		flag[2];
 }			t_command;
+
 /* ************************************************************************** */
 /*                                   ENUMS                                    */
 /* ************************************************************************** */
