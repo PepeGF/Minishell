@@ -3,65 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 13:40:28 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:37:53 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
-
-static void	close_fd(t_exec *child);
-
-void wait_childs(pid_t last_cmd)
-{
-	int status;
-
-	signal(SIGINT, sig_child);
-	signal(SIGQUIT, sig_child);
-	waitpid(last_cmd, &status, WUNTRACED);
-	if (WIFEXITED(status))
-		g_exit = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			g_exit = 130;
-		else if (WTERMSIG(status) == SIGQUIT)
-			g_exit = 131;
-	}
-	while (waitpid(-1, NULL, WUNTRACED) > 0)
-		continue;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-
-char	*ft_get_right_path(t_exec *child)
-{
-	int		i;
-	char	*path;
-
-	if (!child || child->paths == NULL)
-		return (NULL);
-	i = 0;
-	while (child->paths[i])
-	{
-		path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
-		if (path == NULL)
-			i++;
-		else if (access(path, X_OK) != 0)
-		{
-			free(path);
-			i++;
-		}
-		else
-			return (path);
-	}
-	return (NULL);
-}
 
 void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 {
@@ -150,20 +101,4 @@ int	fork_child(t_exec *child)
 		close_fd(child);
 	}
 	return (TRUE);
-}
-
-static void	close_fd(t_exec *child)
-{
-	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
-		return ;
-	else if (check_pos(child->n_proc, child->tot_pr) == FIRST)
-		close(child->pipe_out[WR]);
-	else if (check_pos(child->n_proc, child->tot_pr) == MID)
-	{
-		close(child->pipe_in[RD]);
-		close(child->pipe_out[WR]);
-	}
-	else if (check_pos(child->n_proc, child->tot_pr) == LAST)
-		close(child->pipe_in[RD]);
-	return ;
 }

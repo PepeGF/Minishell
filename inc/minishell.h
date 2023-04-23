@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 19:37:08 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/21 20:10:01 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:42:09 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		free_nodes(t_vars *vars);
 void		free_cmd(void *content);
 void		sig_handler(int sig);
 void		sig_child(int sig);
+void		wait_childs(pid_t last_cmd);
 ////////////////////////////////////ERRORS//////////////////////////////////////
 void		error_n_exit(enum e_err err, char **mem_alloc);
 int			p_error(t_err err, char c, char *str);

@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 13:15:42 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:44:17 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,20 @@ int	ch_pipe_pos(t_exec *child, t_proc pos)
 		return (TRUE);
 	else
 		return (FALSE);
+}
+
+void	close_fd(t_exec *child)
+{
+	if (check_pos(child->n_proc, child->tot_pr) == UNQ)
+		return ;
+	else if (check_pos(child->n_proc, child->tot_pr) == FIRST)
+		close(child->pipe_out[WR]);
+	else if (check_pos(child->n_proc, child->tot_pr) == MID)
+	{
+		close(child->pipe_in[RD]);
+		close(child->pipe_out[WR]);
+	}
+	else if (check_pos(child->n_proc, child->tot_pr) == LAST)
+		close(child->pipe_in[RD]);
+	return ;
 }

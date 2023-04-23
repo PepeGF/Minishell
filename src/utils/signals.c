@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:14:14 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 13:31:21 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 19:44:48 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	sig_child(int sig)
 		ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
 }
 
-
 void	wait_childs(pid_t last_cmd)
 {
 	int	status;
@@ -55,9 +54,7 @@ void	wait_childs(pid_t last_cmd)
 			g_exit = 131;
 	}
 	while (waitpid(-1, NULL, WUNTRACED) > 0)
-		continue;
+		continue ;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-
