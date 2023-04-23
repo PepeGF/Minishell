@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.h                                       :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/09 16:45:42 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:25:48 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	add_slash(char **paths);
 
 t_exec	init_child(t_vars *vars)
 {
-	t_exec child;
+	t_exec	child;
 
 	child.cmd = NULL;
 	child.env_dup = vars->env_dup;
@@ -29,16 +29,16 @@ t_exec	init_child(t_vars *vars)
 	return (child);
 }
 
-t_proc check_pos(size_t pos, size_t tot)
+t_proc	check_pos(size_t pos, size_t tot)
 {
-	if (pos == 0 && tot == 1 )
-		return(UNQ);
+	if (pos == 0 && tot == 1)
+		return (UNQ);
 	else if (pos == 0)
-		return(FIRST);
+		return (FIRST);
 	else if (pos + 1 == tot)
-		return(LAST);
+		return (LAST);
 	else
-		return(MID);
+		return (MID);
 }
 
 int	ch_pipe_pos(t_exec *child, t_proc pos)
@@ -50,7 +50,7 @@ int	ch_pipe_pos(t_exec *child, t_proc pos)
 	else if (pos == MID && pipe(child->pipe_out) == 0)
 		return (TRUE);
 	else
-	 	return (FALSE);
+		return (FALSE);
 }
 
 static char	**get_paths(char **envp)

@@ -6,13 +6,14 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/06 19:12:45 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:29:05 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include <stdlib.h>
+
 extern int	g_exit;
 
 static void	ft_set_shlvl(char ***env_dup);
@@ -22,7 +23,7 @@ void	init_vars(t_vars *vars, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	*vars = (t_vars){};
 	if (envp == NULL)
-		return;
+		return ;
 	if (tcgetattr(STDIN_FILENO, &vars->settings) == -1)
 		perror(NULL);
 	vars->env_dup = ft_dup_matrix(envp);
@@ -54,9 +55,6 @@ t_command	*init_cmd(void)
 
 void	update_vars(t_vars *vars)
 {
-	char **cmds;
-
-	cmds = ((t_command *)ft_lstlast(vars->nodes)->content)->cmd_splited;
 	if (g_exit > 255)
 		g_exit = g_exit % 255;
 	if (vars->nodes)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_files.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/03/27 18:27:34 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:30:10 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,11 @@ static void	create_file(char *file, int app)
 	int	fd;
 
 	if (!file)
-		return;
+		return ;
 	if (app == 1)
 		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
-	else 
+	else
 		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd >= 0)
 		close(fd);
 }
-

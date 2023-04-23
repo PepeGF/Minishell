@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:13:37 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/06 19:13:09 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:27:53 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, SIG_IGN);
 		tokens = lexer(line, vars.env_dup);
 		if (!tokens)
-			continue;
+			continue ;
 		g_exit = 0;
 		if (parser(&vars, tokens) == 0)
 			executor(&vars);

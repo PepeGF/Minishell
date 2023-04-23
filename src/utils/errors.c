@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:13:19 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/21 19:38:33 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:31:24 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 
-extern int g_exit;
+extern int	g_exit;
 
 void	error_n_exit(t_err err, char **mem_alloc)
 {
@@ -24,8 +24,7 @@ void	error_n_exit(t_err err, char **mem_alloc)
 		if (mem_alloc != NULL)
 			ft_free_matrix(mem_alloc);
 	}
-
-    exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 int	p_error(t_err err, char c, char *str)
@@ -39,11 +38,11 @@ int	p_error(t_err err, char c, char *str)
 	if (c != 0)
 		ft_putchar(c);
 	if (err == FD)
-        perror(str);
+		perror(str);
 	else if (str)
 		ft_putstr_fd(str, 2);
-    if (err != FD)
-        ft_putstr_fd("\n", 2);
+	if (err != FD)
+		ft_putstr_fd("\n", 2);
 	return (EXIT_FAILURE);
 }
 
@@ -59,7 +58,7 @@ void	here_error(char *lim)
 
 void	exec_error(t_exec *child, char *path)
 {
-	char *str;
+	char	*str;
 
 	str = child->cmd->cmd_splited[0];
 	ft_putstr_fd(str, 2);

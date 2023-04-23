@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 18:42:43 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/13 18:25:36 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:27:05 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 extern int	g_exit;
 
 int	check_var(char *str, int i)
@@ -33,16 +34,13 @@ char	*change_str(char *str, int i, char *value, char *var)
 {
 	char	*new;
 
-	//printf("LA ANTIGUA STR ES %s\n\n", str);
 	new = ft_substr(str, 0, i);
 	if (value != NULL)
 		new = ft_strjoin_free(new, value);
 	else if (ft_strncmp(var, "$?", ft_strlen(var)) == 0)
 		new = ft_strjoin_free(new, ft_itoa(g_exit));
 	new = ft_strjoin_free(new, ft_substr(str, i + ft_strlen(var), \
-		  ft_strlen(str + i + ft_strlen(var))));
-//	if (new)
-		//printf("LA NUEVA STR ES %s\n\n", new);
+		ft_strlen(str + i + ft_strlen(var))));
 	free(str);
 	return (new);
 }

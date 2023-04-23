@@ -41,6 +41,7 @@ parser/here_doc.c \
 parser/rm_quotes.c \
 executor/executor.c \
 executor/exec_utils.c \
+executor/child_functions.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
@@ -76,7 +77,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS := -MMD -MP
-DEBUGFLAGS = -g3 -fsanitize=address
+DEBUGFLAGS = -g3 #-fsanitize=address
 
 INCS_FLAGS = $(addprefix -I, $(INC)) -I/Users/$(USER)/.brew/opt/readline/include
 LINK_FLAGS = $(LIBFT) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline

@@ -39,6 +39,20 @@ typedef enum e_proc
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
 t_proc	check_pos(size_t pos, size_t tot);
-t_exec	init_child(t_vars *vars); int	ch_pipe_pos(t_exec *child, t_proc pos);
+t_exec	init_child(t_vars *vars); 
+int		ch_pipe_pos(t_exec *child, t_proc pos);
 void	exec_error(t_exec *child, char *path);
+
+char	*ft_get_right_path(t_exec *child);
+void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out);
+int		fork_child(t_exec *child);
+
+/////////////////////////////// CHILD FUNCTIONS ////////////////////////////////
+
+void	ft_execve_child_to_vars(t_exec *child);
+void	ft_child(t_exec *child);
+int		pipe_child(t_exec *child, t_command *cmd);
+void	execution_with_child(t_exec child, t_list *aux, t_vars *vars);
+void	run_child(t_exec *child);
+
 #endif

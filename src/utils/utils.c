@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 11:57:44 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/04 19:33:05 by drontome         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:32:24 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,3 @@ void	free_cmd(void *content)
 		free(cmd->outfile);
 	free(cmd);
 }
-
