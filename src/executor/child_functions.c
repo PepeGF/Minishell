@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 12:52:05 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/23 14:19:13 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 21:06:54 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	pipe_child(t_exec *child, t_command *cmd)
 	else
 	{
 		g_exit = 1;
-		perror("minishell: ");
+		perror("minishell");
 		return (FALSE);
 	}
 }

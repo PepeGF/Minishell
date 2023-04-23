@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 19:37:53 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 21:06:48 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	fork_child(t_exec *child)
 	if (id < 0)
 	{
 		g_exit = 1;
-		perror("minishell: ");
+		perror("minishell");
 		return (FALSE);
 	}
 	else if (id == 0)
