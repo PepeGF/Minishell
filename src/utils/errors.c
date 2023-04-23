@@ -24,7 +24,6 @@ void	error_n_exit(t_err err, char **mem_alloc)
 		if (mem_alloc != NULL)
 			ft_free_matrix(mem_alloc);
 	}
-
     exit(EXIT_FAILURE);
 }
 
@@ -43,7 +42,7 @@ int	p_error(t_err err, char c, char *str)
 	else if (str)
 		ft_putstr_fd(str, 2);
     if (err != FD)
-        ft_putstr_fd("\n", 2);
+		ft_putstr_fd("\n", 2);
 	return (EXIT_FAILURE);
 }
 

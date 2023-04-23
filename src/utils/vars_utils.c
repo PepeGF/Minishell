@@ -54,9 +54,6 @@ t_command	*init_cmd(void)
 
 void	update_vars(t_vars *vars)
 {
-	char **cmds;
-
-	cmds = ((t_command *)ft_lstlast(vars->nodes)->content)->cmd_splited;
 	if (g_exit > 255)
 		g_exit = g_exit % 255;
 	if (vars->nodes)

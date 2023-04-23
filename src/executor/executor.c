@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -164,12 +165,7 @@ void	executor(t_vars *vars)
 			aux = aux->next;
 			child.n_proc++;
 		}
-		if (g_exit == 0) // DANI: checkear esta condición
-		{
-			waitpid(child.last_cmd, &g_exit, WUNTRACED);
-			while (waitpid(-1, NULL, WUNTRACED) > 0)
-				;
-		}
+		wait_childs(child.last_cmd);
 		ft_free_matrix(child.paths);
 	}
 }

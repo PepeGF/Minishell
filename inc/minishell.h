@@ -92,6 +92,7 @@ int			is_redir(char *str, char *op);
 void		free_nodes(t_vars *vars);
 void		free_cmd(void *content);
 void		sig_handler(int sig);
+void		sig_child(int sig);
 ////////////////////////////////////ERRORS//////////////////////////////////////
 void		error_n_exit(enum e_err err, char **mem_alloc);
 int			p_error(t_err err, char c, char *str);

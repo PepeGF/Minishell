@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include <signal.h>
+#include <unistd.h>
 extern int	g_exit;
 
 void	sig_handler(int sig)
@@ -24,18 +27,37 @@ void	sig_handler(int sig)
 	}
 }
 
-/*
-void	sig_heredoc(int sig)
+void	sig_child(int sig)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (sig == SIGINT)
-	{
-		g_exit = 130;
-		ft_putchar_fd('\n', STDERR_FILENO);
-		ioctl(STDIN_FILENO, TIOCSTI, NULL);
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	else if (sig == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", STDOUT_FILENO);
 }
-*/
+
+
+void	wait_childs(pid_t last_cmd)
+{
+	int	status;
+
+	signal(SIGINT, sig_child);
+	signal(SIGQUIT, sig_child);
+	waitpid(last_cmd, &status, WUNTRACED);
+	if (WIFEXITED(status))
+		g_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			g_exit = 130;
+		else if (WTERMSIG(status) == SIGQUIT)
+			g_exit = 131;
+	}
+	while (waitpid(-1, NULL, WUNTRACED) > 0)
+		continue;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 
