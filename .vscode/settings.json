@@ -1,7 +1,8 @@
 {
   "files.associations": {
     "minishell.h": "c",
-    "builtins.h": "c"
+    "builtins.h": "c",
+    "executor.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

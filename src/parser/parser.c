@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/05 19:26:02 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:11:25 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include "minishell.h"
 #include "parser.h"
 
-static int	is_empty(char *str);
 extern int	g_exit;
+
+static int	is_empty(char *str);
+static void	mem_error_free(t_vars *vars, char **tokens);
 
 int	parser(t_vars *vars, char **tokens)
 {
@@ -36,15 +38,18 @@ int	parser(t_vars *vars, char **tokens)
 		{
 			arg = rm_quotes(tokens[t]);
 			if (!arg || !get_arg(arg, vars))
-			{
-				free_nodes(vars);
-				error_n_exit(MEM, tokens);
-			}
+				mem_error_free(vars, tokens);
 			t++;
 		}
 	}
 	ft_free_matrix(tokens);
 	return (g_exit);
+}
+
+static void	mem_error_free(t_vars *vars, char **tokens)
+{
+	free_nodes(vars);
+	error_n_exit(MEM, tokens);
 }
 
 static int	is_empty(char *str)

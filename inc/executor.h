@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/23 14:20:11 by josgarci          #+#    #+#             */
+/*   Updated: 2023/04/23 14:20:42 by josgarci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 /* ************************************************************************** */
 /*                                 INCLUDES                                   */
 /* ************************************************************************** */
-#include "minishell.h"
-#include <stddef.h>
+# include "minishell.h"
+# include <stddef.h>
 /* ************************************************************************** */
 /*                                  STRUCTS                                   */
 /* ************************************************************************** */
@@ -39,11 +51,15 @@ typedef enum e_proc
 /*                                 PROTOTYPES                                 */
 /* ************************************************************************** */
 t_proc	check_pos(size_t pos, size_t tot);
-t_exec	init_child(t_vars *vars); 
+t_exec	init_child(t_vars *vars);
 int		ch_pipe_pos(t_exec *child, t_proc pos);
 void	exec_error(t_exec *child, char *path);
 
+///////////////////////////// PATH AUX FUNCTIONS ///////////////////////////////
+char	**get_paths(char **envp);
 char	*ft_get_right_path(t_exec *child);
+
+/////////////////////////////// CHILD FUNCTIONS ////////////////////////////////
 void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out);
 int		fork_child(t_exec *child);
 

@@ -6,7 +6,7 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:32:07 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 12:29:05 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 14:19:32 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	update_vars(t_vars *vars)
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
-	// if (tcsetattr(STDIN_FILENO, TCSANOW, &vars->settings) == -1)
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &vars->settings) == -1)
-	// if (tcsetattr(STDIN_FILENO, TCSADRAIN, &vars->settings) == -1)
 		perror(NULL);
 }
 
