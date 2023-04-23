@@ -6,15 +6,12 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 12:25:48 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:15:42 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
-
-static char	**get_paths(char **envp);
-static void	add_slash(char **paths);
 
 t_exec	init_child(t_vars *vars)
 {
@@ -51,42 +48,4 @@ int	ch_pipe_pos(t_exec *child, t_proc pos)
 		return (TRUE);
 	else
 		return (FALSE);
-}
-
-static char	**get_paths(char **envp)
-{
-	char	*path_var;
-	char	**paths;
-
-	path_var = NULL;
-	while (!path_var && envp && *envp)
-	{
-		if (ft_strncmp(*envp, "PATH=", 5) == 0)
-			path_var = *envp;
-		envp++;
-	}
-	if (!path_var)
-		return (NULL);
-	paths = ft_split(ft_strchr(path_var, '=') + 1, ':');
-	add_slash(paths);
-	return (paths);
-}
-
-static void	add_slash(char **paths)
-{
-	char	*temp;
-	int		i;
-
-	temp = NULL;
-	i = 0;
-	while (paths[i])
-	{
-		temp = paths[i];
-		paths[i] = ft_strjoin(paths[i], "/");
-		if (temp)
-			free(temp);
-		temp = NULL;
-		i++;
-	}
-	return ;
 }

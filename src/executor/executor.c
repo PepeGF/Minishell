@@ -6,42 +6,15 @@
 /*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 12:49:47 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:14:10 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
-// #include <stdlib.h>
-// #include <unistd.h>
 
 static void	close_fd(t_exec *child);
-
-char	*ft_get_right_path(t_exec *child)
-{
-	int		i;
-	char	*path;
-
-	if (!child || child->paths == NULL)
-		return (NULL);
-	i = 0;
-	while (child->paths[i])
-	{
-		path = ft_strjoin(child->paths[i], child->cmd->cmd_splited[0]);
-		if (path == NULL)
-			i++;
-		else if (access(path, X_OK) != 0)
-		{
-			free(path);
-			i++;
-		}
-		else
-			return (path);
-	}
-	return (NULL);
-}
 
 void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out)
 {

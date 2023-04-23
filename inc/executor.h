@@ -43,7 +43,11 @@ t_exec	init_child(t_vars *vars);
 int		ch_pipe_pos(t_exec *child, t_proc pos);
 void	exec_error(t_exec *child, char *path);
 
+///////////////////////////// PATH AUX FUNCTIONS ///////////////////////////////
+char	**get_paths(char **envp);
 char	*ft_get_right_path(t_exec *child);
+
+/////////////////////////////// CHILD FUNCTIONS ////////////////////////////////
 void	redirect_fd(t_command *cmd, int *fd_in, int *fd_out);
 int		fork_child(t_exec *child);
 

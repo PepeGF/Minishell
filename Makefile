@@ -42,6 +42,7 @@ parser/rm_quotes.c \
 executor/executor.c \
 executor/exec_utils.c \
 executor/child_functions.c \
+executor/paths.c \
 utils/vars_utils.c \
 utils/errors.c \
 utils/utils.c \
