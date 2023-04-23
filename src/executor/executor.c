@@ -3,21 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 12:49:47 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:40:28 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
 #include "minishell.h"
 #include "executor.h"
 #include "builtins.h"
-// #include <stdlib.h>
-// #include <unistd.h>
 
 static void	close_fd(t_exec *child);
+
+void wait_childs(pid_t last_cmd)
+{
+	int status;
+
+	signal(SIGINT, sig_child);
+	signal(SIGQUIT, sig_child);
+	waitpid(last_cmd, &status, WUNTRACED);
+	if (WIFEXITED(status))
+		g_exit = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			g_exit = 130;
+		else if (WTERMSIG(status) == SIGQUIT)
+			g_exit = 131;
+	}
+	while (waitpid(-1, NULL, WUNTRACED) > 0)
+		continue;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 
 char	*ft_get_right_path(t_exec *child)
 {

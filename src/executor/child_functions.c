@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 12:52:05 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/23 12:52:11 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/23 13:40:49 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,7 @@ void	execution_with_child(t_exec child, t_list *aux, t_vars *vars)
 		aux = aux->next;
 		child.n_proc++;
 	}
-	if (g_exit == 0) // DANI: checkear esta condición
-	{
-		waitpid(child.last_cmd, &g_exit, WUNTRACED);
-		while (waitpid(-1, NULL, WUNTRACED) > 0)
-			;
-	}
+	wait_childs(child.last_cmd);
 	ft_free_matrix(child.paths);
 	return ;
 }
