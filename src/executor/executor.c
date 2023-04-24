@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 21:31:18 by drontome          #+#    #+#             */
-/*   Updated: 2023/04/23 21:06:48 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:45:17 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ void	executor(t_vars *vars)
 	t_list	*aux;
 
 	aux = (t_list *)vars->nodes;
-	if (((t_command *)aux->content) == NULL)
+	if ((((t_command *)(aux->content))->cmd_splited) == NULL &&
+		(((t_command *)(aux->content))->infile) == NULL &&
+		(((t_command *)(aux->content))->outfile) == NULL)
 		return ;
 	ft_set_underscore(aux->next, &vars->env_dup, \
 			(((t_command *)aux->content)->cmd_splited));
