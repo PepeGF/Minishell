@@ -69,7 +69,7 @@ int	ft_exit_error_no_number(char *str)
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	g_exit = 255;
-	exit(2);
+	exit(g_exit);
 }
 
 int	ft_exit_with_arg(char *str)

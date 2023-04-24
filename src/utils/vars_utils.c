@@ -60,7 +60,7 @@ void	update_vars(t_vars *vars)
 	if (vars->nodes)
 		ft_lstclear(&vars->nodes, free_cmd);
 	vars->nodes = NULL;
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &vars->settings) == -1)
+	if (tcsetattr(STDIN_FILENO, TCSADRAIN, &vars->settings) == -1)
 		perror(NULL);
 }
 
