@@ -70,7 +70,7 @@ int		fork_child(t_exec *child);
 void	ft_execve_child_to_vars(t_exec *child);
 void	ft_child(t_exec *child);
 int		pipe_child(t_exec *child, t_command *cmd);
-void	execution_with_child(t_exec child, t_list *aux, t_vars *vars);
+void	execution_with_child(t_list *aux, t_vars *vars);
 void	run_child(t_exec *child);
 
 #endif

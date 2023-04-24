@@ -67,10 +67,9 @@ void	ft_set_underscore(t_list *node, char ***env_dup, char **cmd_splited)
 void	executor(t_vars *vars)
 {
 	t_list	*aux;
-	t_exec	child;
 
 	aux = (t_list *)vars->nodes;
-	if (((t_command *)aux->content)->cmd_splited == NULL)
+	if (((t_command *)aux->content) == NULL)
 		return ;
 	ft_set_underscore(aux->next, &vars->env_dup, \
 			(((t_command *)aux->content)->cmd_splited));
@@ -78,7 +77,7 @@ void	executor(t_vars *vars)
 			(aux->content))->cmd_splited) >= 0)
 		g_exit = ft_execute_builtin(vars);
 	else
-		execution_with_child(child, aux, vars);
+		execution_with_child(aux, vars);
 }
 
 int	fork_child(t_exec *child)

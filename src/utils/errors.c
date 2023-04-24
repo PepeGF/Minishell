@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "executor.h"
+#include <unistd.h>
 
 extern int	g_exit;
 
@@ -59,17 +60,28 @@ void	here_error(char *lim)
 void	exec_error(t_exec *child, char *path)
 {
 	char	*str;
+	int		status;
 
 	str = child->cmd->cmd_splited[0];
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (path == NULL && access(str, F_OK) == 0 && access(str, X_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(str);
+		status = 126;
+	}
+	else
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		status = 127;
+	}
 	if (path)
 		free(path);
 	free_cmd((void *)child->cmd);
 	ft_free_matrix(child->env_dup);
 	ft_free_matrix(child->paths);
 	rl_clear_history();
-	exit(127);
+	exit(status);
 }
 
 int	ft_memory_error(void)

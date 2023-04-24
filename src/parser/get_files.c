@@ -51,6 +51,9 @@ void	get_outfile(t_vars *vars, char **tokens, int t)
 	if (cmd->outfile != NULL && access(cmd->outfile, F_OK) == 0
 		&& access(cmd->outfile, W_OK) != 0)
 		return ;
+	else if (cmd->infile != NULL && access(cmd->infile, F_OK) == 0
+		&& access(cmd->infile, R_OK) != 0)
+		return ;
 	else if (cmd->outfile != NULL)
 		free(cmd->outfile);
 	file = rm_quotes(tokens[t]);

@@ -43,9 +43,9 @@ void	ft_child(t_exec *child)
 	int		fd_out;
 
 	path = NULL;
+	redirect_fd(child->cmd, &fd_in, &fd_out);
 	if (child->cmd->cmd_splited == NULL)
 		exit(EXIT_SUCCESS);
-	redirect_fd(child->cmd, &fd_in, &fd_out);
 	if (ft_check_builtin(child->cmd->cmd_splited) >= 0)
 		ft_execve_child_to_vars(child);
 	else if (access(child->cmd->cmd_splited[0], R_OK | X_OK) == 0)
@@ -82,8 +82,10 @@ int	pipe_child(t_exec *child, t_command *cmd)
 	}
 }
 
-void	execution_with_child(t_exec child, t_list *aux, t_vars *vars)
+void	execution_with_child(t_list *aux, t_vars *vars)
 {
+	t_exec	child;
+
 	child = init_child(vars);
 	while (child.n_proc < child.tot_pr)
 	{
