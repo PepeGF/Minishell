@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42.fr>          +#+  +:+       +#+        */
+/*   By: drontome <drontome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 12:52:05 by josgarci          #+#    #+#             */
-/*   Updated: 2023/04/23 21:06:54 by josgarci         ###   ########.fr       */
+/*   Updated: 2023/04/24 19:20:34 by drontome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_execve_child_to_vars(t_exec *child)
 	vars.env_dup = child->env_dup;
 	status = ft_execute_builtin(&vars);
 	ft_lstclear(&vars.nodes, free_cmd);
-	ft_free_matrix(child->env_dup);
+	ft_free_matrix(vars.env_dup);
 	ft_free_matrix(child->paths);
 	rl_clear_history();
 	exit(status);
